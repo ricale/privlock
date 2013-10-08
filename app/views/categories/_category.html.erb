@@ -1,0 +1,11 @@
+<%= div_for category do %>
+	<div class="name"><%= link_to category.name, category %></div>
+
+	<% if category.parent %>
+	<div class="parent"><%= category.parent.name %></div>
+	<% else %>
+	<div class="parent">none</div>
+	<% end %>
+	<div class="depth"><%= category.depth %></div>
+	<div class="order_in_parent"><%= category.order_in_parent %></div>
+<% end %>

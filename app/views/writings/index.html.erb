@@ -1,24 +1,5 @@
-<h1>글들</h1>
+<h1>Listing writings</h1>
 
-<%= link_to 'New', new_writing_path %>
+<%= link_to 'New Writing', new_writing_path %>
 
-<% @writings.each do |writing| %>
-<div class="writing">
-	<div class="title"><h3><%= link_to writing.title, writing %></h3></div>
-	<div class="user_id"><%= writing.user_id %></div>
-	<div class="information">
-		<div class="category"><%= writing.category.name %></div>
-		<div class="created_at"><%= writing.created_at.in_time_zone("Seoul").strftime("%Y.%m.%d %H:%M:%S") %></div>
-		<div class="updated_at">(<%= writing.updated_at.in_time_zone("Seoul").strftime("%Y.%m.%d %H:%M:%S") %>)</div>
-	</div>
-	<div class="menu">
-		<div class="edit_action"><%= link_to 'Edit', edit_writing_path(writing) %></div>
-		<div class="delete_action"><%= link_to 'Destroy', writing, confirm: 'Are you sure?', method: :delete %></div>
-	</div>
-	<div class="content"><%= writing.content %></div>
-	<div class="menu">
-		<div class="edit_action"><%= link_to 'Edit', edit_writing_path(writing) %></div>
-		<div class="delete_action"><%= link_to 'Destroy', writing, confirm: 'Are you sure?', method: :delete %></div>
-	</div>
-</div>
-<% end %>
+<%= render @writings %>

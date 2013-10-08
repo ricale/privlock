@@ -1,0 +1,20 @@
+development:
+  adapter: mysql2
+  encoding: utf8
+  database: dev_privlock
+  username: root
+  password: 
+
+test:
+  adapter: mysql2
+  encoding: utf8
+  database: test_privlock
+  username: root
+  password: 
+
+production:
+  adapter: mysql2
+  encoding: utf8
+  database: prod_privlock
+  username: root
+  password: 
