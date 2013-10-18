@@ -1,7 +1,7 @@
 Privlock::Application.routes.draw do
   root 'writings#index'
 
-  resources :categories  
+  resources :categories, except: :show
   resources :writings
 
   # The priority is based upon order of creation: first created -> highest priority.
