@@ -163,10 +163,11 @@ describe Category do
     let!(:child311)   { Category.create(name: "child311",   parent: child31) }
     let!(:child3111)  { Category.create(name: "child3111",  parent: child311) }
     let!(:child31111) { Category.create(name: "child31111", parent: child3111) }
+    let!(:child32)    { Category.create(name: "child32",    parent: root3) }
 
     it "descendant's count is correct" do
       categories = Category.hierarchy_categories(nil)
-      categories.count.should == 14
+      categories.count.should == 15
 
       categories = Category.hierarchy_categories(root1[:id])
       categories.count.should == 3
@@ -175,7 +176,7 @@ describe Category do
       categories.count.should == 4
 
       categories = Category.hierarchy_categories(root3[:id])
-      categories.count.should == 4
+      categories.count.should == 5
 
       categories = Category.hierarchy_categories(child11[:id])
       categories.count.should == 0
@@ -187,28 +188,129 @@ describe Category do
       categories.count.should == 3
     end
 
+    it "if category's parent not exist, parent_id must be nil" do
+      child11.parent_id = ""
+      child11.save
+      child11.parent_id.should == nil
+    end
+
     describe "change category's" do
 
-      it "family when parent's family of category is changed" do
+      it "family when parent is changed" do
+        expect {
+          child11.parent = root2
+          child11.save
 
+        }.to change {
+          child11.family
+        }.from(root1.family).to(root2.family)
+
+        expect {
+          child211.parent = child31
+          child211.save
+
+        }.to change {
+          child211.family
+        }.from(child21.family).to(child31.family)
+
+        expect {
+          child31111.parent = nil
+          child31111.save
+
+        }.to change {
+          child31111.family
+        }.from(child3111.family).to(Category.root_categories.maximum(:family) + 1)
       end
 
-      it "depth when parent's depth of category is changed" do
+      it "depth when parent is changed" do
+        expect {
+          child11.parent = root2
+          child11.save
 
+        }.not_to change {
+          child11.depth
+        }
+
+        expect {
+          child211.parent = root3
+          child211.save
+
+        }.to change {
+          child211.depth
+        }.from(child21.depth + 1).to(root3.depth + 1)
+
+        expect {
+          child31111.parent = nil
+          child31111.save
+
+        }.to change {
+          child31111.depth
+        }.from(child3111.depth + 1).to(0)
+      end
+
+      it "order_in_parent when parent is changed" do
+        child11.parent = root2
+        child11.save
+        child11.order_in_parent.should == 2
+
+        child211.parent = root3
+        child211.save
+        child211.order_in_parent.should == 2
+
+        expect {
+          child31111.parent = nil
+          child31111.save
+
+        }.not_to change {
+          child31111.order_in_parent
+        }
       end
 
     end
 
     describe "change category's children's" do
 
-      it "family when family of category is changed" do
+      it "family when parent of category is changed" do        
+        expect {
+          child21.parent = root3
+          child21.save
 
+        }.to change {
+          child21.children.first.family
+        }.from(root2.family).to(root3.family)
+
+        expect {
+          child31.parent = child32
+          child31.save
+
+        }.not_to change {
+          child31.children.first.family
+        }
       end
 
-      it "depth when family of category is changed" do
-        
+      it "depth when parent of category is changed" do
+        expect {
+          child21.parent = child11
+          child21.save
+
+        }.to change {
+          child21.children.first.depth
+        }.from(root2.depth + 2).to(child11.depth + 2)
+
+        expect {
+          child31.parent = root1
+          child31.save
+
+        }.not_to change {
+          child31.children.first.depth
+        }
       end
 
+    end
+
+    it "raise error when make circular categories" do
+      child31.parent = child31111
+      child31.save.should be_false
     end
 
   end

@@ -1,5 +1,5 @@
 class CategoriesController < ApplicationController
-  before_action :set_category, only: [:show, :edit, :update, :destroy]
+  before_action :set_category, only: [:edit, :update, :destroy]
 
   # GET /categories
   # GET /categories.json
@@ -15,7 +15,7 @@ class CategoriesController < ApplicationController
 
   # GET /categories/1/edit
   def edit
-    @parents = parents_for_select_box(Category.categories_except_one(params[:id]))
+    @parents = parents_for_select_box(Category.except_one(params[:id]))
   end
 
   # POST /categories
