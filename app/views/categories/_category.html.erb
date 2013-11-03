@@ -1,3 +1,11 @@
 <%= div_for category, class: "depth#{category.depth}" do %>
-	<div class="name"><%= link_to category.name, edit_category_path(category) %></div>
+	<div class="name"><%= category.name %></div>
+
+  <%= form_for(category) do |f| %>
+    <%= f.label :parent_id %>
+    <%= f.select :parent_id, parents %>
+    <%= f.button "up", id: :up %>
+    <%= f.button "down", id: :down %>
+  <% end %>
+
 <% end %>

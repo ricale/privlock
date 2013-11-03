@@ -1,5 +1,9 @@
+<p id="notice"><%= notice %></p>
+
 <h1>Listing categories</h1>
 
 <%= link_to 'New Category', new_category_path %>
 
-<%= render @categories %>
+<% @categories.each do |category| %>
+  <%= render partial: category, locals: { parents: @parents[category.id] } %>
+<% end %>

@@ -19,25 +19,52 @@ class Category < ActiveRecord::Base
 
   after_update :change_attributes_on_update, if: :parent_id_changed?
 
-  scope :root_categories, -> { where(parent_id: nil) }
+  scope :root_categories,  ->            { where(parent_id: nil) }
   scope :child_categories, ->(parent_id) { where(parent_id: parent_id).order(:order_in_parent) }
-  scope :except_one, ->(id) { where("id != ?", id) }
-  scope :child_categories_array, ->(parent_id) { child_categories(parent_id).map { |c| c } }
+  scope :except_one,       ->(id)        { where.not(id: id) }
+  scope :family,           ->(family)    { where(family: family) }
+
+  scope :to_array, -> { all.map { |c| c } }
   #scope :child_categories_attributes, ->(parent_id) { child_categories(parent_id).map { |c| c.attributes.symbolize_keys } }
 
-  def self.hierarchy_categories(root_id)
+  def self.hierarchy_categories(root_id, excepted_ids = [])
     root_id = nil if root_id == :all
     
-    hierarchy(Category.child_categories_array(root_id))
+    hierarchy(Category.child_categories(root_id).to_array, excepted_ids)
   end
 
-  protected
+  def up
+    if parent_id != nil
+      up_order_in_parent
+
+    else
+      up_family
+    end
+  end
+
+  def down
+    if parent_id != nil
+      down_order_in_parent
+
+    else
+      down_family
+    end
+  end
+
+
+
+  private
+
+  # before_validation
 
   def if_parent_no_exist_parent_id_must_be_nil
     if Category.where(id: parent_id).empty?
       self.parent_id = nil
     end
   end
+
+  #
+  # before_validation, on: :create
 
   def initialize_family
     if parent
@@ -59,6 +86,9 @@ class Category < ActiveRecord::Base
     end
   end
 
+  #
+  # before_validation, on: :update
+
   def is_not_circular_error
     category = self
 
@@ -67,6 +97,9 @@ class Category < ActiveRecord::Base
       return false if category == self
     end
   end
+
+  #
+  # after_update
 
   def change_attributes_on_update
     prev_family = family
@@ -78,18 +111,17 @@ class Category < ActiveRecord::Base
 
     update_children_family if prev_family != family
     update_children_depth  if prev_depth  != depth
+    update_sibling_order_in_parent
   end
-
-
 
   def update_family
     initialize_family
-    update_column(:family, family)
+    update_columns(family: family)
   end
 
   def update_depth
     initialize_depth
-    update_column(:depth, depth)
+    update_columns(depth: depth)
   end
 
   def update_order_in_parent
@@ -97,9 +129,9 @@ class Category < ActiveRecord::Base
       last_order = Category.child_categories(parent_id).except_one(id).maximum(:order_in_parent)
       self.order_in_parent = last_order ? last_order + 1 : 0
 
-      update_column(:order_in_parent,  order_in_parent)
+      update_columns(order_in_parent: order_in_parent)
     else
-      update_column(:order_in_parent,  0)
+      update_columns(order_in_parent: 0)
     end
   end
 
@@ -115,19 +147,72 @@ class Category < ActiveRecord::Base
 
   def update_children_depth_recursively(parent)
     Category.child_categories(parent.id).each do |child|
-      child.depth = parent.depth + 1
-      child.save
+      child.update(depth: parent.depth + 1)
 
       update_children_depth_recursively(child)
     end
   end
 
+  def update_sibling_order_in_parent
+    Category.child_categories(parent_id_was)
+            .where("order_in_parent > ?", order_in_parent_was).each do |sibling|
 
+      sibling.order_in_parent -= 1
+      sibling.save
+    end
+  end
 
-  def self.hierarchy(categories)
+  #
+  #
+
+  def up_order_in_parent
+    move_order_in_parent(true) if order_in_parent != 0
+  end
+
+  def down_order_in_parent
+    move_order_in_parent(false) if order_in_parent != Category.child_categories(parent_id).maximum(:order_in_parent)
+  end
+
+  def move_order_in_parent(up)
+    offset = up ? -1 : 1
+    sitten_category = Category.find_by(parent_id: parent_id, order_in_parent: order_in_parent + offset)
+    sitten_category.update(order_in_parent: order_in_parent)
+    update(order_in_parent: order_in_parent + offset)
+  end
+
+  def up_family
+    move_family(true) if family != 0
+  end
+
+  def down_family
+    move_family(false) if family != Category.root_categories.maximum(:family)
+  end
+
+  def move_family(up)
+    offset = up ? -1 : 1
+    sitten_family = Category.family(family + offset).to_array
+    my_family     = Category.family(family).to_array
+
+    sitten_family.each do |category|
+      category.update(family: family)
+    end
+
+    my_family.each do |category|
+      category.update(family: family + offset)
+    end
+  end
+
+  #
+  # class method
+
+  def self.hierarchy(categories, excepted_ids)
+    categories.each do |category|
+      categories.delete(category) if excepted_ids.include? category.id
+    end
+
     categories.each_with_index do |category, index|
-      Category.child_categories_array(category.id).reverse_each do |child|
-        categories.insert(index + 1, child)
+      Category.child_categories(category.id).to_array.reverse_each do |child|
+        categories.insert(index + 1, child) unless excepted_ids.include? child.id
       end
     end
   end

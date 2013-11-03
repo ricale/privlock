@@ -2,9 +2,13 @@ class CategoriesController < ApplicationController
   before_action :set_category, only: [:edit, :update, :destroy]
 
   # GET /categories
-  # GET /categories.json
   def index
     @categories = Category.hierarchy_categories(:all)
+
+    @parents = {}
+    @categories.each do |c|
+      @parents[c.id] = parents_for_select_box(Category.hierarchy_categories(:all, [c.id]))
+    end
   end
 
   # GET /categories/new
@@ -13,48 +17,55 @@ class CategoriesController < ApplicationController
     @parents = parents_for_select_box(Category.all)
   end
 
-  # GET /categories/1/edit
-  def edit
-    @parents = parents_for_select_box(Category.except_one(params[:id]))
-  end
-
   # POST /categories
-  # POST /categories.json
   def create
     @category = Category.new(category_params)
 
     respond_to do |format|
       if @category.save
-        format.html { redirect_to action: :index, notice: 'Category was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @category }
+        format.html { redirect_to categories_path, notice: 'Category was successfully created.' }
       else
         format.html { render action: 'new' }
-        format.json { render json: @category.errors, status: :unprocessable_entity }
       end
     end
   end
 
   # PATCH/PUT /categories/1
-  # PATCH/PUT /categories/1.json
   def update
     respond_to do |format|
       if @category.update(category_params)
-        format.html { redirect_to action: :index, notice: 'Category was successfully updated.' }
-        format.json { head :no_content }
+        format.html { redirect_to categories_path, notice: 'Category was successfully updated.' }
       else
-        format.html { render action: 'edit' }
-        format.json { render json: @category.errors, status: :unprocessable_entity }
+        format.html { render action: 'index' }
+      end
+    end
+  end
+
+  def up
+    respond_to do |format|
+      if @category.up
+        format.html { redirect_to categories_path, notice: 'Category was successfully updated.' }
+      else
+        format.html { render action: 'index' }
+      end
+    end
+  end
+
+  def down
+    respond_to do |format|
+      if @category.down
+        format.html { redirect_to categories_path, notice: 'Category was successfully updated.' }
+      else
+        format.html { render action: 'index' }
       end
     end
   end
 
   # DELETE /categories/1
-  # DELETE /categories/1.json
   def destroy
     @category.destroy
     respond_to do |format|
       format.html { redirect_to categories_url }
-      format.json { head :no_content }
     end
   end
 

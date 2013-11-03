@@ -189,33 +189,191 @@ describe Category do
     end
 
     it "if category's parent not exist, parent_id must be nil" do
-      child11.parent_id = ""
-      child11.save
+      child11.update(parent_id: "")
       child11.parent_id.should == nil
+    end
+
+    describe ".hierarchy_categories" do
+
+      it "is correct" do
+        categories = Category.hierarchy_categories(:all)
+        categories.count.should == 15
+
+        categories = Category.hierarchy_categories(root1[:id])
+        categories.count.should == 3
+
+        categories = Category.hierarchy_categories(root2[:id])
+        categories.count.should == 4
+
+        categories = Category.hierarchy_categories(root3[:id])
+        categories.count.should == 5
+
+        categories = Category.hierarchy_categories(child11[:id])
+        categories.count.should == 0
+
+        categories = Category.hierarchy_categories(child21[:id])
+        categories.count.should == 2
+
+        categories = Category.hierarchy_categories(child31[:id])
+        categories.count.should == 3
+      end
+
+      it "is correct with except_ids" do
+        categories = Category.hierarchy_categories(:all)
+        categories.count.should == 15
+
+        categories = Category.hierarchy_categories(:all, [root3.id])
+        categories.count.should == 9
+
+        categories = Category.hierarchy_categories(:all, [root2.id])
+        categories.count.should == 10
+
+        categories = Category.hierarchy_categories(:all, [root1.id])
+        categories.count.should == 11
+      end
+    end
+
+    describe ".up" do
+
+      it "up order_in_parent" do
+        expect {
+          child12.up
+
+        }.to change {
+          child12.order_in_parent
+        }.from(1).to(0)
+
+        Category.find_by(name: "child11").order_in_parent.should == 1
+      end
+
+      describe "no up order_in_parent" do
+
+        it "if order_in_parent is top already" do
+          expect {
+            child11.up
+
+          }.not_to change {
+            child11.order_in_parent
+          }
+        end
+
+        it "if parent_id is nil" do
+          expect {
+            root1.up
+
+          }.not_to change {
+            root1.order_in_parent
+          }
+        end
+
+      end
+
+      it "up family if parent_id is nil" do
+        expect {
+          root2.up
+
+        }.to change {
+          Category.find_by(name: "root2").family
+        }.from(1).to(0)
+
+        Category.find_by(name: "root1").family.should == 1
+      end
+
+      describe "no up family though parent_id is nil" do
+
+        it "if family is top already" do
+          expect {
+            root1.up
+
+          }.not_to change {
+            Category.find_by(name: "root1").family
+          }
+        end
+
+      end
+
+    end
+
+    describe ".down" do
+
+      it "down order_in_parent" do
+        expect {
+          child12.down
+
+        }.to change {
+          child12.order_in_parent
+        }.from(1).to(2)
+
+        Category.find_by(name: "child13").order_in_parent.should == 1
+      end
+
+      describe "no down order_in_parent" do
+
+        it "if order_in_parent is bottom already" do
+          expect {
+            child13.down
+
+          }.not_to change {
+            child13.order_in_parent
+          }
+        end
+
+        it "if parent_id is nil" do
+          expect {
+            root1.down
+
+          }.not_to change {
+            root1.order_in_parent
+          }
+        end
+
+      end
+
+      it "down family if parent_id is nil" do
+        expect {
+          root2.down
+
+        }.to change {
+          Category.find_by(name: "root2").family
+        }.from(1).to(2)
+
+        Category.find_by(name: "root3").family.should == 1
+      end
+
+      describe "no down family though parent_id is nil" do
+
+        it "if family is bottom already" do
+          expect {
+            root3.down
+
+          }.not_to change {
+            Category.find_by(name: "root3").family
+          }
+        end
+
+      end
+
     end
 
     describe "change category's" do
 
       it "family when parent is changed" do
         expect {
-          child11.parent = root2
-          child11.save
+          child11.update(parent: root2)
 
         }.to change {
           child11.family
         }.from(root1.family).to(root2.family)
 
         expect {
-          child211.parent = child31
-          child211.save
+          child211.update(parent: child31)
 
         }.to change {
           child211.family
         }.from(child21.family).to(child31.family)
 
         expect {
-          child31111.parent = nil
-          child31111.save
+          child31111.update(parent: nil)
 
         }.to change {
           child31111.family
@@ -224,24 +382,21 @@ describe Category do
 
       it "depth when parent is changed" do
         expect {
-          child11.parent = root2
-          child11.save
+          child11.update(parent: root2)
 
         }.not_to change {
           child11.depth
         }
 
         expect {
-          child211.parent = root3
-          child211.save
+          child211.update(parent: root3)
 
         }.to change {
           child211.depth
         }.from(child21.depth + 1).to(root3.depth + 1)
 
         expect {
-          child31111.parent = nil
-          child31111.save
+          child31111.update(parent: nil)
 
         }.to change {
           child31111.depth
@@ -249,17 +404,14 @@ describe Category do
       end
 
       it "order_in_parent when parent is changed" do
-        child11.parent = root2
-        child11.save
+        child11.update(parent: root2)
         child11.order_in_parent.should == 2
 
-        child211.parent = root3
-        child211.save
+        child211.update(parent: root3)
         child211.order_in_parent.should == 2
 
         expect {
-          child31111.parent = nil
-          child31111.save
+          child31111.update(parent: nil)
 
         }.not_to change {
           child31111.order_in_parent
@@ -272,16 +424,14 @@ describe Category do
 
       it "family when parent of category is changed" do        
         expect {
-          child21.parent = root3
-          child21.save
+          child21.update(parent: root3)
 
         }.to change {
           child21.children.first.family
         }.from(root2.family).to(root3.family)
 
         expect {
-          child31.parent = child32
-          child31.save
+          child31.update(parent: child32)
 
         }.not_to change {
           child31.children.first.family
@@ -290,20 +440,30 @@ describe Category do
 
       it "depth when parent of category is changed" do
         expect {
-          child21.parent = child11
-          child21.save
+          child21.update(parent: child11)
 
         }.to change {
           child21.children.first.depth
         }.from(root2.depth + 2).to(child11.depth + 2)
 
         expect {
-          child31.parent = root1
-          child31.save
+          child31.update(parent: root1)
 
         }.not_to change {
           child31.children.first.depth
         }
+      end
+
+    end
+
+    describe "change category's sibling's" do
+
+      it "order_in_parent when parent of category is changed" do
+        child22.order_in_parent.should == 1
+
+        child21.update(parent: root1)
+
+        Category.find_by(name: "child22").order_in_parent.should == 0
       end
 
     end
