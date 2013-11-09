@@ -1,11 +1,21 @@
 <%= div_for category, class: "depth#{category.depth}" do %>
-	<div class="name"><%= category.name %></div>
+  <div class="name"><%= category.name %></div>
 
   <%= form_for(category) do |f| %>
     <%= f.label :parent_id %>
     <%= f.select :parent_id, parents %>
-    <%= f.button "up", id: :up %>
-    <%= f.button "down", id: :down %>
+    <%= f.submit "change" %>
   <% end %>
 
+  <%= form_tag up_category_path(category), method: :patch do %>
+    <%= submit_tag "up" %>
+  <% end %>
+
+  <%= form_tag down_category_path(category), method: :patch do %>
+    <%= submit_tag "down" %>
+  <% end %>
+
+  <%= form_tag category_path(category), method: :delete do %>
+    <%= submit_tag "delete" %>
+  <% end %>
 <% end %>

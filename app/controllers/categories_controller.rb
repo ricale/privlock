@@ -1,5 +1,5 @@
 class CategoriesController < ApplicationController
-  before_action :set_category, only: [:edit, :update, :destroy]
+  before_action :set_category, only: [:update, :up, :down, :destroy]
 
   # GET /categories
   def index
@@ -36,7 +36,7 @@ class CategoriesController < ApplicationController
       if @category.update(category_params)
         format.html { redirect_to categories_path, notice: 'Category was successfully updated.' }
       else
-        format.html { render action: 'index' }
+        format.html { redirect_to action: 'index' }
       end
     end
   end
@@ -46,7 +46,7 @@ class CategoriesController < ApplicationController
       if @category.up
         format.html { redirect_to categories_path, notice: 'Category was successfully updated.' }
       else
-        format.html { render action: 'index' }
+        format.html { redirect_to categories_path, alert: 'Impossible' }
       end
     end
   end
@@ -56,7 +56,7 @@ class CategoriesController < ApplicationController
       if @category.down
         format.html { redirect_to categories_path, notice: 'Category was successfully updated.' }
       else
-        format.html { render action: 'index' }
+        format.html { redirect_to categories_path, alert: 'Impossible' }
       end
     end
   end

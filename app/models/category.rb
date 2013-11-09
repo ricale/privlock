@@ -17,15 +17,16 @@ class Category < ActiveRecord::Base
 
   before_validation :is_not_circular_error, on: :update, if: :parent_id_changed?
 
+  before_destroy :possible_to_destroy
+
   after_update :change_attributes_on_update, if: :parent_id_changed?
 
   scope :root_categories,  ->            { where(parent_id: nil) }
-  scope :child_categories, ->(parent_id) { where(parent_id: parent_id).order(:order_in_parent) }
+  scope :child_categories, ->(parent_id) { where(parent_id: parent_id).order(:family, :order_in_parent) }
   scope :except_one,       ->(id)        { where.not(id: id) }
   scope :family,           ->(family)    { where(family: family) }
 
   scope :to_array, -> { all.map { |c| c } }
-  #scope :child_categories_attributes, ->(parent_id) { child_categories(parent_id).map { |c| c.attributes.symbolize_keys } }
 
   def self.hierarchy_categories(root_id, excepted_ids = [])
     root_id = nil if root_id == :all
@@ -34,21 +35,11 @@ class Category < ActiveRecord::Base
   end
 
   def up
-    if parent_id != nil
-      up_order_in_parent
-
-    else
-      up_family
-    end
+    parent_id.nil? ? up_family : up_order_in_parent
   end
 
   def down
-    if parent_id != nil
-      down_order_in_parent
-
-    else
-      down_family
-    end
+    parent_id.nil? ? down_family : down_order_in_parent
   end
 
 
@@ -98,6 +89,10 @@ class Category < ActiveRecord::Base
     end
   end
 
+  def possible_to_destroy
+    false unless children.count == 0
+  end
+
   #
   # after_update
 
@@ -111,7 +106,7 @@ class Category < ActiveRecord::Base
 
     update_children_family if prev_family != family
     update_children_depth  if prev_depth  != depth
-    update_sibling_order_in_parent
+    parent_id_was.nil? ? update_sibling_family : update_sibling_order_in_parent
   end
 
   def update_family
@@ -150,6 +145,13 @@ class Category < ActiveRecord::Base
       child.update(depth: parent.depth + 1)
 
       update_children_depth_recursively(child)
+    end
+  end
+
+  def update_sibling_family
+    Category.where("family > ?", family_was).each do |category|
+      category.family -= 1
+      category.save
     end
   end
 

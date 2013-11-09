@@ -466,6 +466,14 @@ describe Category do
         Category.find_by(name: "child22").order_in_parent.should == 0
       end
 
+      it "family when origin parent is nil and not now" do
+        root2.family.should == 1
+
+        root1.update(parent: root2)
+
+        Category.find_by(name: "root2").family.should == 0
+      end
+
     end
 
     it "raise error when make circular categories" do
