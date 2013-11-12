@@ -1,5 +1,5 @@
 Privlock::Application.routes.draw do
-  root 'writings#index'
+  resources :writings
 
   resources :categories, except: [:show, :edit] do
     member do
@@ -7,7 +7,6 @@ Privlock::Application.routes.draw do
       patch 'down'
     end
   end
-  resources :writings
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

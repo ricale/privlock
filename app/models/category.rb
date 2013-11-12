@@ -1,6 +1,7 @@
 class Category < ActiveRecord::Base
   belongs_to :parent, class_name: 'Category'
   has_many :children, class_name: 'Category', foreign_key: 'parent_id'
+  has_many :writing
 
   validates :name, presence: true
 
@@ -89,8 +90,12 @@ class Category < ActiveRecord::Base
     end
   end
 
+  #
+  # before_destroy
+
   def possible_to_destroy
     false unless children.count == 0
+    false unless writing.count == 0
   end
 
   #

@@ -7,14 +7,14 @@ class CategoriesController < ApplicationController
 
     @parents = {}
     @categories.each do |c|
-      @parents[c.id] = parents_for_select_box(Category.hierarchy_categories(:all, [c.id]))
+      @parents[c.id] = categories_for_select_box(Category.hierarchy_categories(:all, [c.id]))
     end
   end
 
   # GET /categories/new
   def new
     @category = Category.new
-    @parents = parents_for_select_box(Category.all)
+    @parents = categories_for_select_box(Category.hierarchy_categories(:all))
   end
 
   # POST /categories
@@ -70,19 +70,12 @@ class CategoriesController < ApplicationController
   end
 
   private
-  # Use callbacks to share common setup or constraints between actions.
+
   def set_category
     @category = Category.find(params[:id])
   end
 
-  # Never trust parameters from the scary internet, only allow the white list through.
   def category_params
-    params.require(:category).permit(:name, :parent_id, :depth, :order_in_parent)
-  end
-
-  def parents_for_select_box(parent_categories)
-    [["none", nil]].concat(parent_categories.map do |parent|
-      [parent.name, parent.id]
-    end)
+    params.require(:category).permit(:name, :parent_id)
   end
 end

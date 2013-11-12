@@ -2,19 +2,43 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+.depth0 {
+    padding-right: 50px;
+}
 
 .depth1 {
-    margin-left: 10px;
+    padding-left:  10px;
+    padding-right: 40px;
 }
 
 .depth2 {
-    margin-left: 20px;
+    padding-left:  20px;
+    padding-right: 30px;
 }
 
 .depth3 {
-    margin-left: 30px;
+    padding-left:  30px;
+    padding-right: 20px;
 }
 
 .depth4 {
-    margin-left: 40px;
+    padding-left:  40px;
+    padding-right: 10px;
+}
+
+.category {
+    display: inline-block;
+    width: 100px;
+
+    > div {
+        display: inline;
+    }
+}
+
+.category_editor {
+    display: inline;
+
+    form {
+        display: inline;
+    }
 }

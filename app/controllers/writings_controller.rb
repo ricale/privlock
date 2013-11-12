@@ -2,19 +2,19 @@ class WritingsController < ApplicationController
   before_action :set_writing, only: [:show, :edit, :update, :destroy]
 
   # GET /writings
-  # GET /writings.json
   def index
     @writings = Writing.all
   end
 
   # GET /writings/1
-  # GET /writings/1.json
   def show
   end
 
   # GET /writings/new
   def new
     @writing = Writing.new
+
+    @categories = categories_for_select_box(Category.hierarchy_categories(:all))
   end
 
   # GET /writings/1/edit
@@ -22,7 +22,6 @@ class WritingsController < ApplicationController
   end
 
   # POST /writings
-  # POST /writings.json
   def create
     @writing = Writing.new(writing_params)
 
@@ -62,13 +61,13 @@ class WritingsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_writing
-      @writing = Writing.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_writing
+    @writing = Writing.find(params[:id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def writing_params
-      params.require(:writing).permit(:title, :content)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def writing_params
+    params.require(:writing).permit(:title, :content, :category_id)
+  end
 end

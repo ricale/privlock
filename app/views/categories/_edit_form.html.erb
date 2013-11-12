@@ -1,0 +1,20 @@
+<div class="category_editor">
+  <%= form_for(category) do |f| %>
+    <%= f.text_field :name %>
+    <%= f.label :parent_id %>
+    <%= f.select :parent_id, parents %>
+    <%= f.submit "change" %>
+  <% end %>
+
+  <%= form_tag up_category_path(category), method: :patch do %>
+    <%= submit_tag "up" %>
+  <% end %>
+
+  <%= form_tag down_category_path(category), method: :patch do %>
+    <%= submit_tag "down" %>
+  <% end %>
+
+  <%= form_tag category_path(category), method: :delete do %>
+    <%= submit_tag "delete" %>
+  <% end %>
+</div>
