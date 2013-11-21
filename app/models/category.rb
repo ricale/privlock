@@ -63,7 +63,7 @@ class Category < ActiveRecord::Base
       self.family = parent.family
     else
       last_family = Category.root_categories.maximum(:family)
-      self.family = last_family + 1 if last_family
+      self.family = last_family ? last_family + 1 : 0
     end
   end
 
@@ -75,6 +75,9 @@ class Category < ActiveRecord::Base
     if parent
       last_order = Category.child_categories(parent_id).maximum(:order_in_parent)
       self.order_in_parent = last_order + 1 if last_order
+
+    else
+      self.order_in_parent = 0
     end
   end
 

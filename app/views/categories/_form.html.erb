@@ -17,7 +17,9 @@
   </div>
   <div class="field">
     <%= f.label :parent_id %><br>
-    <%= f.select :parent_id, @parents %>
+    <%= f.select :parent_id,
+                 options_from_collection_for_select(@parents, 'id', 'name', @category.parent_id),
+                 { prompt: "none" } %>
   </div>
   <div class="actions">
     <%= f.submit %>

@@ -2,149 +2,171 @@ require 'spec_helper'
 
 describe Category do
 
-  describe "raise error when save without" do
+  describe ".create" do
 
-    it "name" do
-      category = Category.new(
-        parent_id: nil,
-        family: 0,
-        depth: 0,
-        order_in_parent: 0
-      )
+    describe "raise error without" do
 
-      expect { category.save! }.to raise_error {
-        ActiveRecord::RecordInvalid
-      }
-    end
+      it "name" do
+        expect {
 
-  end # "raise error when save without"
+          Category.create!(
+            parent_id:       nil,
+            family:          0,
+            depth:           0,
+            order_in_parent: 0
+          )
 
-  describe "raise no error when save" do
-
-    describe "without" do
-
-      it "parent_id and parent_id should be nil" do
-        category = Category.new(
-          name: "sample",
-          family: 0,
-          depth: 0,
-          order_in_parent: 0
-        )
-
-        expect { category.save! }.not_to raise_error {
+        }.to raise_error {
           ActiveRecord::RecordInvalid
         }
-
-        category.parent_id.should be_nil
       end
 
-      it "famaily and family should be 0" do
-        category = Category.new(
-          name: "sample",
-          parent_id: 0,
-          depth: 0,
-          order_in_parent: 0
-        )
+    end # "raise error when save without"
 
-        expect { category.save! }.not_to raise_error {
-          ActiveRecord::RecordInvalid
-        }
+    describe "raise no error without" do
 
-        category.family.should == 0
+      it "parent_id" do
+        expect {
+
+          Category.create!(
+            name:            "sample",
+            family:          0,
+            depth:           0,
+            order_in_parent: 0
+          )
+
+        }.not_to raise_error
       end
 
-      it "depth and depth should be 0" do
-        category = Category.new(
-          name: "sample",
-          parent_id: nil,
-          family: 0,
-          order_in_parent: 0
-        )
+      it "family" do
+        expect { 
 
-        expect { category.save! }.not_to raise_error {
-          ActiveRecord::RecordInvalid
-        }
+          Category.create!(
+            name:            "sample",
+            parent_id:       nil,
+            depth:           0,
+            order_in_parent: 0
+          )
 
-        category.depth.should == 0
+        }.not_to raise_error
+      end
+
+      it "depth" do
+        expect { 
+
+          Category.create!(
+            name:            "sample",
+            parent_id:       nil,
+            family:          0,
+            order_in_parent: 0
+          )
+
+        }.not_to raise_error
       end
 
       it "order_in_parent" do
-        category = Category.new(
-          name: "sample",
-          parent_id: nil,
-          family: 0,
-          depth: 0
-        )
+        expect {
 
-        expect { category.save! }.not_to raise_error {
-          ActiveRecord::RecordInvalid
-        }
+          Category.create!(
+            name:      "sample",
+            parent_id: nil,
+            family:    0,
+            depth:     0
+          )
 
-        category.order_in_parent.should == 0
+        }.not_to raise_error
       end
 
-    end # "without"
+    end # "raise no error without"
 
-    describe "only" do
+    describe "set automatically first category's" do
 
-      it "name" do
-        category = Category.new(name: "sample")
+      let(:first) { Category.new(name: "sample", parent_id: nil) }
 
-        expect { category.save! }.not_to raise_error {
-          ActiveRecord::RecordInvalid
-        }
+      describe "family" do
+
+        it "to 0" do
+          first.save
+          first.family.should == 0
+        end
+
+        it "to 0 even though manually setting family" do
+          first.family = 100
+          first.save
+          first.family.should == 0
+        end
+
       end
 
-      it "name and specific parent_id" do
-        category = Category.new(
-          name: "sample",
-          parent_id: 1
-        )
+      describe "depth" do
 
-        expect { category.save! }.not_to raise_error {
-          ActiveRecord::RecordInvalid
-        }
+        it "to 0" do
+          first.save
+          first.depth.should == 0
+        end
+
+        it "to 0 even though manually setting depth" do
+          first.depth = 100
+          first.save
+          first.depth.should == 0
+        end
+
       end
 
-    end # "only"
+      describe "order_in_parent" do
 
-  end # "raise no error when save"
+        it "to 0" do
+          first.save
+          first.order_in_parent.should == 0
+        end
 
-  describe "auto increase new category's" do
+        it "to 0 even though manually setting order_in_parent" do
+          first.order_in_parent = 100
+          first.save
+          first.order_in_parent.should == 0
+        end
 
-    let(:default) { Category.create(name: "default") }
+      end
 
-    it "family when new category is root" do
-      default.family.should == 0
+    end # "set automatically first category's"
 
-      second_category = Category.create(name: "second")
-      third_category  = Category.create(name: "third")
+    describe "auto increase new category's" do
 
-      second_category.family.should == default.family + 1
-      third_category.family.should  == second_category.family + 1
-    end
+      let(:default) { Category.create(name: "default") }
 
-    it "depth when new category is some category's child" do
-      default.depth.should == 0
+      it "family when new category is root" do
+        default.family.should == 0
 
-      child = Category.create(name: "child", parent: default)
-      grand_child = Category.create(name: "grand_child",  parent: child)
+        second_category = Category.create(name: "second")
+        third_category  = Category.create(name: "third")
 
-      child.depth.should == default.depth + 1
-      grand_child.depth.should == child.depth + 1
-    end
+        second_category.family.should == default.family + 1
+        third_category.family.should  == second_category.family + 1
+      end
 
-    it "order_in_parent when new category is some category's sibling" do
-      default.order_in_parent.should == 0
+      it "depth when new category is some category's child" do
+        default.depth.should == 0
 
-      first_child  = Category.create(name: "first_child", parent: default)
-      second_child = Category.create(name: "second_child", parent: default)
-      third_child  = Category.create(name: "third_child", parent: default)
+        child = Category.create(name: "child", parent: default)
+        grand_child = Category.create(name: "grand_child",  parent: child)
 
-      first_child.order_in_parent.should == 0
-      second_child.order_in_parent.should  == first_child.order_in_parent + 1
-      third_child.order_in_parent.should == second_child.order_in_parent + 1
-    end
+        child.depth.should       == default.depth + 1
+        grand_child.depth.should == child.depth + 1
+      end
+
+      it "order_in_parent when new category is some category's sibling" do
+        default.order_in_parent.should == 0
+
+        first_child  = Category.create(name: "first_child", parent: default)
+        second_child = Category.create(name: "second_child", parent: default)
+        third_child  = Category.create(name: "third_child", parent: default)
+
+        first_child.order_in_parent.should  == 0
+        second_child.order_in_parent.should == first_child.order_in_parent + 1
+        third_child.order_in_parent.should  == second_child.order_in_parent + 1
+      end
+
+    end # "auto increase new category's"
 
   end
 
@@ -164,29 +186,6 @@ describe Category do
     let!(:child3111)  { Category.create(name: "child3111",  parent: child311) }
     let!(:child31111) { Category.create(name: "child31111", parent: child3111) }
     let!(:child32)    { Category.create(name: "child32",    parent: root3) }
-
-    it "descendant's count is correct" do
-      categories = Category.hierarchy_categories(nil)
-      categories.count.should == 15
-
-      categories = Category.hierarchy_categories(root1[:id])
-      categories.count.should == 3
-
-      categories = Category.hierarchy_categories(root2[:id])
-      categories.count.should == 4
-
-      categories = Category.hierarchy_categories(root3[:id])
-      categories.count.should == 5
-
-      categories = Category.hierarchy_categories(child11[:id])
-      categories.count.should == 0
-
-      categories = Category.hierarchy_categories(child21[:id])
-      categories.count.should == 2
-
-      categories = Category.hierarchy_categories(child31[:id])
-      categories.count.should == 3
-    end
 
     it "if category's parent not exist, parent_id must be nil" do
       child11.update(parent_id: "")

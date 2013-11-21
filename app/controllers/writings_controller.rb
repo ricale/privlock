@@ -14,7 +14,7 @@ class WritingsController < ApplicationController
   def new
     @writing = Writing.new
 
-    @categories = categories_for_select_box(Category.hierarchy_categories(:all))
+    @categories = Category.hierarchy_categories(:all)
   end
 
   # GET /writings/1/edit

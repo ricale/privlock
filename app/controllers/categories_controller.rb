@@ -7,14 +7,14 @@ class CategoriesController < ApplicationController
 
     @parents = {}
     @categories.each do |c|
-      @parents[c.id] = categories_for_select_box(Category.hierarchy_categories(:all, [c.id]))
+      @parents[c.id] = Category.hierarchy_categories(:all, [c.id])
     end
   end
 
   # GET /categories/new
   def new
     @category = Category.new
-    @parents = categories_for_select_box(Category.hierarchy_categories(:all))
+    @parents  = Category.hierarchy_categories(:all)
   end
 
   # POST /categories
