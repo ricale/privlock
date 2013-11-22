@@ -15,9 +15,9 @@ class Category < ActiveRecord::Base
   before_validation :initialize_depth, on: :create
   before_validation :initialize_order_in_parent, on: :create
 
-  before_validation :is_not_circular_error, on: :update, if: :parent_id_changed?
+  before_validation :is_not_circular_error?, on: :update, if: :parent_id_changed?
 
-  before_destroy :possible_to_destroy
+  before_destroy :possible_to_destroy?
 
   after_update :change_attributes_on_update, if: :parent_id_changed?
 
@@ -27,13 +27,17 @@ class Category < ActiveRecord::Base
   scope :to_array, -> { all.map { |c| c } }
 
   def self.hierarchy_categories(root_id, excepted_ids = [])
-    root_id = nil if root_id == :all
-    
-    hierarchy(Category.child_categories(root_id).to_array, excepted_ids)
+    if Category.count == 0
+      [Category.create_root]
+
+    else
+      root_id = nil if root_id == :all
+      hierarchy(Category.child_categories(root_id).to_array, excepted_ids)
+    end
   end
 
-  def self.root
-    Category.find_by(parent_id: nil)
+  def self.root_category
+    Category.root || Category.create_root
   end
 
 
@@ -52,7 +56,7 @@ class Category < ActiveRecord::Base
   # before_validation, about root
 
   def create_root_if_needed
-    Category.create(parent_id: nil, name: "root") if is_first_category_except_root
+    Category.create_root if is_first_category_except_root
   end
 
   def parent_is_root_if_parent_id_is_invalid
@@ -90,7 +94,7 @@ class Category < ActiveRecord::Base
   def can_not_changed_roots_parent
   end
 
-  def is_not_circular_error
+  def is_not_circular_error?
     category = self
 
     while category.parent do
@@ -102,10 +106,8 @@ class Category < ActiveRecord::Base
   #
   # before_destroy
 
-  def possible_to_destroy
-    false unless children.count == 0
-    false unless writing.count == 0
-    false if parent_id == nil
+  def possible_to_destroy?
+    false if children.count != 0 || writing.count != 0 || parent_id == nil
   end
 
   #
@@ -178,6 +180,14 @@ class Category < ActiveRecord::Base
 
   #
   # class method
+
+  def self.create_root
+    Category.create(parent_id: nil, name: "root")
+  end
+
+  def self.root
+    Category.find_by(parent_id: nil)
+  end
 
   def self.hierarchy(categories, excepted_ids)
     categories.each do |category|

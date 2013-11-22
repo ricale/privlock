@@ -1,11 +1,3 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
-#
-# Examples:
-#
-#   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
-#   Mayor.create(name: 'Emanuel', city: cities.first)
-
 Category.delete_all
 
 root1 = Category.create(name: "child1")
@@ -23,3 +15,7 @@ child311 = Category.create(name: "child311",   parent: child31)
 child3111 = Category.create(name: "child3111",  parent: child311)
 child31111 = Category.create(name: "child31111", parent: child3111)
 Category.create(name: "child32", parent: root3)
+
+
+
+Writing.delete_all

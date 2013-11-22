@@ -2,22 +2,56 @@ require 'spec_helper'
 
 describe Writing do
 
-  describe "raise error when save without" do
+  describe ".create" do
 
-    it "title" do
-      writing = Writing.new(content: "smaples")
-      expect { writing.save! }.to raise_error {
-        ActiveRecord::RecordInvalid
-      }
-    end
+    describe "is impossible" do
 
-    it "content" do
-      writing = Writing.new(title: "samples")
-      expect { writing.save! }.to raise_error {
-        ActiveRecord::RecordInvalid
-      }
-    end
+      describe "without" do
 
-  end
+        it "title" do
+          writing = Writing.new(content: "this is just test", category_id: 0)
+          writing.save.should be_false
+        end
+
+        it "content" do
+          writing = Writing.new(title: "test", category_id: 0)
+          writing.save.should be_false
+        end
+
+        it "category_id" do
+          writing = Writing.new(title: "test", content: "this is just test")
+          writing.save.should be_false
+        end
+
+      end # "without"
+
+      it "when invalid category_id" do
+        writing = Writing.new(
+          title: "test",
+          content: "this is just test",
+          category_id: 0
+        )
+
+        writing.save.should be_false
+      end
+
+    end # "is impossible"
+
+    describe "is success with all" do
+
+      it do
+        writing = Writing.new(
+          title: "test",
+          content: "this is just test",
+          category_id: Category.root_category.id
+        )
+
+        writing.save.should be_true
+
+      end
+
+    end # "is success with all"
+
+  end # ".create"
 
 end

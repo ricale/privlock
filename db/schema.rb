@@ -27,7 +27,7 @@ ActiveRecord::Schema.define(version: 20131121112313) do
     t.text     "content",     null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "category_id"
+    t.integer  "category_id", null: false
   end
 
 end
