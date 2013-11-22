@@ -32,13 +32,30 @@ class Category < ActiveRecord::Base
 
     else
       root_id = nil if root_id == :all
-      hierarchy(Category.child_categories(root_id).to_array, excepted_ids)
+      get_hierarchy_categories(Category.child_categories(root_id).to_array, excepted_ids)
     end
   end
 
   def self.root_category
     Category.root || Category.create_root
   end
+
+
+
+  def descendants_writings
+    Writing.in_categories(Category.hierarchy_categories(id).map { |c| c.id } << id)
+  end
+
+  def ancestors_and_me
+    if self == Category.root
+      [self]
+
+    else
+      categories = parent.ancestors_and_me if parent != Category.root
+      categories ? (categories << self) : [self]
+    end
+  end
+
 
 
   def up
@@ -189,7 +206,7 @@ class Category < ActiveRecord::Base
     Category.find_by(parent_id: nil)
   end
 
-  def self.hierarchy(categories, excepted_ids)
+  def self.get_hierarchy_categories(categories, excepted_ids)
     categories.each do |category|
       categories.delete(category) if excepted_ids.include? category.id
     end

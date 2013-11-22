@@ -1,7 +1,7 @@
 Privlock::Application.routes.draw do
   resources :writings
 
-  resources :categories, except: [:show, :edit] do
+  resources :categories, except: [:edit] do
     member do
       patch 'up'
       patch 'down'

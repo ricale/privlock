@@ -280,6 +280,45 @@ describe Category do
 
     end # ".down"
 
+    describe ".descendants_writings" do
+
+      it do
+        Writing.create(title: "sample1", content: "content", category: root1)
+        Writing.create(title: "sample2", content: "content", category: child11)
+        Writing.create(title: "sample2", content: "content", category: child12)
+        Writing.create(title: "sample2", content: "content", category: child13)
+
+        root1.writing.count.should == 1
+        root1.descendants_writings.count.should == 4
+      end
+
+    end
+
+    describe ".ancestors_and_me" do
+
+      it "is [first_depth_category, ... , parent, me]" do
+        categories = child31111.ancestors_and_me
+
+        categories.count.should == 5
+        categories.first.should == root3
+      end
+
+      it "of first depth category is [first_depth_category]"do
+        categories = root1.ancestors_and_me
+
+        categories.count.should == 1
+        categories.first.should == root1
+      end
+
+      it "of root is [root]" do
+        categories = Category.root.ancestors_and_me
+
+        categories.count.should == 1
+        categories.first.should == Category.root
+      end
+
+    end
+
     describe ".update" do
 
       describe "change category's" do

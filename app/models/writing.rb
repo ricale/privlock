@@ -8,6 +8,8 @@ class Writing < ActiveRecord::Base
 
   before_save :is_exist_category?
 
+  scope :in_categories, ->(category_ids) { where("category_id in (?)", category_ids) }
+
   private 
 
   def is_exist_category?

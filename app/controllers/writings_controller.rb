@@ -1,5 +1,6 @@
 class WritingsController < ApplicationController
   before_action :set_writing, only: [:show, :edit, :update, :destroy]
+  before_action :set_categories, only: [:new, :edit]
 
   # GET /writings
   def index
@@ -13,8 +14,6 @@ class WritingsController < ApplicationController
   # GET /writings/new
   def new
     @writing = Writing.new
-
-    @categories = Category.hierarchy_categories(:all)
   end
 
   # GET /writings/1/edit
@@ -64,6 +63,10 @@ class WritingsController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_writing
     @writing = Writing.find(params[:id])
+  end
+
+  def set_categories
+    @categories = Category.hierarchy_categories(:all)
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.

@@ -1,5 +1,9 @@
 <%= div_for writing do %>
   <div class="title"><h3><%= link_to writing.title, writing %></h3></div>
-  <div class="category"><%= writing.category.name %></div>
+  <div class="writing_category">
+    <%= writing.category.ancestors_and_me.map { |category| 
+      link_to category.name, category
+    }.join("/").html_safe %>
+  </div>
   <div class="content"><%= writing.content %></div>
 <% end %>

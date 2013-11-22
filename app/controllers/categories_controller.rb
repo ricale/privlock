@@ -1,5 +1,5 @@
 class CategoriesController < ApplicationController
-  before_action :set_category, only: [:update, :up, :down, :destroy]
+  before_action :set_category, only: [:show, :update, :up, :down, :destroy]
 
   # GET /categories
   def index
@@ -9,6 +9,10 @@ class CategoriesController < ApplicationController
     @categories.each do |c|
       @parents[c.id] = Category.hierarchy_categories(:all, [c.id])
     end
+  end
+
+  def show
+    @writings = @category.descendants_writings
   end
 
   # GET /categories/new
