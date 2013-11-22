@@ -36,7 +36,7 @@ class CategoriesController < ApplicationController
       if @category.update(category_params)
         format.html { redirect_to categories_path, notice: 'Category was successfully updated.' }
       else
-        format.html { redirect_to action: 'index' }
+        format.html { redirect_to categories_path, alert: 'Impossible' }
       end
     end
   end
@@ -63,9 +63,12 @@ class CategoriesController < ApplicationController
 
   # DELETE /categories/1
   def destroy
-    @category.destroy
     respond_to do |format|
-      format.html { redirect_to categories_url }
+      if @category.destroy
+        format.html { redirect_to categories_url, notice: 'Category was successfully removed.' }
+      else
+        format.html { redirect_to categories_url, alert: 'Impossible' }
+      end
     end
   end
 

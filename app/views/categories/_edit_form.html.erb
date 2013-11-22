@@ -1,10 +1,11 @@
 <div class="category_editor">
   <%= form_for(category) do |f| %>
     <%= f.text_field :name %>
-    <%= f.label :parent_id %>
-    <%= f.select :parent_id,
-                 options_from_collection_for_select(parents, 'id', 'name', category.parent_id),
-                 { prompt: "none" } %>
+    <% unless parents.empty? %>
+      <%= f.label :parent_id %>
+      <%= f.select :parent_id,
+                   options_from_collection_for_select(parents, 'id', 'name', category.parent_id) %>
+    <% end %>
     <%= f.submit "change" %>
   <% end %>
 

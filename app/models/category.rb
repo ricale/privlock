@@ -32,6 +32,11 @@ class Category < ActiveRecord::Base
     hierarchy(Category.child_categories(root_id).to_array, excepted_ids)
   end
 
+  def self.root
+    Category.find_by(parent_id: nil)
+  end
+
+
   def up
     up_order_in_parent if parent_id != nil
   end
@@ -44,7 +49,7 @@ class Category < ActiveRecord::Base
 
   private
 
-  # before_validation
+  # before_validation, about root
 
   def create_root_if_needed
     Category.create(parent_id: nil, name: "root") if is_first_category_except_root
@@ -59,7 +64,7 @@ class Category < ActiveRecord::Base
   end
 
   def is_invalid_parent_id_and_root_is_exist
-    Category.where(id: parent_id).empty? && Category.root
+    Category.where(id: parent_id).empty? && Category.root && Category.root != self
   end
 
   #
@@ -81,6 +86,9 @@ class Category < ActiveRecord::Base
 
   #
   # before_validation, on: :update
+
+  def can_not_changed_roots_parent
+  end
 
   def is_not_circular_error
     category = self
@@ -170,10 +178,6 @@ class Category < ActiveRecord::Base
 
   #
   # class method
-
-  def self.root
-    Category.find_by(parent_id: nil)
-  end
 
   def self.hierarchy(categories, excepted_ids)
     categories.each do |category|

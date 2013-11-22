@@ -216,12 +216,12 @@ describe Category do
           }
         end
 
-        it "if parent_id is nil" do
+        it "if it is root" do
           expect {
-            root3.up
+            Category.root.up
 
           }.not_to change {
-            root3.order_in_parent
+            Category.root.order_in_parent
           }
         end
 
@@ -253,12 +253,12 @@ describe Category do
           }
         end
 
-        it "if parent_id is nil" do
+        it "if it is root" do
           expect {
-            root1.down
+            Category.root.down
 
           }.not_to change {
-            root1.order_in_parent
+            Category.root.order_in_parent
           }
         end
 
@@ -266,76 +266,80 @@ describe Category do
 
     end
 
-    describe "change category's" do
+    describe ".update" do
 
-      it "depth when parent is changed" do
-        expect {
+      describe "change category's" do
+
+        it "depth when parent is changed" do
+          expect {
+            child11.update(parent: root2)
+
+          }.not_to change {
+            child11.depth
+          }
+
+          expect {
+            child211.update(parent: root3)
+
+          }.to change {
+            child211.depth
+          }.from(child21.depth + 1).to(root3.depth + 1)
+
+          expect {
+            child31111.update(parent: nil)
+
+          }.to change {
+            child31111.depth
+          }.from(child3111.depth + 1).to(1)
+        end
+
+        it "order_in_parent when parent is changed" do
           child11.update(parent: root2)
+          child11.order_in_parent.should == 2
 
-        }.not_to change {
-          child11.depth
-        }
-
-        expect {
           child211.update(parent: root3)
+          child211.order_in_parent.should == 2
 
-        }.to change {
-          child211.depth
-        }.from(child21.depth + 1).to(root3.depth + 1)
+          expect {
+            child31111.update(parent: child211)
 
-        expect {
-          child31111.update(parent: nil)
+          }.not_to change {
+            child31111.order_in_parent
+          }
+        end
 
-        }.to change {
-          child31111.depth
-        }.from(child3111.depth + 1).to(1)
       end
 
-      it "order_in_parent when parent is changed" do
-        child11.update(parent: root2)
-        child11.order_in_parent.should == 2
+      describe "change category's children's" do
 
-        child211.update(parent: root3)
-        child211.order_in_parent.should == 2
+        it "depth when parent of category is changed" do
+          expect {
+            child21.update(parent: child11)
 
-        expect {
-          child31111.update(parent: child211)
+          }.to change {
+            child21.children.first.depth
+          }.from(root2.depth + 2).to(child11.depth + 2)
 
-        }.not_to change {
-          child31111.order_in_parent
-        }
+          expect {
+            child31.update(parent: root1)
+
+          }.not_to change {
+            child31.children.first.depth
+          }
+        end
+
       end
 
-    end
+      describe "change category's sibling's" do
 
-    describe "change category's children's" do
+        it "order_in_parent when parent of category is changed" do
+          child22.order_in_parent.should == 1
 
-      it "depth when parent of category is changed" do
-        expect {
-          child21.update(parent: child11)
+          child21.update(parent: root1)
 
-        }.to change {
-          child21.children.first.depth
-        }.from(root2.depth + 2).to(child11.depth + 2)
+          Category.find_by(name: "child22").order_in_parent.should == 0
+        end
 
-        expect {
-          child31.update(parent: root1)
-
-        }.not_to change {
-          child31.children.first.depth
-        }
-      end
-
-    end
-
-    describe "change category's sibling's" do
-
-      it "order_in_parent when parent of category is changed" do
-        child22.order_in_parent.should == 1
-
-        child21.update(parent: root1)
-
-        Category.find_by(name: "child22").order_in_parent.should == 0
       end
 
     end
@@ -343,6 +347,39 @@ describe Category do
     it "raise error when make circular categories" do
       child31.parent = child31111
       child31.save.should be_false
+    end
+
+  end
+
+  describe 'root category' do
+    let!(:default) { Category.create(name: "default") }
+
+    describe ".destroy" do
+
+      it "is impossible" do
+        Category.root.destroy.should == false
+      end
+
+    end
+
+    describe ".update" do
+
+      it "parent_id is impossible" do
+        expect {
+          Category.root.update(parent: default)
+        }.not_to change {
+          Category.root.parent_id
+        }
+      end
+
+      it "name is possible" do
+        expect {
+          Category.root.update(name: "wtf")
+        }.to change {
+          Category.root.name
+        }
+      end
+
     end
 
   end
