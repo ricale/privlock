@@ -1,12 +1,24 @@
 Privlock::Application.routes.draw do
-  resources :writings
+  root "writings#index"
 
-  resources :categories, except: [:edit] do
-    member do
-      patch 'up'
-      patch 'down'
-    end
+  get "",         to: "writings#index", as: "writings"
+  get "new",      to: "writings#new",   as: "new_writing"
+  get ":id",      to: "writings#show",  as: "writing",      id: /[1-9]+/
+  get ":id/edit", to: "writings#edit",  as: "edit_writing", id: /[1-9]+/
+
+  resources :writings, except: [:index, :new, :show, :edit]
+
+  resources :categories, only: [] do
+    resources :writings, only: :index
   end
+
+  resources :categories, except: [:show, :edit], path: '/admin/categories' do
+    patch 'up',   on: :member
+    patch 'down', on: :member
+  end
+
+  devise_for :users
+
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
