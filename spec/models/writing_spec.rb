@@ -2,55 +2,55 @@ require 'spec_helper'
 
 describe Writing do
 
-  describe ".create" do
+  describe ".save(create)" do
 
-    describe "is impossible" do
+    describe "without" do
 
-      describe "without" do
+      describe "name" do
 
-        it "title" do
-          writing = Writing.new(content: "this is just test", category_id: 0)
-          writing.save.should be_false
-        end
+        subject { Writing.new(content: "this is just test", category_id: 0).save }
 
-        it "content" do
-          writing = Writing.new(title: "test", category_id: 0)
-          writing.save.should be_false
-        end
-
-        it "category_id" do
-          writing = Writing.new(title: "test", content: "this is just test")
-          writing.save.should be_false
-        end
-
-      end # "without"
-
-      it "when invalid category_id" do
-        writing = Writing.new(
-          title: "test",
-          content: "this is just test",
-          category_id: 0
-        )
-
-        writing.save.should be_false
-      end
-
-    end # "is impossible"
-
-    describe "is success with all" do
-
-      it do
-        writing = Writing.new(
-          title: "test",
-          content: "this is just test",
-          category_id: Category.root_category.id
-        )
-
-        writing.save.should be_true
+        it { should be_false }
 
       end
 
-    end # "is success with all"
+      describe "content" do
+
+        subject { Writing.new(title: "test", category_id: 0).save }
+        
+        it { should be_false }
+
+      end
+
+      describe "category_id" do
+
+        subject { Writing.new(title: "test", content: "this is just test").save }
+        
+        it { should be_false }
+
+      end
+
+    end # "without"
+
+    describe "with category_id" do
+
+      describe "that invalid" do
+      
+        subject { writing = Writing.new(title: "test", content: "this is just test", category_id: 0).save }
+
+        it { should be_false }
+
+      end
+
+      describe "that valid" do
+
+        subject { writing = Writing.new(title: "test", content: "this is just test", category_id: Category.root_category.id).save }
+
+        it { should be_true }
+
+      end
+
+    end
 
   end # ".create"
 
