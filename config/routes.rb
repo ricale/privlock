@@ -1,18 +1,15 @@
 Privlock::Application.routes.draw do
   root "writings#index"
 
-  get "",         to: "writings#index", as: "writings"
-  get "new",      to: "writings#new",   as: "new_writing"
-  get ":id",      to: "writings#show",  as: "writing",      id: /[1-9]+/
-  get ":id/edit", to: "writings#edit",  as: "edit_writing", id: /[1-9]+/
-
-  resources :writings, except: [:index, :new, :show, :edit]
+  resources :writings, path: '/', id: /[0-9]+/ do
+    get 'page/:page', action: :index, on: :collection
+  end
 
   resources :categories, only: [] do
     resources :writings, only: :index
   end
 
-  resources :categories, except: [:show, :edit], path: '/admin/categories' do
+  resources :categories, except: [:new, :show, :edit], path: '/admin/categories' do
     patch 'up',   on: :member
     patch 'down', on: :member
   end

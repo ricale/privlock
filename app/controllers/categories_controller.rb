@@ -1,4 +1,6 @@
 class CategoriesController < ApplicationController
+  before_action :authenticate_user!
+
   before_action :set_category, only: [:show, :update, :up, :down, :destroy]
 
   # GET /categories
@@ -9,17 +11,13 @@ class CategoriesController < ApplicationController
     @categories.each do |c|
       @parents[c.id] = Category.hierarchy_categories(:all, [c.id])
     end
+
+    @new_category = Category.new
+    @new_parents  = Category.hierarchy_categories(:all)
   end
 
-  def show
-    @writings = @category.descendants_writings
-  end
 
-  # GET /categories/new
-  def new
-    @category = Category.new
-    @parents  = Category.hierarchy_categories(:all)
-  end
+
 
   # POST /categories
   def create
@@ -45,6 +43,7 @@ class CategoriesController < ApplicationController
     end
   end
 
+  # PATCH /categories/1/up
   def up
     respond_to do |format|
       if @category.up
@@ -55,6 +54,7 @@ class CategoriesController < ApplicationController
     end
   end
 
+  # PATCH /categories/1/down
   def down
     respond_to do |format|
       if @category.down
@@ -75,6 +75,9 @@ class CategoriesController < ApplicationController
       end
     end
   end
+
+
+
 
   private
 

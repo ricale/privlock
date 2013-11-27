@@ -6,6 +6,8 @@ describe User do
 
     subject { User.create(email: "test@for.test", password: "passwrod") }
 
+    it { User.count == 1 }
+
     describe "is first registrated user" do
 
       it { should be_admin }

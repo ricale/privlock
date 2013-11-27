@@ -1,10 +1,10 @@
-<%= form_for(@category) do |f| %>
-  <% if @category.errors.any? %>
+<%= form_for(@new_category) do |f| %>
+  <% if @new_category.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@category.errors.count, "error") %> prohibited this category from being saved:</h2>
+      <h2><%= pluralize(@new_category.errors.count, "error") %> prohibited this category from being saved:</h2>
 
       <ul>
-      <% @category.errors.full_messages.each do |msg| %>
+      <% @new_category.errors.full_messages.each do |msg| %>
         <li><%= msg %></li>
       <% end %>
       </ul>
@@ -18,7 +18,7 @@
   <div class="field">
     <%= f.label :parent_id %><br>
     <%= f.select :parent_id,
-                 options_from_collection_for_select(@parents, 'id', 'name', @category.parent_id) %>
+                 options_from_collection_for_select(@new_parents, 'id', 'name', @new_category.parent_id) %>
   </div>
   <div class="actions">
     <%= f.submit %>

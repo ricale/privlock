@@ -31,9 +31,13 @@ group :doc do
   gem 'sdoc', require: false
 end
 
-group :development do
+group :development, :test do
   gem 'rspec-rails'
+  gem 'factory_girl_rails'
+  gem 'capybara'
+end
   
+group :development do
   gem 'annotate'
 
   # debugging
@@ -42,6 +46,7 @@ group :development do
 end
 
 gem 'devise'
+gem 'kaminari'
 
 
 # Use ActiveModel has_secure_password

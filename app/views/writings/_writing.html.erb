@@ -2,7 +2,7 @@
   <div class="title"><h3><%= link_to writing.title, writing %></h3></div>
   <div class="writing_category">
     <%= writing.category.ancestors_and_me.map { |category| 
-      link_to category.name, category
+      link_to category.name, category_writings_path(category)
     }.join("/").html_safe %>
   </div>
   <div class="content"><%= writing.content %></div>
