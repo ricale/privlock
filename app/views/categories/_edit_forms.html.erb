@@ -1,0 +1,11 @@
+<%= form_tag up_category_path(category), method: :patch do %>
+  <%= submit_tag "up" %>
+<% end %>
+
+<%= form_tag down_category_path(category), method: :patch do %>
+  <%= submit_tag "down" %>
+<% end %>
+
+<%= form_tag category_path(category), method: :delete do %>
+  <%= submit_tag "delete" %>
+<% end %>

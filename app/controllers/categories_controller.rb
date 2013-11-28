@@ -27,7 +27,7 @@ class CategoriesController < ApplicationController
       if @category.save
         format.html { redirect_to categories_path, notice: 'Category was successfully created.' }
       else
-        format.html { render action: 'new' }
+        format.html { redirect_to categories_path, alert: 'Category was not created.' }
       end
     end
   end
@@ -38,7 +38,7 @@ class CategoriesController < ApplicationController
       if @category.update(category_params)
         format.html { redirect_to categories_path, notice: 'Category was successfully updated.' }
       else
-        format.html { redirect_to categories_path, alert: 'Impossible' }
+        format.html { redirect_to categories_path, alert: 'Category was not updated.' }
       end
     end
   end

@@ -1,22 +1,10 @@
 class WritingsController < ApplicationController
-  before_action :authenticate_user!, except: [:index, :show]
+  before_action :authenticate_user!
   
-  before_action :set_writing, only: [:show, :edit, :update, :destroy]
+  before_action :set_writing, only: [:edit, :update, :destroy]
   before_action :set_categories, only: [:new, :edit]
 
-  # GET /
-  # GET /categories/1/writings
-  def index
-    if params[:category_id]
-      @writings = Category.find(params[:category_id]).descendants_writings.page(params[:page])  
-    else
-      @writings = Writing.all.page(params[:page])
-    end
-  end
 
-  # GET /1
-  def show
-  end
 
   # GET /new
   def new
@@ -36,11 +24,11 @@ class WritingsController < ApplicationController
 
     respond_to do |format|
       if @writing.save
-        format.html { redirect_to @writing, notice: 'Writing was successfully created.' }
+        format.html { redirect_to show_path(@writing), notice: 'Writing was successfully created.' }
       else
         format.html {
           set_categories
-          render action: 'new', alert: 'fail'
+          render action: 'new'
         }
       end
     end
@@ -50,11 +38,11 @@ class WritingsController < ApplicationController
   def update
     respond_to do |format|
       if @writing.update(writing_params)
-        format.html { redirect_to @writing, notice: 'Writing was successfully updated.' }
+        format.html { redirect_to show_path(@writing), notice: 'Writing was successfully updated.' }
       else
         format.html {
           set_categories
-          render action: 'edit', alert: 'fail'
+          render action: 'edit'
         }
       end
     end
@@ -64,7 +52,7 @@ class WritingsController < ApplicationController
   def destroy
     @writing.destroy
     respond_to do |format|
-      format.html { redirect_to writings_url }
+      format.html { redirect_to root_url }
     end
   end
 

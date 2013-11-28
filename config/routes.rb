@@ -1,9 +1,13 @@
 Privlock::Application.routes.draw do
-  root "writings#index"
+  root 'home#index'
 
-  resources :writings, path: '/', id: /[0-9]+/ do
-    get 'page/:page', action: :index, on: :collection
-  end
+  get '/'    => 'home#index', as: :index
+  get '/:id' => 'home#show',  as: :show, id: /[0-9]+/
+
+  get '/page/:page'              => 'home#index'
+  get '/categories/:category_id' => 'home#index'
+
+  resources :writings, except: [:index, :show]
 
   resources :categories, only: [] do
     resources :writings, only: :index

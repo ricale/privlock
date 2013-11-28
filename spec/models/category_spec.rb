@@ -273,7 +273,8 @@ describe Category do
 
       describe "parent" do
 
-        it { root.update(parent: default).should be_false }
+        it { root.update(parent_id: default.id).should be_false }
+        it { root.update(parent_id: 0).should be_false }
 
       end
 

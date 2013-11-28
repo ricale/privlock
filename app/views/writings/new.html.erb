@@ -1,5 +1,7 @@
+<%= render 'shared/message' %>
+
 <h1>New writing</h1>
 
-<%= render 'form' %>
+<%= render partial: 'form', locals: { writing: @writing } %>
 
 <%= link_to 'Back', writings_path %>

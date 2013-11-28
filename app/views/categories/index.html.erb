@@ -1,13 +1,30 @@
-<p id="notice"><%= notice %></p>
-<p id="alert"><%= alert %></p>
+<%= render 'shared/message' %>
 
 <h1>Listing categories</h1>
+
+<div class="category_editor">
 
 <% @categories.each do |category| %>
   <div class='row'>
     <%= render category %>
-    <%= render partial: "edit_form", locals: { category: category, parents: @parents[category.id] } %>
+
+    <div class="category_edit_box">
+      <%= render partial: 'form', locals: {
+        category:    category,
+        parents:     @parents[category.id],
+        submit_text: 'Update'
+      } %>
+
+      <%= render partial: 'edit_forms', locals: { category: category } unless category.root? %>
+    </div>
+
   </div>
 <% end %>
 
-<%= render 'form' %>
+</div>
+
+<%= render partial: 'form', locals: {
+  category:    @new_category,
+  parents:     @new_parents,
+  submit_text: 'Create'
+} %>

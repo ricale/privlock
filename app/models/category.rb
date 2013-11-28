@@ -42,16 +42,22 @@ class Category < ActiveRecord::Base
 
 
 
+  def root?
+    Category.root == self
+  end
+
+
+
   def descendants_writings
     Writing.in_categories(Category.hierarchy_categories(id).map { |c| c.id } << id)
   end
 
   def ancestors_and_me
-    if self == Category.root
+    if root?
       [self]
 
     else
-      categories = parent.ancestors_and_me if parent != Category.root
+      categories = parent.ancestors_and_me unless parent.root?
       categories ? (categories << self) : [self]
     end
   end
@@ -77,7 +83,12 @@ class Category < ActiveRecord::Base
   end
 
   def parent_is_root_if_parent_id_is_invalid
-    self.parent_id = Category.root.id if is_invalid_parent_id_and_root_is_exist
+    if is_invalid_parent_id_and_root_is_exist
+      self.parent_id = Category.root.id 
+
+    else
+      false if root? && parent_id_changed?
+    end
   end
 
   def is_first_category_except_root
@@ -85,7 +96,7 @@ class Category < ActiveRecord::Base
   end
 
   def is_invalid_parent_id_and_root_is_exist
-    Category.where(id: parent_id).empty? && Category.root && Category.root != self
+    Category.where(id: parent_id).empty? && Category.root && !root?
   end
 
   #

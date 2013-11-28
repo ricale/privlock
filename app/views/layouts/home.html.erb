@@ -1,0 +1,14 @@
+<% content_for :container do %>
+
+  <%= render 'header' %>
+  <%= render 'shared/message' %>
+
+  <h1><%= BLOG_TITLE %></h1>
+  <%= yield(:menu) %>
+
+  <div class='contents'>
+    <%= yield %>
+  <% end %>
+
+</div>
+<%= render template: "layouts/application" %>

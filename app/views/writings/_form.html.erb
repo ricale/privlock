@@ -1,10 +1,10 @@
-<%= form_for(@writing) do |f| %>
-  <% if @writing.errors.any? %>
+<%= form_for writing do |f| %>
+  <% if writing.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@writing.errors.count, "error") %> prohibited this writing from being saved:</h2>
+      <h2><%= pluralize(writing.errors.count, "error") %> prohibited this writing from being saved:</h2>
 
       <ul>
-      <% @writing.errors.full_messages.each do |msg| %>
+      <% writing.errors.full_messages.each do |msg| %>
         <li><%= msg %></li>
       <% end %>
       </ul>
@@ -19,7 +19,7 @@
   <div class="field">
     <%= f.label :category_id %><br>
     <%= f.select :category_id,
-                 options_from_collection_for_select(@categories, 'id', 'name', @writing.category_id) %>
+                 options_from_collection_for_select(@categories, 'id', 'name', writing.category_id) %>
   </div>
 
   <div class="field">
