@@ -3,7 +3,7 @@ class HomeController < ApplicationController
 
   def index
     if params[:category_id]
-      @writings = Category.find(params[:category_id]).order(created_at: :desc).descendants_writings.page(params[:page])  
+      @writings = Category.find(params[:category_id]).descendants_writings.order(created_at: :desc).page(params[:page])
     else
       @writings = Writing.order(created_at: :desc).page(params[:page])
     end

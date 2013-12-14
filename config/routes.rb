@@ -5,13 +5,15 @@ Privlock::Application.routes.draw do
   get '/:id' => 'home#show',  as: :show, id: /[0-9]+/
 
   get '/page/:page'              => 'home#index'
-  get '/categories/:category_id' => 'home#index'
+  get '/categories/:category_id' => 'home#index', as: :category_writings
+
 
   resources :writings, except: [:index, :show]
 
   resources :categories, only: [] do
     resources :writings, only: :index
   end
+
 
   resources :categories, except: [:new, :show, :edit], path: '/admin/categories' do
     patch 'up',   on: :member

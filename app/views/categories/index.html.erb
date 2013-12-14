@@ -1,8 +1,6 @@
-<%= render 'shared/message' %>
+<h3>Categories</h3>
 
-<h1>Listing categories</h1>
-
-<div class="category_editor">
+<div class="categories">
 
 <% @categories.each do |category| %>
   <div class='row'>
@@ -23,8 +21,9 @@
 
 </div>
 
+<h4>New Category</h4>
+
 <%= render partial: 'form', locals: {
   category:    @new_category,
   parents:     @new_parents,
-  submit_text: 'Create'
 } %>

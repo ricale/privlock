@@ -21,3 +21,13 @@
 
 en:
   hello: "Hello world"
+  helpers:
+    select:
+      # Default value for :prompt => true in FormOptionsHelper
+      prompt: "Please select"
+
+    # Default translation keys for submit FormHelper
+    submit:
+      create: 'Create'
+      update: 'Update'
+      submit: 'Save'

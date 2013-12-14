@@ -9,8 +9,27 @@
         width: 800px;
 
         .writing {
+            border-bottom: 1px solid #000000;
+
             h3 {
                 margin: 0px;
+            }
+
+            .title {
+                font-size: 1.2em;
+            }
+
+            .info {
+                font-size: 0.8em;
+
+                .created_at,
+                .updated_at {
+                    display: inline;
+                }
+            }
+
+            .content {
+                padding: 15px;
             }
         }
 
@@ -27,6 +46,24 @@
 
     .categories {
         float: left;
+        margin-left: 10px;
+        padding-left: 10px;
+        border-left: 1px solid #000000;
+
+        $grid: 0, 1, 2, 3, 4, 5, 6, 7, 8, 9;
+
+        @each $i in $grid {
+          .depth#{$i} {
+            padding-left: #{$i*10}px;
+            padding-right: #{50-$i*10}px;
+          }
+        }
     }
 }
 
+.footer {
+    .copyright,
+    .author {
+        display: inline;
+    }
+}

@@ -4,19 +4,29 @@
   </div>
 
   <div class="writing_category">
-    <%= writing.category.ancestors_and_me.map { |category| 
-      link_to category.name, category_writings_path(category)
-    }.join("/").html_safe %>
+    <%= get_chained_categories(writing.category) %>
   </div>
 
-  <div class="menu">
-    <% if current_user.try(:admin) %>
-      <%= link_to 'Edit', edit_writing_path(writing) %>
-      <%= link_to 'Delete', writing_path(writing), method: :delete, confirm: 'Are you sure?' %>
-    <% end %>
+  <div class="info">
+    <div class="created_at"><%= get_formatted_time writing.created_at %></div>
+    <div class="updated_at">(<%= get_formatted_time writing.updated_at %>)</div>
   </div>
+
+  <% if current_user.try(:admin) %>
+  <div class="menu">
+    <%= link_to 'Edit', edit_writing_path(writing) %>
+    <%= link_to 'Delete', writing_path(writing), method: :delete, confirm: 'Are you sure?' %>
+  </div>
+  <% end %>
 
   <div class="content">
     <%= writing.content %>
   </div>
+
+  <% if current_user.try(:admin) %>
+  <div class="menu">
+      <%= link_to 'Edit', edit_writing_path(writing) %>
+      <%= link_to 'Delete', writing_path(writing), method: :delete, confirm: 'Are you sure?' %>
+  </div>
+  <% end %>
 <% end %>

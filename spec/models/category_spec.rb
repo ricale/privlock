@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: categories
+#
+#  id              :integer          not null, primary key
+#  name            :string(255)      not null
+#  parent_id       :string(255)
+#  depth           :integer          default(0), not null
+#  order_in_parent :integer          default(0), not null
+#  created_at      :datetime
+#  updated_at      :datetime
+#
+
 require 'spec_helper'
 
 describe Category do

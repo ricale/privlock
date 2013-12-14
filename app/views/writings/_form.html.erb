@@ -12,18 +12,18 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :title %><br>
+    <%= f.label :title %>
     <%= f.text_field :title %>
   </div>
 
   <div class="field">
-    <%= f.label :category_id %><br>
+    <%= f.label :category_id %>
     <%= f.select :category_id,
                  options_from_collection_for_select(@categories, 'id', 'name', writing.category_id) %>
   </div>
 
   <div class="field">
-    <%= f.label :content %><br>
+    <%= f.label :content %>
     <%= f.text_area :content %>
   </div>
 

@@ -1,5 +1,5 @@
 <% content_for :stylesheet do %>
-  <%= stylesheet_link_tag "home", media: "all", "data-turbolinks-track" => true %>
+  <%= stylesheet_link_tag "writings", media: "all", "data-turbolinks-track" => true %>
 <% end %>
 
 <% content_for :container do %>
@@ -16,8 +16,6 @@
   <div class='contents'>
     <%= yield %>
   </div>
-
-  <%= render 'footer' %>
 
 <% end %>
 

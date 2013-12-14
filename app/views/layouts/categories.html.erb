@@ -1,5 +1,5 @@
 <% content_for :stylesheet do %>
-  <%= stylesheet_link_tag "home", media: "all", "data-turbolinks-track" => true %>
+  <%= stylesheet_link_tag "categories", media: "all", "data-turbolinks-track" => true %>
 <% end %>
 
 <% content_for :container do %>
@@ -8,7 +8,7 @@
   <%= render 'header' %>
 
   <% if content_for?(:menu) %>
-  <div class='main_menu'>
+  <div class='menu'>
     <%= yield(:menu) %>
   </div>
   <% end %>
@@ -16,8 +16,6 @@
   <div class='contents'>
     <%= yield %>
   </div>
-
-  <%= render 'footer' %>
 
 <% end %>
 

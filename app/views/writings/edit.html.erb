@@ -1,8 +1,4 @@
-<%= render 'shared/message' %>
-
-<h1>Editing writing</h1>
-
 <%= render partial: 'form', locals: { writing: @writing } %>
 
-<%= link_to 'Show', @writing %> |
-<%= link_to 'Back', writings_path %>
+<%= link_to 'Back', show_path(@writing) %> |
+<%= link_to 'List', index_path %>

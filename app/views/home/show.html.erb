@@ -1,5 +1,9 @@
-<%= render @writing %>
-
-<%= link_to 'Back', index_path %>
+<div class="writings">
+  <%= render @writing %>
+  <%= render "writings/writing_spacer" %>
+  <%= link_to 'List', index_path %>
+</div>
 
 <%= render 'categories' %>
+
+<%= render 'shared/clear_floating' %>

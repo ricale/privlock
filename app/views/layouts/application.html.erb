@@ -2,8 +2,13 @@
 <html>
 <head>
   <title>Privlock</title>
-  <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+
+  <%= stylesheet_link_tag "application", media: "all", "data-turbolinks-track" => true %>
+  <%= yield(:stylesheet) if content_for?(:stylesheet)%>
+
   <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+  <%= yield(:javascript) if content_for?(:javascript) %>
+
   <%= csrf_meta_tags %>
 </head>
 <body>
