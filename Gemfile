@@ -44,6 +44,8 @@ end
 
 gem 'devise'
 gem 'kaminari'
+gem 'passenger'
+gem 'capistrano'
 
 
 # Use ActiveModel has_secure_password
