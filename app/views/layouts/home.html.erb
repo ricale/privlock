@@ -2,13 +2,18 @@
   <%= stylesheet_link_tag "home", media: "all", "data-turbolinks-track" => true %>
 <% end %>
 
+<% content_for :javascript do %>
+  <%= javascript_include_tag "home", "data-turbolinks-track" => true %>
+<% end %>
+
 <% content_for :container do %>
 
   <%= render 'shared/prefix' %>
   <%= render 'header' %>
 
-  <% if content_for?(:menu) %>
+  <% if content_for?(:menu) or current_user.try(:admin) %>
   <div class='main_menu'>
+    <%= render 'admin_menu' %>
     <%= yield(:menu) %>
   </div>
   <% end %>

@@ -1,0 +1,4 @@
+<% if current_user.try(:admin) %>
+  <%= link_to 'New Writing', new_writing_path %> |
+  <%= link_to 'Categories', categories_path %>
+<% end %>

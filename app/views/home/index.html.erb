@@ -1,7 +1,3 @@
-<% content_for :menu do %>
-  <%= link_to 'New Writing', new_writing_path if current_user.try(:admin) %>
-<% end %>
-
 <div class='writings'>
   <%= render partial: @writings, spacer_template: 'writings/writing_spacer' %>
   <%= paginate @writings %>

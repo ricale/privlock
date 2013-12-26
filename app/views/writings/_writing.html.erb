@@ -19,7 +19,14 @@
   </div>
   <% end %>
 
+  <%= javascript_tag do %>
+    $(function() {
+      $('#writing_<%= writing.id %> .content').html(RICALE.hmd.decode('<%= escape_javascript writing.content %>'));
+    });
+  <% end %>
+
   <div class="content">
+    <p>자바스크립트가 지원되지 않거나 자바스크립트가 활성화되지 않은 브라우저입니다.</p>
     <%= writing.content %>
   </div>
 

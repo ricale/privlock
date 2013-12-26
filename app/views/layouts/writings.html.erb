@@ -2,6 +2,10 @@
   <%= stylesheet_link_tag "writings", media: "all", "data-turbolinks-track" => true %>
 <% end %>
 
+<% content_for :javascript do %>
+  <%= javascript_include_tag "writings", "data-turbolinks-track" => true %>
+<% end %>
+
 <% content_for :container do %>
 
   <%= render 'shared/prefix' %>

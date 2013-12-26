@@ -1,1 +1,1 @@
-BLOG_TITLE = "blog @ ricale St."
+BLOG_TITLE = "weblog ricale st."
