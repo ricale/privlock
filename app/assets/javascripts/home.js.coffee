@@ -4,3 +4,4 @@
 
 #= require application
 #= require hmd
+#= require hmd.ricaleinline
