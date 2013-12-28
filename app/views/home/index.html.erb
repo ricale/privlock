@@ -1,8 +1,9 @@
 <div class='writings'>
   <%= render partial: @writings, spacer_template: 'writings/writing_spacer' %>
-  <%= paginate @writings %>
 </div>
 
-<%= render 'categories' %>
+<%= paginate @writings %>
 
-<%= render 'shared/clear_floating' %>
+<% content_for :sidebars do %>
+  <%= render 'categories' %>
+<% end %>

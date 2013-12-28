@@ -1,9 +1,10 @@
 <div class="writings">
   <%= render @writing %>
   <%= render "writings/writing_spacer" %>
-  <%= link_to 'List', index_path %>
 </div>
 
-<%= render 'categories' %>
+<%= link_to 'List', index_path %>
 
-<%= render 'shared/clear_floating' %>
+<% content_for :sidebars do %>
+  <%= render 'categories' %>
+<% end %>

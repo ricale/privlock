@@ -7,55 +7,109 @@
  *= require_self
  */
 
+body {
+    background-color: #000;
+}
+
+.prefix,
+.header,
+.main_menu,
+.contents .description,
+.contents .pagination,
+.contents > a,
+.sidebars .categories,
+.footer {
+    color: #FFF;
+
+    a {
+        color: #FFF;
+    }
+}
+
 .contents {
+    float: left;
 
     .writings {
-        float: left;
         width: 800px;
 
-        .writing {
-            border-bottom: 1px solid #000000;
+        div.writing {
+            padding: 10px;
 
-            h3 {
-                margin: 0px;
-            }
+            background-color: #FFF;
 
             .title {
                 font-size: 1.2em;
             }
 
-            .info {
-                font-size: 0.8em;
+            .info,
+            .info .created_at,
+            .info .updated_at,
+            .writing_category,
+            .menu {
+                display: inline;
+            }
 
-                .created_at,
-                .updated_at {
-                    display: inline;
-                }
+            .writing_category,
+            .info,
+            .menu {
+                font-size: 0.8em;
             }
 
             .content {
                 padding: 15px;
+                text-align: justify;
 
-                a:link    { color: #888888; text-decoration: underline; }
-                a:visited { color: #888888; }
-                a:hover   { color: #888888; text-decoration: underline; }
-                a:active  { color: #888888; }
+                a {
+                    color: #888
+                }
+
+                a:link {
+                    text-decoration: underline;
+                }
             }
         }
 
         .writing_spacer {
             height: 50px;
         }
-
-        .pagination {
-            margin-top: 50px;
-        }
-
-        margin-bottom: 50px;
     }
 
-    .categories {
+    .writings_list {
         float: left;
+        width: 800px;
+        padding: 10px;
+        list-style: none;
+
+        background-color: #FFF;
+
+        li.writing {
+            padding: 5px 0px;
+
+            div {
+                display: inline;
+            }
+
+            .info,
+            .writing_category,
+            .menu {
+                font-size: 0.7em;
+            }
+        }
+
+        .writing_spacer {
+            border-top: 1px dotted #000;
+        }
+    }
+
+    .pagination {
+        margin-top: 50px;
+    }
+}
+
+.sidebars {
+    float: left;
+
+    .categories {
         margin-left: 10px;
         padding-left: 10px;
         border-left: 1px solid #000000;
@@ -68,10 +122,21 @@
             padding-right: #{50-$i*10}px;
           }
         }
+
+        .name,
+        .count {
+            display: inline;
+        }
+
+        .count {
+            font-size: 0.8em;
+        }
     }
 }
 
 .footer {
+    margin-top: 50px;
+
     .copyright,
     .author {
         display: inline;

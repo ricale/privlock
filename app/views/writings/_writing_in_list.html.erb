@@ -1,0 +1,20 @@
+<li class="writing" id="writing_<%= writing.id %>">
+  <div class="info">
+    <div class="created_at"><%= get_formatted_date writing.created_at %></div>(<div class="updated_at"><%= get_formatted_date writing.updated_at %></div>)
+  </div>
+
+  <div class="writing_category">
+    <%= get_chained_categories(writing.category, @category, true) %>
+  </div>
+
+  <% if current_user.try(:admin) %>
+  <div class="menu">
+    <%= link_to 'E', edit_writing_path(writing) %>
+    <%= link_to 'D', writing_path(writing), method: :delete, confirm: 'Are you sure?' %>
+  </div>
+  <% end %>
+
+  <div class="title">
+    <%= link_to writing.title, show_path(writing) %>
+  </div>
+</li>

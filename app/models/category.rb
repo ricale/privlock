@@ -65,12 +65,26 @@ class Category < ActiveRecord::Base
     Writing.in_categories(Category.hierarchy_categories(id).map { |c| c.id } << id)
   end
 
-  def ancestors_and_me
-    if root?
+  def ancestors(first_ancestor = :root)
+    first_ancestor = Category.root if first_ancestor == :root
+
+    if self == first_ancestor
+      []
+
+    else
+      categories = parent.ancestors_and_me(first_ancestor) if parent != first_ancestor && !parent.root?
+      categories ? (categories << self) : [self]
+    end
+  end
+
+  def ancestors_and_me(first_ancestor = :root)
+    first_ancestor = Category.root if first_ancestor == :root
+
+    if self == first_ancestor
       [self]
 
     else
-      categories = parent.ancestors_and_me unless parent.root?
+      categories = parent.ancestors_and_me(first_ancestor) if parent != first_ancestor && !parent.root?
       categories ? (categories << self) : [self]
     end
   end

@@ -8,14 +8,13 @@
   </div>
 
   <div class="info">
-    <div class="created_at"><%= get_formatted_time writing.created_at %></div>
-    <div class="updated_at">(<%= get_formatted_time writing.updated_at %>)</div>
+    (<div class="created_at"><%= get_formatted_time writing.created_at %></div>/<div class="updated_at"><%= get_formatted_time writing.updated_at %></div>)
   </div>
 
   <% if current_user.try(:admin) %>
   <div class="menu">
-    <%= link_to 'Edit', edit_writing_path(writing) %>
-    <%= link_to 'Delete', writing_path(writing), method: :delete, confirm: 'Are you sure?' %>
+    <%= link_to '[E]', edit_writing_path(writing) %>
+    <%= link_to '[D]', writing_path(writing), method: :delete, confirm: 'Are you sure?' %>
   </div>
   <% end %>
 
@@ -26,14 +25,14 @@
   <% end %>
 
   <div class="content">
-    <p>자바스크립트가 지원되지 않거나 자바스크립트가 활성화되지 않은 브라우저입니다.</p>
+    <p><strong>자바스크립트가 지원되지 않거나 자바스크립트가 활성화되지 않은 브라우저입니다.</strong></p>
     <%= writing.content %>
   </div>
 
   <% if current_user.try(:admin) %>
   <div class="menu">
-      <%= link_to 'Edit', edit_writing_path(writing) %>
-      <%= link_to 'Delete', writing_path(writing), method: :delete, confirm: 'Are you sure?' %>
+      <%= link_to '[E]', edit_writing_path(writing) %>
+      <%= link_to '[D]', writing_path(writing), method: :delete, confirm: 'Are you sure?' %>
   </div>
   <% end %>
 <% end %>

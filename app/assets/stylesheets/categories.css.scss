@@ -20,10 +20,14 @@
 
     .category {
         display: inline-block;
-        width: 100px;
+        width: 200px;
 
         > div {
             display: inline;
+        }
+
+        .count {
+            font-size: 0.8em;
         }
     }
 

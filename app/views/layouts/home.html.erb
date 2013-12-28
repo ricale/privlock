@@ -22,6 +22,12 @@
     <%= yield %>
   </div>
 
+  <div class='sidebars'>
+    <%= yield(:sidebars) %>
+  </div>
+
+  <%= render 'shared/clear_floating' %>
+
   <%= render 'footer' %>
 
 <% end %>

@@ -5,7 +5,7 @@ Privlock::Application.routes.draw do
   get '/:id' => 'home#show',  as: :show, id: /[0-9]+/
 
   get '/page/:page'              => 'home#index'
-  get '/categories/:category_id' => 'home#index', as: :category_writings
+  get '/categories/:category_id' => 'home#category_writings', as: :category_writings
 
 
   resources :writings, except: [:index, :show]
