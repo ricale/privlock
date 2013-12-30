@@ -108,7 +108,7 @@ describe Category do
       child11.parent_id.should == Category.root_category.id
     end
 
-    describe ".hierarchy_categories" do
+    describe ".hierarchy_categories" do # and get_hierarchy_categories
 
       it "is correct" do
         Category.hierarchy_categories(:all).should have(16).categories
@@ -184,25 +184,75 @@ describe Category do
 
     describe ".ancestors_and_me" do
 
-      it "is [first_depth_category, ... , parent, me]" do
+      it "should be [first_depth_category, ... , parent, me]" do
         categories = child31111.ancestors_and_me
 
         categories.should have(5).categories
         categories.first.should == root3
       end
 
-      it "of first depth category is [first_depth_category]"do
+      it "of first depth category should be [first_depth_category]" do
         categories = root1.ancestors_and_me
 
         categories.should have(1).category
         categories.first.should == root1
       end
 
-      it "of root is [root]" do
-        categories = root.ancestors_and_me
+      describe "set except one and not set top category should be equal result that not set except one" do
 
-        categories.should have(1).category
-        categories.first.should == root
+        it "should be expected" do
+          categories = child31111.ancestors_and_me(:root, true)
+
+          categories.should have(5).categories
+          categories.first.should == root3
+        end
+
+        it "should be expected" do
+          categories = root1.ancestors_and_me(:root, true)
+
+          categories.should have(1).category
+          categories.first.should == root1
+        end
+
+      end
+
+      describe "of root" do
+
+        it "should be [root]" do
+          categories = root.ancestors_and_me
+
+          categories.should have(1).category
+          categories.first.should == root
+        end
+
+        it "setting except top should be []" do
+          categories = root.ancestors_and_me(:root, true)
+
+          categories.should be_empty
+        end
+
+      end
+
+      describe "set top category" do
+
+        it "should be [top_category, ... , parent, me]" do
+          categories = child31111.ancestors_and_me(child311)
+
+          categories.should have(3).categories
+          categories.first.should == child311
+        end
+
+        it "to child or invalid category should be equal result that not set top category"do
+          child311.ancestors_and_me(child31111).should == child311.ancestors_and_me
+        end
+
+        it "and set except top should be [top_child_category, ... , parent, me]" do
+          categories = child31111.ancestors_and_me(child311, true)
+
+          categories.should have(2).categories
+          categories.first.should == child31111.parent
+        end
+
       end
 
     end
@@ -281,6 +331,8 @@ describe Category do
 
     let!(:default) { Category.create(name: "default") }
     let!(:root   ) { Category.root_category }
+
+    it { root.root?.should be_true }
 
     describe ".update" do
 

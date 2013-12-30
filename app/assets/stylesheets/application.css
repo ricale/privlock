@@ -17,19 +17,16 @@ a:hover   { color: #000000; text-decoration: underline; }
 a:active  { color: #000000; }
 
 h1, h2, h3, h4, h5, h6 {
-    margin: 3px 0px;
+    font-weight: normal;
+    margin: 0px 0px;
 }
 
-h1 { font-size: 2.2em; }
+h1 { font-size: 2.3em; font-weight: bold;}
 h2 { font-size: 1.7em; }
 h3 { font-size: 1.5em; }
 h4 { font-size: 1.3em; }
 h5 { font-size: 1.2em; }
 h6 { font-size: 1.1em; }
-
-form {
-    margin: 0px;
-}
 
 blockquote {
     background-color: #DFDFDF;
@@ -62,6 +59,10 @@ code {
     padding: 0px 3px;
 }
 
+form {
+    margin: 0px;
+}
+
 .account {
     float: right;
 }
@@ -70,10 +71,10 @@ code {
     clear: both;
 }
 
-.main_title {
+.main_menu {
     margin-bottom: 10px;
 }
 
-.main_menu {
+.header .title {
     margin-bottom: 10px;
 }

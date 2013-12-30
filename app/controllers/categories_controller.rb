@@ -5,7 +5,7 @@ class CategoriesController < ApplicationController
 
   # GET /categories
   def index
-    @categories = Category.hierarchy_categories(:all)
+    @categories = Category.hierarchy_categories
 
     @parents = {}
     @categories.each do |c|
@@ -13,7 +13,7 @@ class CategoriesController < ApplicationController
     end
 
     @new_category = Category.new
-    @new_parents  = Category.hierarchy_categories(:all)
+    @new_parents  = Category.hierarchy_categories
   end
 
 

@@ -66,7 +66,7 @@ class WritingsController < ApplicationController
   end
 
   def set_categories
-    @categories = Category.hierarchy_categories(:all)
+    @categories = Category.hierarchy_categories
   end
 
   def writing_params

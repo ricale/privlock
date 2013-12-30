@@ -1,14 +1,8 @@
 module WritingsHelper
-  def get_chained_categories(category, first_ancestor = :root, except_itself = false)
-    if except_itself
-      category.ancestors(first_ancestor).map { |category|
-        link_to category.name, category_writings_path(category)
-      }.join("/").html_safe
-    else
-      category.ancestors_and_me(first_ancestor).map { |category|
-        link_to category.name, category_writings_path(category)
-      }.join("/").html_safe
-    end
+  def get_chained_categories(category, top_ancestor = :root, except_top = false)
+    category.ancestors_and_me(top_ancestor, except_top).map { |category|
+      link_to category.name, category_writings_path(category)
+    }.join("/").html_safe
   end
 
   def get_formatted_time(datetime)

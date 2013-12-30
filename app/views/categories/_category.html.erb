@@ -1,4 +1,4 @@
 <%= div_for category, class: "depth#{category.depth}" do %>
   <div class="name"><%= link_to category.name, category_writings_path(category) %></div>
-  <div class="count">(<%= category.writing.count %>)</div>
+  <div class="count">(<%= category.descendants_writings.count %>)</div>
 <% end %>

@@ -39,7 +39,7 @@ class Category < ActiveRecord::Base
 
   scope :to_array, -> { all.map { |c| c } }
 
-  def self.hierarchy_categories(root_id, excepted_ids = [])
+  def self.hierarchy_categories(root_id = :all, excepted_ids = [])
     if Category.count == 0
       [Category.create_root]
 
@@ -65,27 +65,17 @@ class Category < ActiveRecord::Base
     Writing.in_categories(Category.hierarchy_categories(id).map { |c| c.id } << id)
   end
 
-  def ancestors(first_ancestor = :root)
-    first_ancestor = Category.root if first_ancestor == :root
+  def ancestors_and_me(top_ancestor = :root, except_top = false)
+    top_ancestor = Category.root if top_ancestor == :root
 
-    if self == first_ancestor
-      []
+    if self == top_ancestor || root?
+      except_top ? [] : [self]
 
-    else
-      categories = parent.ancestors_and_me(first_ancestor) if parent != first_ancestor && !parent.root?
-      categories ? (categories << self) : [self]
-    end
-  end
-
-  def ancestors_and_me(first_ancestor = :root)
-    first_ancestor = Category.root if first_ancestor == :root
-
-    if self == first_ancestor
+    elsif parent.root?
       [self]
 
     else
-      categories = parent.ancestors_and_me(first_ancestor) if parent != first_ancestor && !parent.root?
-      categories ? (categories << self) : [self]
+      parent.ancestors_and_me(top_ancestor, except_top) << self
     end
   end
 
