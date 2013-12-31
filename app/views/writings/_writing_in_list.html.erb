@@ -10,7 +10,7 @@
   <% if current_user.try(:admin) %>
   <div class="menu">
     <%= link_to 'E', edit_writing_path(writing) %>
-    <%= link_to 'D', writing_path(writing), method: :delete, confirm: 'Are you sure?' %>
+    <%= link_to 'D', writing_path(writing), method: :delete, data: { confirm: 'Are you sure?' } %>
   </div>
   <% end %>
 
