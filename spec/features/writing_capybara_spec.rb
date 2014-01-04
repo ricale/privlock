@@ -60,8 +60,46 @@ feature "WritingController", type: :feature do
 
   describe "GET edit_writing_path" do
 
-    scenario do
-      pending
+    let(:writing)  { FactoryGirl.create(:writing) }
+
+    describe "with no session" do
+
+      scenario "should be moved login page" do
+        visit edit_writing_path(writing)
+        current_path.should == new_user_session_path
+      end
+
+    end
+
+    describe "with session" do
+
+      before do
+        login
+        visit edit_writing_path(writing)
+      end
+
+      scenario "should be expected" do
+        within("#edit_writing_#{writing.id}") do
+          fill_in 'Title', with: 'sample'
+          fill_in 'Content', with: 'sample'
+        end
+
+        click_button 'Update'
+
+        writing = Writing.order(created_at: :desc).first
+        current_path.should == show_path(writing)
+      end
+
+      scenario "should be not moved if no fill all needed field" do
+        within("#edit_writing_#{writing.id}") do
+          fill_in 'Content', with: ''
+        end
+
+        click_button 'Update'
+
+        page.should have_selector("#error_explanation")
+      end
+
     end
 
   end
