@@ -20,6 +20,10 @@ Privlock::Application.routes.draw do
     patch 'down', on: :member
   end
 
+
+  resources :comments, except: [:index, :new, :show, :edit]
+
+
   devise_for :users
 
 

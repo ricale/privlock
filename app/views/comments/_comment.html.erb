@@ -1,0 +1,15 @@
+<%= div_for comment do %>
+  <% if comment.user.nil? %>
+    <div class="name">
+      <%= comment.name %>
+    </div>
+  <% else %>
+    <div class="name">
+      <%= comment.user.name %>
+    </div>
+  <% end %>
+
+  <div class="content">
+    <%= comment.content %>
+  </div>
+<% end %>

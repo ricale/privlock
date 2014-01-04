@@ -16,6 +16,7 @@
 #  created_at             :datetime
 #  updated_at             :datetime
 #  admin                  :boolean          default(FALSE)
+#  name                   :string(255)      not null
 #
 
 class User < ActiveRecord::Base
@@ -27,6 +28,9 @@ class User < ActiveRecord::Base
          :rememberable,
          :trackable,
          :validatable
+
+  has_many :writing
+  has_many :comment
 
   after_validation :first_user_is_admin
 

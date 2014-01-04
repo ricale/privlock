@@ -12,13 +12,19 @@
 
 class Writing < ActiveRecord::Base
   belongs_to :category
+  belongs_to :user
+  has_many :comment
 
   validates :title,
             :content,
             :category_id,
+            :user_id,
             presence: true
 
+  before_validation :can_not_update_user, on: :update
+
   before_save :is_exist_category?
+  before_save :is_admin_user?, on: :create
 
   scope :in_categories, ->(category_ids) { where("category_id in (?)", category_ids) }
 
@@ -31,6 +37,15 @@ class Writing < ActiveRecord::Base
 
   def is_exist_category?
     #return false unless self.errors.empty?
-    return false if Category.find_by(id: category_id).nil?
+    return false if category.nil?
+  end
+
+  def is_admin_user?
+    return false if user.nil?
+    return false unless user.admin?
+  end
+
+  def can_not_update_user
+    false if user_id_changed?
   end
 end

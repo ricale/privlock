@@ -14,88 +14,65 @@ require 'spec_helper'
 
 describe Writing do
 
-  let!(:writing) { FactoryGirl.create(:writing) }
+  let!(:writing)  { FactoryGirl.create(:writing) }
+  let!(:category) { FactoryGirl.create(:category) }
+  let!(:user)     { FactoryGirl.create(:user) }
+
+  let!(:normal_user) { FactoryGirl.create(:normal_user) }
 
   describe ".save(create)" do
+    let(:title)   { "title" }
+    let(:content) { "content" }
 
-    describe "without" do
+    let(:invalid_category_id) { "invalid_category_id" }
+    let(:invalid_user_id)     { "invalid_user_id" }
 
-      describe "title" do
-
-        it { FactoryGirl.build(:no_title).save.should be_false }
-
-      end
-
-      describe "content" do
-        
-        it { FactoryGirl.build(:no_content).save.should be_false }
-
-      end
-
-      describe "category_id" do
-        
-        it { FactoryGirl.build(:no_category_id).save.should be_false }
-
-      end
-
+    describe "without one" do
+      it { Writing.new(              content: content, category_id: category.id, user_id: user.id).save.should be_false }
+      it { Writing.new(title: title,                   category_id: category.id, user_id: user.id).save.should be_false }
+      it { Writing.new(title: title, content: content,                           user_id: user.id).save.should be_false }
+      it { Writing.new(title: title, content: content, category_id: category.id                  ).save.should be_false }
     end # "without"
 
-    describe "with category_id" do # before_save is_exist_category?
+    describe "with" do
 
-      describe "that invalid" do
-
-        it { FactoryGirl.build(:invalid_category_id).save.should be_false }
-
+      describe "all parameters" do
+        it { Writing.new(title: title, content: content, category_id: category.id, user_id: user.id).save.should be_true }
       end
 
-      describe "that valid" do
-
-        it { FactoryGirl.build(:writing).save.should be_true }
-
+      describe "invalid category_id" do
+        it { Writing.new(title: title, content: content, category_id: invalid_category_id, user_id: user.id).save.should be_false }
       end
 
-    end
+      describe "invalid user_id" do
+        it { Writing.new(title: title, content: content, category_id: category.id, user_id: invalid_user_id).save.should be_false }
+      end
+
+      describe "that valid but not admin" do
+        it { Writing.new(title: title, content: content, category_id: category.id, user_id: normal_user.id).save.should be_false }
+      end
+
+    end 
 
   end # ".create"
 
   describe ".update" do
 
-    describe "without" do
+    describe "update title or content or category_id" do
+      it { writing.update(title: "new title").should be_true }
+      it { writing.update(content: "new content").should be_true }
+      it { writing.update(category_id: FactoryGirl.create(:category).id).should be_true }
 
-      describe "title" do
-
+      describe "to nil or invalid" do
         it { writing.update(title: nil).should be_false }
-
-      end
-
-      describe "content" do
-        
         it { writing.update(content: nil).should be_false }
-
-      end
-
-      describe "category_id" do
-        
         it { writing.update(category_id: nil).should be_false }
-
-      end
-
-    end # "without"
-
-    describe "with category_id" do # before_save is_exist_category?
-
-      describe "that invalid" do
-
         it { writing.update(category_id: -1).should be_false }
-
       end
+    end
 
-      describe "that valid" do
-
-        it { writing.update(category_id: FactoryGirl.create(:category).id).should be_true }
-
-      end
-
+    describe "update user_id" do
+      it { writing.update(user_id: FactoryGirl.create(:user).id).should be_false }
     end
   end
 

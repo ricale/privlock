@@ -16,6 +16,7 @@
 #  created_at             :datetime
 #  updated_at             :datetime
 #  admin                  :boolean          default(FALSE)
+#  name                   :string(255)      not null
 #
 
 require 'spec_helper'
@@ -24,7 +25,7 @@ describe User do
   
   describe "admin" do
 
-    subject { User.create(email: "test@for.test", password: "passwrod") }
+    subject { User.create(email: "test@for.test", password: "passwrod", name: "name") }
 
     it { User.count == 1 }
 

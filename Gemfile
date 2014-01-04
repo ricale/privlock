@@ -43,13 +43,11 @@ group :development do
 end
 
 gem 'devise'
+gem 'bcrypt-ruby', '~> 3.0.0'
+
 gem 'kaminari'
 gem 'passenger'
 gem 'capistrano'
-
-
-# Use ActiveModel has_secure_password
-# gem 'bcrypt-ruby', '~> 3.0.0'
 
 # Use unicorn as the app server
 # gem 'unicorn'

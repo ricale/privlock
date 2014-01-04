@@ -1,5 +1,6 @@
 class HomeController < ApplicationController
   before_action :set_categories
+  before_action :set_new_comment, except: :category_writings
 
   def index
     @writings = Writing.order(created_at: :desc).page(params[:page])
@@ -24,6 +25,10 @@ class HomeController < ApplicationController
 
   def set_categories
     @categories = Category.hierarchy_categories(:all)
+  end
+
+  def set_new_comment
+    @comment = Comment.new
   end
 
 end

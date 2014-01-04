@@ -20,7 +20,7 @@
 
   <%= javascript_tag do %>
     $(function() {
-      $('#writing_<%= writing.id %> .content').html(RICALE.hmd.decode('<%= escape_javascript(writing.content).html_safe %>'));
+      $('#writing_<%= writing.id %> > .content').html(RICALE.hmd.decode('<%= escape_javascript(writing.content).html_safe %>'));
     });
   <% end %>
 
@@ -35,4 +35,7 @@
       <%= link_to '[D]', writing_path(writing), method: :delete, data: { confirm: 'Are you sure?' } %>
   </div>
   <% end %>
+
+  <%= render writing.comment.map { |a| a } %>
+  <%= render partial: 'comments/form', locals: { comment: @comment, writing_id: writing.id } %>
 <% end %>

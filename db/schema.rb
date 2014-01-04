@@ -11,13 +11,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131126063948) do
+ActiveRecord::Schema.define(version: 20140104061530) do
 
   create_table "categories", force: true do |t|
     t.string   "name",                        null: false
     t.string   "parent_id"
     t.integer  "depth",           default: 0, null: false
     t.integer  "order_in_parent", default: 0, null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "comments", force: true do |t|
+    t.integer  "writing_id",    null: false
+    t.string   "email"
+    t.string   "name"
+    t.string   "password_hash"
+    t.integer  "user_id"
+    t.text     "content",       null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -36,6 +47,7 @@ ActiveRecord::Schema.define(version: 20131126063948) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "admin",                  default: false
+    t.string   "name",                                   null: false
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
@@ -47,6 +59,7 @@ ActiveRecord::Schema.define(version: 20131126063948) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "category_id", null: false
+    t.integer  "user_id",     null: false
   end
 
 end
