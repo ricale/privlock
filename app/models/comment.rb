@@ -26,11 +26,11 @@ class Comment < ActiveRecord::Base
             presence: true
 
   before_validation :default_values
+  before_validation :is_valid_writer?
 
   before_validation :can_update_content_only, on: :update
 
   before_save :is_exist_writing?
-  before_save :is_valid_writer?
 
   def password
     if password_hash.nil?
@@ -42,13 +42,17 @@ class Comment < ActiveRecord::Base
   end
 
   def password=(new_password)
-    if new_password.nil?
+    if new_password.nil? || new_password.blank?
       self.password_hash = nil
 
     else
       @password = Password.create(new_password)
       self.password_hash = @password
     end
+  end
+
+  def display_name
+    user.nil? ? name : user.name
   end
 
 
@@ -74,11 +78,26 @@ class Comment < ActiveRecord::Base
   end
 
   def is_valid_visitor?
-    !is_valid_email? || name.nil? || password.nil? ? false : true
+    if !is_valid_email?
+      errors[:email] << "is invalid."
+      return false
+    end
+
+    if name.nil? || name.blank?
+      errors[:name] << "can't be blank."
+      return false
+    end
+
+    if password.nil?
+      errors[:password] << "can't be blank."
+      return false
+    end
+
+    true
   end
 
   def is_valid_email?
-    email.nil? || email.match(/[a-z\.-_0-9]+@[a-z\.-_0-9]+/).nil? ? false : true
+    !email.nil? && !email.blank? && email.match(/[a-z\.-_0-9]+@[a-z\.-_0-9]+/).nil? ? false : true
   end
 
   def can_update_content_only

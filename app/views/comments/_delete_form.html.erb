@@ -1,0 +1,11 @@
+<%= form_for comment, html: { class: 'delete_comment' } do |f| %>
+  <% if comment.errors.any? %>
+    <div id="error_explanation"><%= comment.errors.full_messages.first %></div>
+  <% end %>
+
+  <input name="_method" type="hidden" value="delete" />
+
+  <%= f.label :password, 'password' %>
+  <%= f.password_field :password %>
+  <%= f.submit "Delete", onclick: "return confirm('Are you sure?')" %>
+<% end %>

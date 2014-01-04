@@ -34,7 +34,7 @@ class WritingsController < ApplicationController
         end
 
       else
-        format.html { redirect_to index_path, notice: 'You can not do that.' }
+        format.html { redirect_to index_path, notice: 'you are not a admin.' }
       end
     end
   end
@@ -53,7 +53,7 @@ class WritingsController < ApplicationController
         end
 
       else
-        format.html { redirect_to show_path(@writing), notice: 'You can not do that.' }
+        format.html { redirect_to show_path(@writing), notice: 'you are not a writer.' }
       end
     end
   end
@@ -67,7 +67,7 @@ class WritingsController < ApplicationController
       end
 
     else
-        format.html { redirect_to show_path(@writing), notice: 'You can not do that.' }
+        format.html { redirect_to show_path(@writing), notice: 'you are not a writer.' }
     end
   end
 

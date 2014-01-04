@@ -4,28 +4,33 @@
   <% end %>
 
   <% unless current_user %>
+    <% if comment.name.nil? %>
     <div class="field">
-      <%= f.label :email %>
-      <%= f.text_field :email %>
-    </div>
-
-    <div class="field">
-      <%= f.label :name %>
+      <%= f.label :name, 'name (*)' %>
       <%= f.text_field :name %>
     </div>
+    <% end %>
 
     <div class="field">
-      <%= f.label :password %>
+      <%= f.label :password, 'password (*)' %>
       <%= f.password_field :password %>
     </div>
+
+    <% if comment.name.nil? %>
+    <div class="field">
+      <%= f.label :email, 'email' %>
+      <%= f.text_field :email %>
+    </div>
+    <% end %>
   <% end %>
 
+  <% if comment.content.nil? %>
   <div class="field">
     <%= f.hidden_field :writing_id, value: writing_id %>
   </div>
+  <% end %>
 
   <div class="field">
-    <%= f.label :content %>
     <%= f.text_area :content %>
   </div>
 

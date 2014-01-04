@@ -1,13 +1,13 @@
 <%= div_for comment do %>
-  <% if comment.user.nil? %>
-    <div class="name">
-      <%= comment.name %>
-    </div>
-  <% else %>
-    <div class="name">
-      <%= comment.user.name %>
-    </div>
-  <% end %>
+  <div class="name">
+    <%= comment.display_name %>
+  </div>
+
+  <div class="info">
+    <div class="updated_at"><%= get_formatted_time comment.updated_at %></div>
+  </div>
+
+  <%= render partial: 'comments/admin_menu', locals: { comment: comment } %>
 
   <div class="content">
     <%= comment.content %>

@@ -11,12 +11,7 @@
     (<div class="created_at"><%= get_formatted_time writing.created_at %></div>/<div class="updated_at"><%= get_formatted_time writing.updated_at %></div>)
   </div>
 
-  <% if current_user.try(:admin) %>
-  <div class="menu">
-    <%= link_to '[E]', edit_writing_path(writing) %>
-    <%= link_to '[D]', writing_path(writing), method: :delete, data: { confirm: 'Are you sure?' } %>
-  </div>
-  <% end %>
+  <%= render partial: 'writings/admin_menu', locals: { writing: writing } %>
 
   <%= javascript_tag do %>
     $(function() {
@@ -29,13 +24,15 @@
     <%= writing.content %>
   </div>
 
-  <% if current_user.try(:admin) %>
-  <div class="menu">
-      <%= link_to '[E]', edit_writing_path(writing) %>
-      <%= link_to '[D]', writing_path(writing), method: :delete, data: { confirm: 'Are you sure?' } %>
+  <div class="info action_menu">
+    <div class="comments_count"><%= pluralize(writing.comment.count, 'comment') %></div>
   </div>
-  <% end %>
 
-  <%= render writing.comment.map { |a| a } %>
-  <%= render partial: 'comments/form', locals: { comment: @comment, writing_id: writing.id } %>
+  <%= render partial: 'writings/admin_menu', locals: { writing: writing } %>
 <% end %>
+
+<div class="comments">
+  <%= render writing.comment %>
+
+  <%= render partial: 'comments/form', locals: { comment: @comment, writing_id: writing.id } %>
+</div>

@@ -11,7 +11,14 @@ body {
     background-color: #000;
 }
 
-.prefix,
+.prefix {
+    .message {
+        .notice { color: yellow; }
+        .alert  { color: #F00; }
+    }
+    .account a { color: #444; }
+}
+
 .header,
 .main_menu,
 .contents .description,
@@ -26,6 +33,23 @@ body {
     }
 }
 
+.contents .writings .writing .content {
+    a      { color: #888 }
+    a:link { text-decoration: underline; }
+
+    h1 { border-bottom: 3px solid #000; }
+    h2 { border-bottom: 1px solid #888; }
+    h6 { font-weight: bold; }
+
+    h1, h2, h3, h4, h5, h6 {
+        margin: 16px 0px;
+    }
+
+    h1, h2 {
+        margin-top: 48px;
+    }
+}
+
 .contents {
     float: left;
 
@@ -34,7 +58,6 @@ body {
 
         div.writing {
             padding: 10px;
-
             background-color: #FFF;
 
             h1 {
@@ -47,55 +70,94 @@ body {
 
 
             .info,
-            .info .created_at,
-            .info .updated_at,
+            .info > div,
+            .name,
             .writing_category,
-            .menu {
+            .admin_menu {
                 display: inline;
             }
 
             .writing_category,
             .info,
-            .menu {
+            .admin_menu {
                 font-size: 0.8em;
             }
 
             .content {
                 margin: 15px;
                 text-align: justify;
-
-                a {
-                    color: #888
-                }
-
-                a:link {
-                    text-decoration: underline;
-                }
-
-                h1 {
-                    border-bottom: 3px solid #000;
-                }
-
-                h2 {
-                    border-bottom: 1px solid #888;
-                }
-
-                h6 {
-                    font-weight: bold;
-                }
-
-                h1, h2, h3, h4, h5, h6 {
-                    margin: 16px 0px;
-                }
-
-                h1, h2 {
-                    margin-top: 48px;
-                }
             }
         }
 
         .writing_spacer {
             height: 50px;
+        }
+    }
+
+    .comments {
+        padding: 10px;
+        border-top: 1px dashed #000;
+        background-color: #FFF;
+
+        .comment {
+            margin-bottom: 10px;
+            padding: 10px;
+            border-bottom: 1px dotted #000;
+
+            .name,
+            .info,
+            .info > div,
+            .admin_menu,
+            .admin_menu > div,
+            .admin_menu .delete_form form {
+                display: inline;
+            }
+
+            .name {
+                font-style: italic;
+            }
+
+            .info,
+            .admin_menu {
+                font-size: 0.7em;
+            }
+
+            .admin_menu .edit,
+            .admin_menu .delete {
+                cursor: pointer
+            }
+
+            .content {
+                margin-top: 5px;    
+            }
+
+            .edit_comment {
+                label {
+                    display: inline-block;
+                    width: 100px;
+                }
+
+                textarea {
+                    width: 725px;
+                    height: 100px;
+                }
+            }
+        }
+
+        .new_comment {
+            margin: 10px;
+            padding: 10px;
+            background-color: #EEE;
+
+            label {
+                display: inline-block;
+                width: 100px;
+            }
+
+            textarea {
+                width: 725px;
+                height: 100px;
+            }
         }
     }
 
@@ -116,7 +178,7 @@ body {
 
             .info,
             .writing_category,
-            .menu {
+            .admin_menu {
                 font-size: 0.7em;
             }
         }

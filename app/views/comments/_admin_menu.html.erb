@@ -1,0 +1,33 @@
+<% if (comment.user.nil? && current_user.nil?) || comment.user == current_user %>
+  <div class="admin_menu">
+    <div class="edit">[E]</div>
+
+    <% if comment.user.nil? %>
+      <div class="delete">[D]</div>
+      <div class="delete_form"></div>
+
+      <%= javascript_tag do %>
+        $(function() {
+          var container = '#comment_<%= comment.id %>';
+
+          $(container + ' .admin_menu .delete').click(function() {
+            $(container + ' .admin_menu .delete_form').html('<%= escape_javascript render(partial: 'comments/delete_form', locals: { comment: comment }).html_safe %>');
+          });
+        });
+      <% end %>
+
+    <% elsif comment.user == current_user %>
+      <%= link_to '[D]', comment_path(comment), method: :delete, data: { confirm: 'Are you sure?' } %>
+    <% end %>
+  </div>
+
+  <%= javascript_tag do %>
+    $(function() {
+      var container = '#comment_<%= comment.id %>';
+
+      $(container + ' .admin_menu .edit').click(function() {
+        $(container + ' .content').html('<%= escape_javascript render(partial: 'comments/form', locals: { comment: comment }).html_safe %>');
+      });
+    });
+  <% end %>
+<% end %>
