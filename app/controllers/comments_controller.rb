@@ -7,9 +7,12 @@ class CommentsController < ApplicationController
 
     respond_to do |format|
       if @comment.save
-        format.html { redirect_to show_path(@comment.writing), notice: 'comment was successfully created.' }
+        set_comment_count
+        format.js { }
+
       else
-        format.html { redirect_to index_path, notice: @comment.errors.full_messages.first }
+        # TODO
+        format.html { }
       end
     end
   end
@@ -18,15 +21,19 @@ class CommentsController < ApplicationController
   def update
     respond_to do |format|
 
-      if valid_user? or valid_password?
+      if valid_user?(@comment.user) or valid_password?
         if @comment.update(comment_params.except(:password))
-          format.html { redirect_to show_path(@comment.writing), notice: 'comment was successfully updated.' }
+          set_comment_count
+          format.js { }
+
         else
-          format.html { redirect_to show_path(@comment.writing), notice: @comment.errors.full_messages.first }
+          # TODO
+          format.html { }
         end
 
       else
-        format.html { redirect_to show_path(@comment.writing), notice: 'need vaild user or vaild password.' }
+        # TODO
+        format.html { }
       end
     end
   end
@@ -35,12 +42,17 @@ class CommentsController < ApplicationController
   def destroy
     respond_to do |format|
 
-      if valid_user? or valid_password?
+      if valid_user?(@comment.user) or valid_password?
+        @comment_id = @comment.id
+        writing = @comment.writing
+
         @comment.destroy
-        format.html { redirect_to index_path, notice: 'comment was successfully destroyed.' }
+        @writings_comments_count = writing.comment.count
+        format.js { }
 
       else
-        format.html { redirect_to show_path(@comment.writing), notice: 'need vaild user or vaild password.' }
+        # TODO
+        format.html { }
       end
     end
   end
@@ -48,10 +60,6 @@ class CommentsController < ApplicationController
 
 
   private
-
-  def valid_user?
-    !current_user.nil? && @comment.user == current_user
-  end
 
   def valid_password?
     @comment.password == comment_params[:password]
@@ -63,5 +71,11 @@ class CommentsController < ApplicationController
 
   def set_comment
     @comment = Comment.find(params[:id])
+  end
+
+  def set_comment_count
+    writing = @comment.writing
+    @writing_id = writing.id
+    @writings_comments_count = writing.comment.count
   end
 end

@@ -32,6 +32,10 @@ class Writing < ActiveRecord::Base
     where("category_id in (?)", Category.hierarchy_categories(category_id).map { |c| c.id } << category_id)
   }
 
+  def last_comment_updated_at
+    Comment.last_updated_at(id)
+  end
+
 
   private 
 

@@ -56,6 +56,11 @@ class Comment < ActiveRecord::Base
   end
 
 
+  def self.last_updated_at(writing_id)
+    Comment.where(writing_id: writing_id).maximum(:updated_at)
+  end
+
+
   private
 
   def default_values

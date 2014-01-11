@@ -1,0 +1,5 @@
+$("#writing_<%= @writing_id %> .comment_list")
+    .append("<%= escape_javascript(render partial: 'comments/comment', locals: { comment: @comment }) %>");
+
+$("#writing_<%= @writing_id %> .info .comments_count")
+    .text("<%= pluralize(@writings_comments_count, 'comment') %>");

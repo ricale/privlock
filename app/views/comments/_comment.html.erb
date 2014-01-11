@@ -1,13 +1,15 @@
 <%= div_for comment do %>
-  <div class="name">
-    <%= comment.display_name %>
-  </div>
+  <div>
+    <div class="name">
+      <%= comment.display_name %>
+    </div>
 
-  <div class="info">
-    <div class="updated_at"><%= get_formatted_time comment.updated_at %></div>
-  </div>
+    <div class="info">
+      <div class="updated_at"><%= get_formatted_time comment.updated_at %></div>
+    </div>
 
-  <%= render partial: 'comments/admin_menu', locals: { comment: comment } %>
+    <%= render partial: 'comments/admin_menu', locals: { comment: comment } %>
+  </div>
 
   <div class="content">
     <%= comment.content %>

@@ -170,11 +170,13 @@ describe Category do
 
     describe ".descendants_writings" do
 
+      let(:user) { FactoryGirl.create(:user) }
+
       it do
-        Writing.create(title: "sample1", content: "content", category: root1)
-        Writing.create(title: "sample2", content: "content", category: child11)
-        Writing.create(title: "sample3", content: "content", category: child12)
-        Writing.create(title: "sample4", content: "content", category: child13)
+        Writing.create(title: "sample1", content: "content", user_id: user.id, category_id: root1.id)
+        Writing.create(title: "sample2", content: "content", user_id: user.id, category_id: child11.id)
+        Writing.create(title: "sample3", content: "content", user_id: user.id, category_id: child12.id)
+        Writing.create(title: "sample4", content: "content", user_id: user.id, category_id: child13.id)
 
         root1.should have(1).writing
         root1.descendants_writings.should have(4).writings
@@ -314,8 +316,8 @@ describe Category do
         end
 
         describe "when category have writings" do
-          
-          before { Writing.create(title: "sample", content: "this is sample", category_id: child11.id) }
+          let(:user) { FactoryGirl.create(:user) }
+          before { Writing.create(title: "sample", content: "this is sample", user_id: user.id, category_id: child11.id) }
           
           it { child11.destroy.should be_false }
 

@@ -1,11 +1,15 @@
-<%= form_for comment, html: { class: 'delete_comment' } do |f| %>
+<%= form_for comment, remote: true, html: { class: 'delete_comment' } do |f| %>
   <% if comment.errors.any? %>
     <div id="error_explanation"><%= comment.errors.full_messages.first %></div>
   <% end %>
 
   <input name="_method" type="hidden" value="delete" />
 
-  <%= f.label :password, 'password' %>
-  <%= f.password_field :password %>
-  <%= f.submit "Delete", onclick: "return confirm('Are you sure?')" %>
+  <% if valid_user?(comment.user) %>
+    <div>Are you sure?</div>
+  <% else %>
+    <%= f.label :password, 'password' %>
+    <%= f.password_field :password %>
+  <% end %>
+  <%= f.submit "Delete" %>
 <% end %>

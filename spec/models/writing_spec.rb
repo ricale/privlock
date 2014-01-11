@@ -82,7 +82,7 @@ describe Writing do
 
   end
 
-  describe "scopes or class method" do
+  describe "scopes or method" do
 
     let!(:category1)   { Category.create(name: "category1") }
     let!(:category11)  { Category.create(name: "category1",  parent: category1) }
@@ -119,6 +119,27 @@ describe Writing do
         Writing.in_category_tree(category112.id).should == category112.descendants_writings
         Writing.in_category_tree(category12.id).should  == category12.descendants_writings
         Writing.in_category_tree(category13.id).should  == category13.descendants_writings
+      end
+
+    end
+
+    describe "last_comment_updated_at" do
+      let(:comment1) { Comment.create(user_id: user.id, writing_id: writing.id, content: "sample1") }
+      let(:comment2) { Comment.create(user_id: user.id, writing_id: writing.id, content: "sample2") }
+      let(:comment3) { Comment.create(user_id: user.id, writing_id: writing.id, content: "sample3") }
+      let(:comment4) { Comment.create(user_id: user.id, writing_id: writing.id, content: "sample4") }
+      let(:comment5) { Comment.create(user_id: user.id, writing_id: writing.id, content: "sample5") }
+      let(:comment6) { Comment.create(user_id: user.id, writing_id: writing.id, content: "sample6") }
+
+      before {
+        10.times {  }
+      }
+
+      it "should be expected" do
+        comment6.update(content: "test")
+        writing.last_comment_updated_at.strftime("%Y%m%d%H%M%S").should == comment6.updated_at.strftime("%Y%m%d%H%M%S")
+        comment1.update(content: "test")
+        writing.last_comment_updated_at.strftime("%Y%m%d%H%M%S").should == comment1.updated_at.strftime("%Y%m%d%H%M%S")
       end
 
     end

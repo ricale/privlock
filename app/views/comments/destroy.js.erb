@@ -1,0 +1,4 @@
+$("#comment_<%= @comment_id %>").remove();
+
+$("#writing_<%= @writing_id %> .info .comments_count")
+    .text("<%= pluralize(@writings_comments_count, 'comment') %>");

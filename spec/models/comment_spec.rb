@@ -19,13 +19,15 @@ describe Comment do
 
   let!(:writing) { FactoryGirl.create(:writing) }
   let!(:user)    { FactoryGirl.create(:user) }
+  let(:comment)  { FactoryGirl.create(:comment) }
+
+  let(:name)     { "tester" }
+  let(:password) { "test" }
+  let(:content)  { "sample content" }
 
   describe ".save(create)" do
 
-    let(:name)     { "tester" }
-    let(:password) { "test" }
     let(:email)    { "tester@email.com" }
-    let(:content)  { "sample content" }
 
     let(:invalid_email)   { "this is not email" }
     let(:invalid_user_id) { "what the" }
@@ -41,7 +43,7 @@ describe Comment do
       end
 
       describe "user_id and one of email, name and password" do
-        it { Comment.new(writing_id: writing.id,               name: name, password: password, content: content).save.should be_false }
+        it { Comment.new(writing_id: writing.id,               name: name, password: password, content: content).save.should be_true }
         it { Comment.new(writing_id: writing.id, email: email,             password: password, content: content).save.should be_false }
         it { Comment.new(writing_id: writing.id, email: email, name: name,                     content: content).save.should be_false }
       end
@@ -88,8 +90,6 @@ describe Comment do
 
   describe ".update" do
 
-    let(:comment) { FactoryGirl.create(:comment) }
-
     describe "update each others except content" do
       it { comment.update(writing_id: FactoryGirl.create(:writing).id).should be_false }
       it { comment.update(email:      "new_email@new.net").should be_false }
@@ -110,6 +110,37 @@ describe Comment do
 
   describe ".destroy" do
 
+  end
+
+  describe "scope or method" do
+
+    describe "display_name" do
+
+      it "should be expected" do
+        has_user_id = Comment.create(writing_id: writing.id, user_id: user.id, content: content)
+        has_name    = Comment.create(writing_id: writing.id, name: name, password: password, content: content)
+
+        has_user_id.display_name.should == user.name
+        has_name.display_name.should == has_name.name
+      end
+    end
+
+    describe "last_updated_at" do
+      let(:comment1) { Comment.create(user_id: user.id, writing_id: writing.id, content: "sample1") }
+      let(:comment2) { Comment.create(user_id: user.id, writing_id: writing.id, content: "sample2") }
+      let(:comment3) { Comment.create(user_id: user.id, writing_id: writing.id, content: "sample3") }
+      let(:comment4) { Comment.create(user_id: user.id, writing_id: writing.id, content: "sample4") }
+      let(:comment5) { Comment.create(user_id: user.id, writing_id: writing.id, content: "sample5") }
+      let(:comment6) { Comment.create(user_id: user.id, writing_id: writing.id, content: "sample6") }
+
+      it "should be expected" do
+        comment6.update(content: "test")
+        Comment.last_updated_at(writing.id).strftime("%Y%m%d%H%M%S").should == comment6.updated_at.strftime("%Y%m%d%H%M%S")
+        comment1.update(content: "test")
+        Comment.last_updated_at(writing.id).strftime("%Y%m%d%H%M%S").should == comment1.updated_at.strftime("%Y%m%d%H%M%S")
+      end
+
+    end
   end
 
 end

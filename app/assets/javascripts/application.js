@@ -13,3 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
+
+jQuery.fn.exists = function() {
+    return this.length > 0;
+}

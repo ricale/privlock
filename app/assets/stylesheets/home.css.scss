@@ -86,52 +86,78 @@ body {
             .content {
                 margin: 15px;
                 text-align: justify;
+                line-height: 160%;
             }
         }
 
-        .writing_spacer {
-            height: 50px;
-        }
-    }
-
-    .comments {
-        padding: 10px;
-        border-top: 1px dashed #000;
-        background-color: #FFF;
-
-        .comment {
-            margin-bottom: 10px;
+        div.writing .comments {
             padding: 10px;
-            border-bottom: 1px dotted #000;
+            border-top: 1px dashed #000;
+            background-color: #FFF;
 
-            .name,
-            .info,
-            .info > div,
-            .admin_menu,
-            .admin_menu > div,
-            .admin_menu .delete_form form {
-                display: inline;
+            .comment {
+                margin-bottom: 10px;
+                padding: 10px;
+                border-bottom: 1px dotted #000;
+
+                .name,
+                .info,
+                .info > div,
+                .admin_menu,
+                .admin_menu > div,
+                .admin_menu .delete_form form {
+                    display: inline;
+                }
+
+                .name {
+                    font-style: italic;
+                }
+
+                .info,
+                .admin_menu {
+                    font-size: 0.7em;
+                }
+
+                .admin_menu .edit,
+                .admin_menu .delete {
+                    cursor: pointer
+                }
+
+                .content {
+                    margin: 5px 0 0 0;    
+                }
+
+                .edit_comment {
+                    label {
+                        display: inline-block;
+                        width: 100px;
+                    }
+
+                    textarea {
+                        width: 725px;
+                        height: 100px;
+                    }
+                }
+
+                .delete_comment {
+                    > div {
+                        display: inline;
+                    }
+
+                    input[type='submit'] {
+                        font-size: 0.65em;
+                        margin: 0px;
+                        padding: 0px;
+                        border-width: 1px;
+                    }
+                }
             }
 
-            .name {
-                font-style: italic;
-            }
+            .new_comment {
+                margin: 0px;
+                padding: 10px;
+                background-color: #EEE;
 
-            .info,
-            .admin_menu {
-                font-size: 0.7em;
-            }
-
-            .admin_menu .edit,
-            .admin_menu .delete {
-                cursor: pointer
-            }
-
-            .content {
-                margin-top: 5px;    
-            }
-
-            .edit_comment {
                 label {
                     display: inline-block;
                     width: 100px;
@@ -144,20 +170,8 @@ body {
             }
         }
 
-        .new_comment {
-            margin: 10px;
-            padding: 10px;
-            background-color: #EEE;
-
-            label {
-                display: inline-block;
-                width: 100px;
-            }
-
-            textarea {
-                width: 725px;
-                height: 100px;
-            }
+        .writing_spacer {
+            height: 50px;
         }
     }
 

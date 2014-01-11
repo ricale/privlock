@@ -29,10 +29,16 @@
   </div>
 
   <%= render partial: 'writings/admin_menu', locals: { writing: writing } %>
+
+  <div class="comments">
+    <div class="comment_list">
+      <%= render writing.comment %>
+    </div>
+
+    <%= render partial: 'comments/form', locals: {
+      comment: @comment,
+      writing_id: writing.id,
+      last_updated_at: writing.last_comment_updated_at
+    } %>
+  </div>
 <% end %>
-
-<div class="comments">
-  <%= render writing.comment %>
-
-  <%= render partial: 'comments/form', locals: { comment: @comment, writing_id: writing.id } %>
-</div>
