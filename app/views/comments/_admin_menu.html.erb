@@ -1,38 +1,13 @@
-<% if (comment.user.nil? && current_user.nil?) || comment.user == current_user %>
-  <div class="admin_menu">
+<% if comment.user.nil? && current_user.nil? %>
+  <div class="menu">
     <div class="edit">[E]</div>
     <div class="delete">[D]</div>
     <div class="delete_form"></div>
   </div>
-
-  <%= javascript_tag do %>
-    $(function() {
-      var container = '#comment_<%= comment.id %>';
-
-      $(container + ' .admin_menu .edit').click(function() {
-        var content_container = container + ' .content';
-
-        if($(content_container + ' form').exists()) {
-          $(content_container).html('<%= comment.content %>');
-        } else {
-          $(content_container).html('<%= escape_javascript render(partial: 'comments/form', locals: { comment: comment, last_updated_at: comment.writing.last_comment_updated_at }).html_safe %>');
-        }
-      });
-    });
-
-    $(function() {
-      var container = '#comment_<%= comment.id %>';
-
-      $(container + ' .admin_menu .delete').click(function() {
-        var delete_form_container = container + ' .admin_menu .delete_form';
-
-        if($(delete_form_container + ' form').exists()) {
-          $(delete_form_container).html('');
-        } else {
-          $(delete_form_container).html('<%= escape_javascript render(partial: 'comments/delete_form', locals: { comment: comment }).html_safe %>');
-        }
-
-      });
-    });
-  <% end %>
+<% elsif valid_user?(comment.user) %>
+  <div class="menu" data-admin="true">
+    <div class="edit">[E]</div>
+    <div class="delete">[D]</div>
+    <div class="delete_form"></div>
+  </div>
 <% end %>

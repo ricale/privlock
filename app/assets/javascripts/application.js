@@ -17,3 +17,7 @@
 jQuery.fn.exists = function() {
     return this.length > 0;
 }
+
+jQuery.fn.isDisplayNone = function() {
+    return this.css('display') == "none";
+}

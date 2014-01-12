@@ -1,5 +1,8 @@
-$("#comment_<%= @comment.id %>")
-    .replaceWith("<%= escape_javascript(render partial: 'comments/comment', locals: { comment: @comment }) %>");
+<%= render partial: 'comments/update_comment_list', locals: {
+    new_comments:     @new_comments,
+    updated_comments: @updated_comments,
+    writing_id:       @writing_id,
+    updated_at:       @updated_at
+} %>
 
-$("#writing_<%= @writing_id %> .info .comments_count")
-    .text("<%= pluralize(@writings_comments_count, 'comment') %>");
+<%= render partial: 'comments/update', locals: { comment: @comment } %>

@@ -103,9 +103,10 @@ body {
                 .name,
                 .info,
                 .info > div,
-                .admin_menu,
-                .admin_menu > div,
-                .admin_menu .delete_form form {
+                .menu,
+                .menu > div,
+                .menu .delete_comment,
+                .menu .delete_comment > div {
                     display: inline;
                 }
 
@@ -114,12 +115,12 @@ body {
                 }
 
                 .info,
-                .admin_menu {
+                .menu {
                     font-size: 0.7em;
                 }
 
-                .admin_menu .edit,
-                .admin_menu .delete {
+                .menu .edit,
+                .menu .delete {
                     cursor: pointer
                 }
 
@@ -140,10 +141,7 @@ body {
                 }
 
                 .delete_comment {
-                    > div {
-                        display: inline;
-                    }
-
+                    input[type='password'],
                     input[type='submit'] {
                         font-size: 0.65em;
                         margin: 0px;

@@ -4,30 +4,24 @@
   <% end %>
 
   <% unless current_user %>
-    <% if comment.name.nil? %>
     <div class="field">
       <%= f.label :name, 'name (*)' %>
       <%= f.text_field :name %>
     </div>
-    <% end %>
 
     <div class="field">
       <%= f.label :password, 'password (*)' %>
       <%= f.password_field :password %>
     </div>
 
-    <% if comment.name.nil? %>
     <div class="field">
       <%= f.label :email, 'email' %>
       <%= f.text_field :email %>
     </div>
-    <% end %>
   <% end %>
 
-  <% if comment.content.nil? %>
-    <%= f.hidden_field :writing_id, value: writing_id %>
-  <% end %>
-  <%= hidden_field_tag :last_updated_at, value: time_to_string(last_updated_at) %>
+  <%= f.hidden_field :writing_id, value: writing_id %>
+  <%= hidden_field_tag :last_updated_at, last_updated_at %>
 
   <div class="field">
     <%= f.text_area :content %>

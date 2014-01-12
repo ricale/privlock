@@ -1,0 +1,2 @@
+$("#writing_<%= writing_id %> .comment_list")
+    .append("<%= escape_javascript(render partial: 'comments/comment', locals: { comment: comment }) %>");

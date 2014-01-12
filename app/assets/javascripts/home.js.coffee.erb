@@ -1,0 +1,82 @@
+# Place all the behaviors and hooks related to the matching controller here.
+# All this logic will automatically be available in application.js.
+# You can use CoffeeScript in this file: http://coffeescript.org/
+
+#= require application
+#= require hmd
+#= require hmd.ricaleinline
+
+$ ->
+  getEditForm = (isAdmin, commentId, lastUpdatedAt, content) ->
+    formHTML = "<form class='edit_comment' method='post' data-remote='true' action='/comments/" + commentId + "' accept-charset='UTF-8'>
+                  <div style='margin:0;padding:0;display:inline'>
+                    <input type='hidden' value='✓' name='utf8'>
+                    <input type='hidden' value='patch' name='_method'>
+                  </div>"
+
+    unless isAdmin
+      formHTML  += "<div class='field'>
+                      <label for='comment_password'>password (*)</label>
+                      <input id='comment_password' type='password' name='comment[password]'>
+                    </div>"
+
+    formHTML + "<input id='last_updated_at' type='hidden' value='" + lastUpdatedAt + "' name='last_updated_at'>
+                <div class='field'>
+                  <textarea id='comment_content' name='comment[content]'>" + content + "</textarea>
+                </div>
+                <div class='actions'>
+                  <input type='submit' value='Update' name='commit'>
+                </div>
+              </form>"
+
+  getDeleteForm = (isAdmin, commentId, lastUpdatedAt) ->
+    formHTML = "<form class='delete_comment' method='post' data-remote='true' action='/comments/" + commentId + "' accept-charset='UTF-8'>
+                  <div style='margin:0;padding:0;display:inline'>
+                    <input type='hidden' value='✓' name='utf8'>
+                    <input type='hidden' value='delete' name='_method'>
+                  </div>"
+
+    if isAdmin
+      formHTML  += "<div>Are you sure?</div>"
+    else
+      formHTML  += "<label for='comment_password'>password</label>
+                    <input id='comment_password' type='password' name='comment[password]'>"
+
+    formHTML + "<input id='last_updated_at' type='hidden' value='" + lastUpdatedAt + "' name='last_updated_at'>
+                <input type='submit' value='Delete' name='commit'>
+              </form>"
+
+
+  $(".comment_list").click (event) ->
+    target = $(event.target)
+
+    if target.is('.comment .menu .edit')
+      container = target.closest(".comment")
+
+      if container.find(".content").isDisplayNone()
+        container.find(".content").show()
+        container.find(".edit_comment").hide()
+      else
+        container.find(".content").hide()
+        if container.find(".edit_comment").exists()
+          container.find(".edit_comment").show()
+        else
+          isAdmin       = target.closest(".menu").data('admin')
+          commentId     = container.attr("id").slice(8)
+          content       = container.find(".content").html()
+          lastUpdatedAt = target.closest(".comments").find("form.new_comment input#last_updated_at").val()
+          container.append getEditForm(isAdmin, commentId, lastUpdatedAt, content)
+
+    else if target.is('.comment .menu .delete')
+      container = target.closest(".comment")
+
+      if container.find(".delete_comment").exists()
+        if container.find(".delete_comment").isDisplayNone()
+          container.find(".delete_comment").show()
+        else
+          container.find(".delete_comment").hide()
+      else
+        isAdmin       = target.closest(".menu").data('admin') || false
+        commentId     = container.attr("id").slice(8)
+        lastUpdatedAt = target.closest(".comments").find("form.new_comment input#last_updated_at").val()
+        container.find(".menu").append getDeleteForm(isAdmin, commentId, lastUpdatedAt)

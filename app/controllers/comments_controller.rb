@@ -6,8 +6,11 @@ class CommentsController < ApplicationController
     @comment = Comment.new(comment_params.merge(user_id: current_user.try(:id)))
 
     respond_to do |format|
+
       if @comment.save
         set_comment_count
+        set_last_updated_at
+        updated_comments(comment_params[:writing_id], @comment.updated_at)
         format.js { }
 
       else
@@ -22,8 +25,11 @@ class CommentsController < ApplicationController
     respond_to do |format|
 
       if valid_user?(@comment.user) or valid_password?
+
         if @comment.update(comment_params.except(:password))
           set_comment_count
+          set_last_updated_at
+          updated_comments(@comment.writing_id, @comment.updated_at)
           format.js { }
 
         else
@@ -44,10 +50,10 @@ class CommentsController < ApplicationController
 
       if valid_user?(@comment.user) or valid_password?
         @comment_id = @comment.id
-        writing = @comment.writing
-
         @comment.destroy
-        @writings_comments_count = writing.comment.count
+
+        set_comment_count
+        updated_comments(@comment.writing_id, set_last_updated_at)
         format.js { }
 
       else
@@ -74,8 +80,16 @@ class CommentsController < ApplicationController
   end
 
   def set_comment_count
-    writing = @comment.writing
-    @writing_id = writing.id
-    @writings_comments_count = writing.comment.count
+    @writing_id              = @comment.writing_id
+    @writings_comments_count = @comment.writing.comment.count
+  end
+
+  def set_last_updated_at
+    @updated_at = Time.now.utc
+  end
+
+  def updated_comments(writing_id, updated_at)
+    @new_comments     = Comment.created_between(params[:last_updated_at], updated_at, writing_id)
+    @updated_comments = Comment.updated_between(params[:last_updated_at], updated_at, writing_id)
   end
 end

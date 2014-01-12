@@ -32,6 +32,16 @@ class Comment < ActiveRecord::Base
 
   before_save :is_exist_writing?
 
+  scope :created_between, ->(begun_at, ended_at, writing_id) {
+    where(writing_id: writing_id)
+    .where("created_at > ? AND created_at < ?", begun_at, ended_at)
+  }
+
+  scope :updated_between, ->(begun_at, ended_at, writing_id) {
+    where(writing_id: writing_id)
+    .where("updated_at > ? AND updated_at < ? AND created_at <= ?", begun_at, ended_at, begun_at)
+  }
+
   def password
     if password_hash.nil?
       nil
