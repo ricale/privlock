@@ -6,8 +6,28 @@
 #= require hmd
 #= require hmd.ricaleinline
 
+privlock.displayAlert = (targetSelector, message, fadeOutSeconds) ->
+  alertSelector  = targetSelector + " .alert"
+  fadeOutSeconds = fadeOutSeconds or 2
+
+  if $(alertSelector).exists()
+    $(alertSelector).text(message).show()
+  else
+    $(targetSelector).prepend "<div class='alert'>" + message + "</div>"
+  $(alertSelector).fadeOut fadeOutSeconds * 1000
+
+privlock.highlightElement = (targetSelector, color, periodSeconds) ->
+  color         = color or '#FFC'
+  periodSeconds = periodSeconds or 3
+
+  $(targetSelector).css "backgroundColor", color
+  $(targetSelector).stop().animate
+    backgroundColor: "#FFF"
+  , periodSeconds * 1000
+
+
 $ ->
-  getEditForm = (isAdmin, commentId, lastUpdatedAt, content) ->
+  editCommentForm = (isAdmin, commentId, lastUpdatedAt, content) ->
     formHTML = "<form class='edit_comment' method='post' data-remote='true' action='/comments/" + commentId + "' accept-charset='UTF-8'>
                   <div style='margin:0;padding:0;display:inline'>
                     <input type='hidden' value='✓' name='utf8'>
@@ -29,7 +49,7 @@ $ ->
                 </div>
               </form>"
 
-  getDeleteForm = (isAdmin, commentId, lastUpdatedAt) ->
+  deleteCommentForm = (isAdmin, commentId, lastUpdatedAt) ->
     formHTML = "<form class='delete_comment' method='post' data-remote='true' action='/comments/" + commentId + "' accept-charset='UTF-8'>
                   <div style='margin:0;padding:0;display:inline'>
                     <input type='hidden' value='✓' name='utf8'>
@@ -65,7 +85,7 @@ $ ->
           commentId     = container.attr("id").slice(8)
           content       = container.find(".content").html()
           lastUpdatedAt = target.closest(".comments").find("form.new_comment input#last_updated_at").val()
-          container.append getEditForm(isAdmin, commentId, lastUpdatedAt, content)
+          container.append editCommentForm(isAdmin, commentId, lastUpdatedAt, content)
 
     else if target.is('.comment .menu .delete')
       container = target.closest(".comment")
@@ -79,4 +99,4 @@ $ ->
         isAdmin       = target.closest(".menu").data('admin') || false
         commentId     = container.attr("id").slice(8)
         lastUpdatedAt = target.closest(".comments").find("form.new_comment input#last_updated_at").val()
-        container.find(".menu").append getDeleteForm(isAdmin, commentId, lastUpdatedAt)
+        container.find(".menu").append deleteCommentForm(isAdmin, commentId, lastUpdatedAt)

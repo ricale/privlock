@@ -21,7 +21,9 @@ Privlock::Application.routes.draw do
   end
 
 
-  resources :comments, except: [:index, :new, :show, :edit]
+  resources :comments, except: [:index, :new, :show, :edit] do
+    get 'error', on: :collection
+  end
 
 
   devise_for :users

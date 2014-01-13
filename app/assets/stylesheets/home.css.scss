@@ -11,6 +11,9 @@ body {
     background-color: #000;
 }
 
+.notice { color: yellow; }
+.alert  { color: #F00; }
+
 .prefix {
     .message {
         .notice { color: yellow; }

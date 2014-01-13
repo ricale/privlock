@@ -9,13 +9,14 @@ class CommentsController < ApplicationController
 
       if @comment.save
         set_comment_count
-        set_last_updated_at
-        updated_comments(comment_params[:writing_id], @comment.updated_at)
+        set_last_updated_at(@comment.updated_at)
+        updated_comments(@comment.writing_id, @comment.updated_at)
         format.js { }
 
       else
-        # TODO
-        format.html { }
+        @writing_id = @comment.writing_id
+        @alert      = @comment.errors.full_messages.first
+        format.js { render :error }
       end
     end
   end
@@ -28,18 +29,18 @@ class CommentsController < ApplicationController
 
         if @comment.update(comment_params.except(:password))
           set_comment_count
-          set_last_updated_at
+          set_last_updated_at(@comment.updated_at)
           updated_comments(@comment.writing_id, @comment.updated_at)
           format.js { }
 
         else
-          # TODO
-          format.html { }
+          @alert = @comment.errors.full_messages.first
+          format.js { render :error }
         end
 
       else
-        # TODO
-        format.html { }
+        @alert = "Need valid user or valid password"
+        format.js { render :error }
       end
     end
   end
@@ -57,10 +58,14 @@ class CommentsController < ApplicationController
         format.js { }
 
       else
-        # TODO
-        format.html { }
+        @alert = "Need valid user or valid password"
+        format.js { render :error }
       end
     end
+  end
+
+  def error
+
   end
 
 
@@ -84,8 +89,8 @@ class CommentsController < ApplicationController
     @writings_comments_count = @comment.writing.comment.count
   end
 
-  def set_last_updated_at
-    @updated_at = Time.now.utc
+  def set_last_updated_at(updated_at = nil)
+    @updated_at = updated_at || Time.now.utc
   end
 
   def updated_comments(writing_id, updated_at)

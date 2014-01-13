@@ -1,8 +1,4 @@
 <%= form_for comment, remote: true do |f| %>
-  <% if comment.errors.any? %>
-    <div id="error_explanation"><%= comment.errors.full_messages.first %></div>
-  <% end %>
-
   <% unless current_user %>
     <div class="field">
       <%= f.label :name, 'name (*)' %>

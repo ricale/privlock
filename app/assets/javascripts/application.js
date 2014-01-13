@@ -11,6 +11,7 @@
 // about supported directives.
 //
 //= require jquery
+//= require jquery.ui.all
 //= require jquery_ujs
 //= require turbolinks
 
@@ -20,4 +21,8 @@ jQuery.fn.exists = function() {
 
 jQuery.fn.isDisplayNone = function() {
     return this.css('display') == "none";
+}
+
+if(typeof privlock == typeof undefined) {
+    privlock = {}
 }
