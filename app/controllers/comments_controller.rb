@@ -3,7 +3,7 @@ class CommentsController < ApplicationController
 
   # POST /comments
   def create
-    @comment = Comment.new(comment_params.merge(user_id: current_user.try(:id)))
+    @comment = Comment.new(comment_params.merge(user_id: current_user.try(:id), writing_id: params[:writing_id]))
 
     respond_to do |format|
 

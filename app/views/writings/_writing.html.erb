@@ -37,7 +37,7 @@
 
     <%= render partial: 'comments/form', locals: {
       comment:         @comment,
-      writing_id:      writing.id,
+      writing:         writing,
       last_updated_at: writing.last_comment_updated_at
     } %>
   </div>

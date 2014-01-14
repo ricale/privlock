@@ -21,8 +21,10 @@ Privlock::Application.routes.draw do
   end
 
 
-  resources :comments, except: [:index, :new, :show, :edit] do
-    get 'error', on: :collection
+  resources :writings, only: [] do
+    resources :comments, except: [:index, :new, :show, :edit] do
+      get 'error', on: :collection
+    end
   end
 
 
