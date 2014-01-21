@@ -27,7 +27,7 @@ privlock.highlightElement = (targetSelector, color, periodSeconds) ->
 
 
 $ ->
-  editCommentForm = (writingId, commentId, isAdmin, lastUpdatedAt, content) ->
+  editCommentForm = (writingId, commentId, isAdmin, lastUpdatedTimestamp, content) ->
     formHTML = "<form class='edit_comment' method='post' data-remote='true'
                   action='/writings/" + writingId + "/comments/" + commentId + "' accept-charset='UTF-8'>
                   <div style='margin:0;padding:0;display:inline'>
@@ -41,7 +41,7 @@ $ ->
                       <input id='comment_password' type='password' name='comment[password]'>
                     </div>"
 
-    formHTML + "<input id='last_updated_at' type='hidden' value='" + lastUpdatedAt + "' name='last_updated_at'>
+    formHTML + "<input id='last_updated_timestamp' type='hidden' value='" + lastUpdatedTimestamp + "' name='last_updated_timestamp'>
                 <div class='field'>
                   <textarea id='comment_content' name='comment[content]'>" + content + "</textarea>
                 </div>
@@ -50,7 +50,7 @@ $ ->
                 </div>
               </form>"
 
-  deleteCommentForm = (writingId, commentId, isAdmin, lastUpdatedAt) ->
+  deleteCommentForm = (writingId, commentId, isAdmin, lastUpdatedTimestamp) ->
     formHTML = "<form class='delete_comment' method='post' data-remote='true'
                   action='/writings/" + writingId + "/comments/" + commentId + "' accept-charset='UTF-8'>
                   <div style='margin:0;padding:0;display:inline'>
@@ -64,19 +64,36 @@ $ ->
       formHTML  += "<label for='comment_password'>password</label>
                     <input id='comment_password' type='password' name='comment[password]'>"
 
-    formHTML + "<input id='last_updated_at' type='hidden' value='" + lastUpdatedAt + "' name='last_updated_at'>
+    formHTML + "<input id='last_updated_timestamp' type='hidden' value='" + lastUpdatedTimestamp + "' name='last_updated_timestamp'>
                 <input type='submit' value='Delete' name='commit'>
               </form>"
 
+  $(".comments_count").click (event) ->
+    commentContainer = $(this).closest('.writing').find('.comments')
+    writingId = $(this).closest(".writing").attr("id").slice(8)
+    url       = "/writings/" + writingId + "/comments/"
+    lastUpdatedTimestamp = commentContainer.find('.new_comment input[name="last_updated_timestamp"]').val()
+
+    if commentContainer.isDisplayNone()
+      commentContainer.show()
+      $.ajax
+        url: url
+        type: "get"
+        data:
+          last_updated_timestamp: lastUpdatedTimestamp
+        dataType: "script"
+
+    else
+      commentContainer.hide()
 
   $(".comment_list").click (event) ->
     target = $(event.target)
-    getContainer  = -> target.closest(".comment")
-    writingId     = -> target.closest(".writing").attr("id").slice(8)
-    commentId     = -> container.attr("id").slice(8)
-    isAdmin       = -> target.closest(".menu").data('admin')
-    content       = -> container.find(".content").html()
-    lastUpdatedAt = -> target.closest(".comments").find("form.new_comment input#last_updated_at").val()
+    getContainer         = -> target.closest(".comment")
+    writingId            = -> target.closest(".writing").attr("id").slice(8)
+    commentId            = -> container.attr("id").slice(8)
+    isAdmin              = -> target.closest(".menu").data('user')
+    content              = -> container.find(".content").html()
+    lastUpdatedTimestamp = -> target.closest(".comments").find("form.new_comment input#last_updated_timestamp").val()
 
     if target.is('.comment .menu .edit')
       container = getContainer()
@@ -89,7 +106,9 @@ $ ->
         if container.find(".edit_comment").exists()
           container.find(".edit_comment").show()
         else
-          container.append editCommentForm(writingId(), commentId(), isAdmin(), lastUpdatedAt(), content())
+          container.append editCommentForm(writingId(), commentId(), isAdmin(), lastUpdatedTimestamp(), content())
+
+      # make toggle display function
 
     else if target.is('.comment .menu .delete')
       container = getContainer()
@@ -100,4 +119,4 @@ $ ->
         else
           container.find(".delete_comment").hide()
       else
-        container.find(".menu").append deleteCommentForm(writingId(), commentId(), isAdmin(), lastUpdatedAt())
+        container.find(".menu").append deleteCommentForm(writingId(), commentId(), isAdmin(), lastUpdatedTimestamp())

@@ -32,6 +32,16 @@ class Comment < ActiveRecord::Base
 
   before_save :is_exist_writing?
 
+  scope :created_before, ->(at, writing_id) {
+    where(writing_id: writing_id)
+    .where("created_at < ?", at)
+  }
+
+  scope :updated_before, ->(at, writing_id) {
+    where(writing_id: writing_id)
+    .where("updated_at < ?", at)
+  }
+
   scope :created_between, ->(begun_at, ended_at, writing_id) {
     where(writing_id: writing_id)
     .where("created_at > ? AND created_at < ?", begun_at, ended_at)

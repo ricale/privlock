@@ -94,7 +94,9 @@ body {
         }
 
         div.writing .comments {
-            padding: 10px;
+            display: none;
+
+            padding-top: 10px;
             border-top: 1px dashed #000;
             background-color: #FFF;
 

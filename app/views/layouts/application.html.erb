@@ -3,7 +3,7 @@
 <head>
   <title><%= BLOG_TITLE %></title>
   
-  <%= yield(:stylesheet) if content_for?(:stylesheet)%>
+  <%= yield(:stylesheet) if content_for?(:stylesheet) %>
   <%= yield(:javascript) if content_for?(:javascript) %>
 
   <%= csrf_meta_tags %>

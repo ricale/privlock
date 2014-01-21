@@ -1,6 +1,12 @@
 class CommentsController < ApplicationController
   before_action :set_comment, only: [:update, :destroy]
 
+  def index
+    set_comment_count
+    updated_at = timestamp_to_time(set_last_updated_timestamp.to_s)
+    updated_comments(params[:writing_id], updated_at)
+  end
+
   # POST /comments
   def create
     @comment = Comment.new(comment_params.merge(user_id: current_user.try(:id), writing_id: params[:writing_id]))
@@ -9,7 +15,7 @@ class CommentsController < ApplicationController
 
       if @comment.save
         set_comment_count
-        set_last_updated_at(@comment.updated_at)
+        set_last_updated_timestamp(@comment.updated_at)
         updated_comments(@comment.writing_id, @comment.updated_at)
         format.js { }
 
@@ -29,7 +35,7 @@ class CommentsController < ApplicationController
 
         if @comment.update(comment_params.except(:password))
           set_comment_count
-          set_last_updated_at(@comment.updated_at)
+          set_last_updated_timestamp(@comment.updated_at)
           updated_comments(@comment.writing_id, @comment.updated_at)
           format.js { }
 
@@ -54,7 +60,8 @@ class CommentsController < ApplicationController
         @comment.destroy
 
         set_comment_count
-        updated_comments(@comment.writing_id, set_last_updated_at)
+        updated_at = timestamp_to_time(set_last_updated_timestamp.to_s)
+        updated_comments(@comment.writing_id, updated_at)
         format.js { }
 
       else
@@ -77,7 +84,7 @@ class CommentsController < ApplicationController
   end
 
   def comment_params
-    params.require(:comment).permit(:email, :name, :password, :writing_id, :content)
+    params.require(:comment).permit(:email, :name, :password, :content)
   end
 
   def set_comment
@@ -85,16 +92,29 @@ class CommentsController < ApplicationController
   end
 
   def set_comment_count
-    @writing_id              = @comment.writing_id
-    @writings_comments_count = @comment.writing.comment.count
+    @writing_id              = params[:writing_id]
+    @writings_comments_count = Comment.where(writing_id: params[:writing_id]).count
   end
 
-  def set_last_updated_at(updated_at = nil)
-    @updated_at = updated_at || Time.now.utc
+  def set_last_updated_timestamp(updated_at = nil)
+    @updated_timestamp = updated_at.nil? ? Time.now.to_i : updated_at.to_i
   end
 
   def updated_comments(writing_id, updated_at)
-    @new_comments     = Comment.created_between(params[:last_updated_at], updated_at, writing_id)
-    @updated_comments = Comment.updated_between(params[:last_updated_at], updated_at, writing_id)
+    if params[:last_updated_timestamp].nil? || params[:last_updated_timestamp].blank?
+      @new_comments     = Comment.created_before(updated_at, writing_id)
+      @updated_comments = []
+
+    else
+      last_updated_at = timestamp_to_time(params[:last_updated_timestamp])
+      @new_comments     = Comment.created_between(last_updated_at, updated_at, writing_id)
+      @updated_comments = Comment.updated_between(last_updated_at, updated_at, writing_id)
+      puts last_updated_at.class
+      puts updated_at.class
+    end
+  end
+
+  def timestamp_to_time(timestamp)
+    Time.strptime(timestamp, "%s")
   end
 end

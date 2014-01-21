@@ -1,4 +1,3 @@
 # privlock
 
-- v0.0.2
-- <ricalest.net>
+- <http://weblog.ricalest.net/>

@@ -1,9 +1,9 @@
 <%= render partial: 'comments/update_comment_list', locals: {
-    new_comments:     @new_comments << @comment,
-    updated_comments: @updated_comments,
-    writing_id:       @writing_id,
-    updated_at:       @updated_at,
-    comments_count:   @writings_comments_count
+    new_comments:      @new_comments << @comment,
+    updated_comments:  @updated_comments,
+    writing_id:        @writing_id,
+    updated_timestamp: @updated_timestamp,
+    comments_count:    @writings_comments_count
 } %>
 
 privlock.highlightElement('#comment_<%= @comment.id %>')

@@ -22,7 +22,7 @@ Privlock::Application.routes.draw do
 
 
   resources :writings, only: [] do
-    resources :comments, except: [:index, :new, :show, :edit] do
+    resources :comments, except: [:new, :show, :edit] do
       get 'error', on: :collection
     end
   end

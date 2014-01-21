@@ -1,5 +1,5 @@
 $("#writing_<%= writing_id %> .info .comments_count").text("<%= pluralize(comments_count, 'comment') %>");
-$("#writing_<%= writing_id %> .new_comment input[name='last_updated_at']").val("<%= updated_at %>");
+$("#writing_<%= writing_id %> .new_comment input[name='last_updated_timestamp']").val("<%= updated_timestamp %>");
 
 <%= render partial: 'comments/create', collection: new_comments, as: :comment, locals: { writing_id: writing_id } %>
 <%= render partial: 'comments/update', collection: updated_comments, as: :comment %>
