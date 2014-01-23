@@ -1,0 +1,2 @@
+$("#writing_<%= writing_id %> .info .comments_count").text("<%= pluralize(comments_count, 'comment') %>");
+$("#writing_<%= writing_id %> .new_comment input[name='last_updated_timestamp']").val("<%= updated_timestamp %>");

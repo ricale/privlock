@@ -1,9 +1,19 @@
-<%= render partial: 'comments/update_comment_list', locals: {
-    new_comments:      @new_comments,
-    updated_comments:  @updated_comments << @comment,
-    writing_id:        @writing_id,
-    updated_timestamp: @updated_timestamp,
-    comments_count:    @writings_comments_count
-} %>
+<%= render partial: 'comments/info',
+           locals: {
+            writing_id:        @writing_id,
+            updated_timestamp: @updated_timestamp,
+            comments_count:    @writings_comments_count
+           } %>
 
-privlock.highlightElement('#comment_<%= @comment.id %>')
+<%= render partial:    'comments/create',
+           collection: @new_comments,
+           as:         :comment,
+           locals:     { writing_id: @writing_id } %>
+
+<%= render partial:    'comments/update',
+           collection: @updated_comments,
+           as:         :comment %>
+
+<% unless @comment.nil? %>
+  privlock.highlightElement('#comment_<%= @comment.id %>')
+<% end %>

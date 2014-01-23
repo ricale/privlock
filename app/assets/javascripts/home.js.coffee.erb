@@ -75,13 +75,14 @@ $ ->
     lastUpdatedTimestamp = commentContainer.find('.new_comment input[name="last_updated_timestamp"]').val()
 
     if commentContainer.isDisplayNone()
-      commentContainer.show()
-      $.ajax
+      $.ajax(
         url: url
         type: "get"
         data:
           last_updated_timestamp: lastUpdatedTimestamp
         dataType: "script"
+      ).done () ->
+        commentContainer.show()
 
     else
       commentContainer.hide()
