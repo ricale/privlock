@@ -8,6 +8,7 @@
 #  created_at  :datetime
 #  updated_at  :datetime
 #  category_id :integer          not null
+#  user_id     :integer          not null
 #
 
 class Writing < ActiveRecord::Base
@@ -15,11 +16,10 @@ class Writing < ActiveRecord::Base
   belongs_to :user
   has_many :comment
 
-  validates :title,
-            :content,
-            :category_id,
-            :user_id,
-            presence: true
+  validates_presence_of :title
+  validates_presence_of :content
+  validates_presence_of :category_id
+  validates_presence_of :user_id
 
   before_validation :can_not_update_user, on: :update
 

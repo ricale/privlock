@@ -43,6 +43,6 @@ class User < ActiveRecord::Base
   end
 
   def never_destroy_admin_user
-    false if admin
+    admin
   end
 end

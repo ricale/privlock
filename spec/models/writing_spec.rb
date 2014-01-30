@@ -8,6 +8,7 @@
 #  created_at  :datetime
 #  updated_at  :datetime
 #  category_id :integer          not null
+#  user_id     :integer          not null
 #
 
 require 'spec_helper'
@@ -130,10 +131,6 @@ describe Writing do
       let(:comment4) { Comment.create(user_id: user.id, writing_id: writing.id, content: "sample4") }
       let(:comment5) { Comment.create(user_id: user.id, writing_id: writing.id, content: "sample5") }
       let(:comment6) { Comment.create(user_id: user.id, writing_id: writing.id, content: "sample6") }
-
-      before {
-        10.times {  }
-      }
 
       it "should be expected" do
         comment6.update(content: "test")

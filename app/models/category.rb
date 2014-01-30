@@ -16,16 +16,15 @@ class Category < ActiveRecord::Base
   has_many :children, class_name: 'Category', foreign_key: 'parent_id'
   has_many :writing
 
-  validates :name, presence: true
+  validates_presence_of :name
 
-  validates :depth,
-            :order_in_parent,
-            numericality: { greater_than_or_equal_to: 0 }
+  validates_numericality_of :depth,           greater_than_or_equal_to: 0
+  validates_numericality_of :order_in_parent, greater_than_or_equal_to: 0
 
   before_validation :create_root_if_needed, on: :create
   before_validation :parent_is_root_if_parent_id_is_invalid
 
-  before_validation :initialize_depth, on: :create
+  before_validation :initialize_depth,           on: :create
   before_validation :initialize_order_in_parent, on: :create
 
   before_validation :is_not_circular_error?, on: :update, if: :parent_id_changed?
@@ -37,15 +36,13 @@ class Category < ActiveRecord::Base
   scope :child_categories, ->(parent_id) { where(parent_id: parent_id).order(:order_in_parent) }
   scope :except_one,       ->(id)        { where.not(id: id) }
 
-  scope :to_array, -> { all.map { |c| c } }
-
   def self.hierarchy_categories(root_id = :all, excepted_ids = [])
     if Category.count == 0
       [Category.create_root]
 
     else
       root_id = nil if root_id == :all
-      get_hierarchy_categories(Category.child_categories(root_id).to_array, excepted_ids)
+      get_hierarchy_categories(Category.child_categories(root_id).to_a, excepted_ids)
     end
   end
 
@@ -240,7 +237,7 @@ class Category < ActiveRecord::Base
     end
 
     categories.each_with_index do |category, index|
-      Category.child_categories(category.id).to_array.reverse_each do |child|
+      Category.child_categories(category.id).to_a.reverse_each do |child|
         categories.insert(index + 1, child) unless excepted_ids.include? child.id
       end
     end

@@ -113,9 +113,14 @@ describe Comment do
   end
 
   describe "scope or method" do
+    let!(:comment1) { Comment.create(user_id: user.id, writing_id: writing.id, content: "sample1") }
+    let!(:comment2) { Comment.create(user_id: user.id, writing_id: writing.id, content: "sample2") }
+    let!(:comment3) { Comment.create(user_id: user.id, writing_id: writing.id, content: "sample3") }
+    let!(:comment4) { Comment.create(user_id: user.id, writing_id: writing.id, content: "sample4") }
+    let!(:comment5) { Comment.create(user_id: user.id, writing_id: writing.id, content: "sample5") }
+    let!(:comment6) { Comment.create(user_id: user.id, writing_id: writing.id, content: "sample6") }
 
     describe "display_name" do
-
       it "should be expected" do
         has_user_id = Comment.create(writing_id: writing.id, user_id: user.id, content: content)
         has_name    = Comment.create(writing_id: writing.id, name: name, password: password, content: content)
@@ -126,20 +131,47 @@ describe Comment do
     end
 
     describe "last_updated_at" do
-      let(:comment1) { Comment.create(user_id: user.id, writing_id: writing.id, content: "sample1") }
-      let(:comment2) { Comment.create(user_id: user.id, writing_id: writing.id, content: "sample2") }
-      let(:comment3) { Comment.create(user_id: user.id, writing_id: writing.id, content: "sample3") }
-      let(:comment4) { Comment.create(user_id: user.id, writing_id: writing.id, content: "sample4") }
-      let(:comment5) { Comment.create(user_id: user.id, writing_id: writing.id, content: "sample5") }
-      let(:comment6) { Comment.create(user_id: user.id, writing_id: writing.id, content: "sample6") }
-
       it "should be expected" do
         comment6.update(content: "test")
         Comment.last_updated_at(writing.id).strftime("%Y%m%d%H%M%S").should == comment6.updated_at.strftime("%Y%m%d%H%M%S")
         comment1.update(content: "test")
         Comment.last_updated_at(writing.id).strftime("%Y%m%d%H%M%S").should == comment1.updated_at.strftime("%Y%m%d%H%M%S")
       end
+    end
 
+    describe "created_between" do
+      before do
+        comment1.update(created_at: comment6.created_at - 100.second)
+        comment2.update(created_at: comment6.created_at -  90.second)
+        comment3.update(created_at: comment6.created_at -  80.second)
+        comment4.update(created_at: comment6.created_at -  70.second)
+        comment5.update(created_at: comment6.created_at -  60.second)
+      end
+
+      it "should be expected" do
+        Comment.created_between(comment1.created_at, comment6.created_at, writing.id).count.should == 4
+        Comment.created_between(comment2.created_at, comment5.created_at, writing.id).count.should == 2
+        Comment.created_between(comment1.created_at, comment3.created_at, writing.id).count.should == 1
+        Comment.created_between(comment4.created_at, comment5.created_at, writing.id).count.should == 0
+      end
+    end
+
+    describe "updated_between" do
+      before do
+        comment1.update(created_at: DateTime.now - 1.day, updated_at: comment6.updated_at - 100.second)
+        comment2.update(created_at: DateTime.now - 1.day, updated_at: comment6.updated_at -  90.second)
+        comment3.update(created_at: DateTime.now - 1.day, updated_at: comment6.updated_at -  80.second)
+        comment4.update(created_at: DateTime.now - 1.day, updated_at: comment6.updated_at -  70.second)
+        comment5.update(created_at: DateTime.now - 1.day, updated_at: comment6.updated_at -  60.second)
+        comment6.update(created_at: DateTime.now - 1.day)
+      end
+
+      it "should be expected" do
+        Comment.updated_between(comment1.updated_at, comment6.updated_at, writing.id).count.should == 4
+        Comment.updated_between(comment2.updated_at, comment5.updated_at, writing.id).count.should == 2
+        Comment.updated_between(comment1.updated_at, comment3.updated_at, writing.id).count.should == 1
+        Comment.updated_between(comment4.updated_at, comment5.updated_at, writing.id).count.should == 0
+      end
     end
   end
 

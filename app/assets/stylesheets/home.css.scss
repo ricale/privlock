@@ -91,6 +91,11 @@ body {
                 text-align: justify;
                 line-height: 160%;
             }
+
+            .comments_count {
+                text-decoration: underline;
+                cursor: pointer;
+            }
         }
 
         div.writing .comments {

@@ -21,9 +21,8 @@ class Comment < ActiveRecord::Base
   belongs_to :writing
   belongs_to :user
 
-  validates :writing_id,
-            :content,
-            presence: true
+  validates_presence_of :writing_id
+  validates_presence_of :content
 
   before_validation :default_values
   before_validation :is_valid_writer?
@@ -43,13 +42,13 @@ class Comment < ActiveRecord::Base
   }
 
   scope :created_between, ->(begun_at, ended_at, writing_id) {
-    where(writing_id: writing_id)
-    .where("created_at > ? AND created_at < ?", begun_at, ended_at)
+    created_before(ended_at, writing_id)
+    .where("created_at > ?", begun_at)
   }
 
   scope :updated_between, ->(begun_at, ended_at, writing_id) {
-    where(writing_id: writing_id)
-    .where("updated_at > ? AND updated_at < ? AND created_at <= ?", begun_at, ended_at, begun_at)
+    updated_before(ended_at, writing_id)
+    .where("updated_at > ? AND created_at <= ?", begun_at, begun_at)
   }
 
   def password

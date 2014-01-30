@@ -48,7 +48,7 @@ gem 'bcrypt-ruby', '~> 3.0.0'
 
 gem 'kaminari'
 gem 'passenger'
-gem 'capistrano'
+gem 'capistrano', '2.15.5'
 
 # Use unicorn as the app server
 # gem 'unicorn'
