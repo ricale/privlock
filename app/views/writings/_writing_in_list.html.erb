@@ -12,4 +12,8 @@
   <div class="title">
     <%= link_to writing.title, show_path(writing) %>
   </div>
+
+  <div class="comments_count">
+    (<%= writing.comment.count %>)
+  </div>
 </li>

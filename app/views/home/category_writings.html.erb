@@ -1,7 +1,10 @@
-<div class='description'><%= "#{pluralize(@count, 'writing')} in '#{@category.name}' category" %></div>
+<div class='description'><%= "#{pluralize(@writing_count, 'writing')} in '#{@category_name}' category" %></div>
 
 <ul class='writings_list'>
-  <%= render partial: "writings/writing_in_list", collection: @writings, as: :writing, spacer_template: 'writings/writing_spacer' %>
+  <%= render partial: "writings/writing_in_list",
+             collection: @writings,
+             as: :writing,
+             spacer_template: 'writings/writing_spacer' %>
 </ul>
 
 <%= paginate @writings %>

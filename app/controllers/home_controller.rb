@@ -14,8 +14,9 @@ class HomeController < ApplicationController
     writings = Writing.in_category_tree(params[:category_id])
 
     @writings = writings.order(created_at: :desc).page(params[:page]).per(30)
-    @count    = writings.count
-    @category = Category.find(params[:category_id])
+
+    @writing_count = writings.count
+    @category_name = Category.find(params[:category_id]).name
   end
 
 
