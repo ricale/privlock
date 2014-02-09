@@ -1,3 +1,4 @@
 # privlock
 
-- <http://weblog.ricalest.net/>
+- <http://ricalest.net/>
+- ricale@ricalest.net
