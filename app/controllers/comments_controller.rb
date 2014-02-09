@@ -29,6 +29,7 @@ class CommentsController < ApplicationController
         set_comment_count
         set_last_updated_timestamp(@comment.updated_at)
         set_updated_comments(@comment.updated_at)
+        send_new_comment_notification_mail(@comment) unless @comment.user == @comment.writing.user
 
         @new_comments <<= @comment
         format.js { render :update }
@@ -50,6 +51,7 @@ class CommentsController < ApplicationController
           set_comment_count
           set_last_updated_timestamp(@comment.updated_at)
           set_updated_comments(@comment.updated_at)
+          send_updated_comment_notification_mail(@comment) unless @comment.user == @comment.writing.user
 
           @updated_comments <<= @comment
           format.js { }
@@ -77,6 +79,8 @@ class CommentsController < ApplicationController
         set_comment_count
         set_last_updated_timestamp
         set_updated_comments
+        send_destroyed_comment_notification_mail(@comment) unless @comment.user == @comment.writing.user
+
         format.js { }
 
       else
@@ -128,5 +132,24 @@ class CommentsController < ApplicationController
 
   def timestamp_to_time(timestamp)
     Time.strptime(timestamp, "%s")
+  end
+
+
+  def send_new_comment_notification_mail(comment)
+    writing = comment.writing
+    user    = writing.user
+    CommentMailer.new_comment(user, writing, comment).deliver
+  end
+
+  def send_updated_comment_notification_mail(comment)
+    writing = comment.writing
+    user    = writing.user
+    CommentMailer.updated_comment(user, writing, comment).deliver
+  end
+
+  def send_destroyed_comment_notification_mail(comment)
+    writing = comment.writing
+    user    = writing.user
+    CommentMailer.destroyed_comment(user, writing, comment).deliver
   end
 end
