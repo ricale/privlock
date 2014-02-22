@@ -15,7 +15,7 @@
 
   <%= javascript_tag do %>
     $(function() {
-      $('#writing_<%= writing.id %> > .content').html(RICALE.hmd.decode('<%= escape_javascript(writing.content).html_safe %>'));
+      $('#writing_<%= writing.id %> > .content').html(hmd.decode('<%= escape_javascript(writing.content).html_safe %>'));
     });
   <% end %>
 
