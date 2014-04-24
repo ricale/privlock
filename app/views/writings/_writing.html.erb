@@ -1,17 +1,23 @@
-<%= div_for writing do %>
-  <div class="title">
-    <h1><%= link_to writing.title, show_path(writing) %></h1>
-  </div>
+<%= div_for writing, class: "col-md-12" do %>
+  <div class="row title">
+    <div class="col-md-12">
+      <div class="page-header">
+        <h1><%= link_to writing.title, show_path(writing) %> <small><%= render partial: 'writings/admin_menu', locals: { writing: writing } %></small></h1>
 
-  <div class="writing_category">
-    <%= get_chained_categories(writing.category) %>
-  </div>
 
-  <div class="info">
-    (<div class="created_at"><%= get_formatted_time writing.created_at %></div>/<div class="updated_at"><%= get_formatted_time writing.updated_at %></div>)
-  </div>
+        <div class="infos">
+          <span class="writing_category">
+            <%= get_chained_categories(writing.category) %>
+          </span>
 
-  <%= render partial: 'writings/admin_menu', locals: { writing: writing } %>
+          <span class="info">
+            (<span class="created_at"><%= get_formatted_time writing.created_at %></span><small>/<span class="updated_at"><%= get_formatted_time writing.updated_at %></span></small>)
+          </span>
+        </div>
+
+      </div>
+    </div>
+  </div>
 
   <%= javascript_tag do %>
     $(function() {
@@ -24,13 +30,17 @@
     <%= writing.content %>
   </div>
 
-  <div class="info action_menu">
-    <div class="comments_count"><%= pluralize(writing.comment.count, 'comment') %></div>
+  <hr/>
+
+  <div class="row infos_bottom">
+    <div class="col-md-12 info action_menu">
+      <span class="comments_count"><%= pluralize(writing.comment.count, 'comment') %></span>&nbsp;
+      <%= render partial: 'writings/admin_menu', locals: { writing: writing } %>
+    </div>
   </div>
 
-  <%= render partial: 'writings/admin_menu', locals: { writing: writing } %>
-
-  <div class="comments">
+  <div class="comments not_displayed">
+    <hr/>
     <div class="comment_list">
     </div>
 

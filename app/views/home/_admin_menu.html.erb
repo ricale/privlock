@@ -1,4 +1,4 @@
 <% if current_user.try(:admin) %>
-  <%= link_to 'New Writing', new_writing_path %> |
-  <%= link_to 'Categories', categories_path %>
+  <%= icon_menu_button "plus", new_writing_path, nil, "btn-default btn-sm" %>
+  <%= icon_menu_button "cog", categories_path, nil, "btn-default btn-sm" %>
 <% end %>

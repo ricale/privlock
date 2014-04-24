@@ -7,28 +7,14 @@
 <% end %>
 
 <% content_for :container do %>
-
-  <%= render 'shared/prefix' %>
   <%= render 'header' %>
 
-  <% if content_for?(:menu) or current_user.try(:admin) %>
-  <div class='main_menu'>
-    <%= render 'admin_menu' %>
-    <%= yield(:menu) %>
-  </div>
-  <% end %>
-
-  <div class='contents'>
+  <div class='contents row'>
     <%= yield %>
   </div>
 
-  <div class='sidebars'>
-    <%= yield(:sidebars) %>
-  </div>
-
-  <%= render 'shared/clear_floating' %>
-
   <%= render 'footer' %>
+
 
 <% end %>
 

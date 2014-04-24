@@ -11,7 +11,13 @@
  *= require_self
  */
 
-a:link    { color: #000000; text-decoration: none; }
+@import "bootstrap";
+
+.not_displayed {
+    display: none;
+}
+
+/*a:link    { color: #000000; text-decoration: none; }
 a:visited { color: #000000; }
 a:hover   { color: #000000; text-decoration: underline; }
 a:active  { color: #000000; }
@@ -27,6 +33,37 @@ h3 { font-size: 1.5em; }
 h4 { font-size: 1.3em; }
 h5 { font-size: 1.2em; }
 h6 { font-size: 1.1em; }
+
+blockquote {
+    background-color: #DFDFDF;
+    padding: 5px;
+    margin: 10px 0px 10px 40px;
+}
+
+blockquote pre {
+    padding: 0px;
+    margin: 0px;
+    border: 0px;
+}
+
+pre {
+    padding: 5px;
+    margin: 5px;
+    border: 1px dashed #000;
+
+    white-space: pre-wrap;
+}
+
+pre code {
+    padding: 0px;
+    margin: 0px;
+    border: 0px;
+}
+
+code {
+    font-family: 'DejaVu Sans Mono', 'Consolas', 'Courier New';
+    padding: 0px 3px;
+}
 
 form {
     margin: 0px;
@@ -51,4 +88,4 @@ textarea {
 
 .header .title {
     margin-bottom: 10px;
-}
+}*/

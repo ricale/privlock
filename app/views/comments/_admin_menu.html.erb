@@ -1,13 +1,13 @@
 <% if comment.user.nil? && current_user.nil? %>
-  <div class="menu">
-    <div class="edit">[E]</div>
-    <div class="delete">[D]</div>
-    <div class="delete_form"></div>
-  </div>
+  <span class="menu">
+    <span class="edit glyphicon glyphicon-edit"></span>&nbsp;
+    <span class="delete glyphicon glyphicon-remove"></span>
+    <span class="delete_form"></span>
+  </span>
 <% elsif valid_user?(comment.user) %>
-  <div class="menu" data-user="true">
-    <div class="edit">[E]</div>
-    <div class="delete">[D]</div>
-    <div class="delete_form"></div>
-  </div>
+  <span class="menu" data-user="true">
+    <span class="edit glyphicon glyphicon-edit"></span>&nbsp;
+    <span class="delete glyphicon glyphicon-remove"></span>
+    <span class="delete_form"></span>
+  </span>
 <% end %>

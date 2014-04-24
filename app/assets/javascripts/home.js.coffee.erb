@@ -26,30 +26,32 @@ privlock.highlightElement = (targetSelector, color, periodSeconds) ->
   , periodSeconds * 1000
 
 privlock.editCommentForm = (writingId, commentId, isAdmin, lastUpdatedTimestamp, content) ->
-  formHTML = "<form class='edit_comment' method='post' data-remote='true'
+  formHTML = "<form class='edit_comment form-horizontal' method='post' data-remote='true'
                 action='/writings/" + writingId + "/comments/" + commentId + "' accept-charset='UTF-8'>
                 <div style='margin:0;padding:0;display:inline'>
                   <input type='hidden' value='✓' name='utf8'>
                   <input type='hidden' value='patch' name='_method'>
-                </div>"
+                </div>
+                <div class='form-group'>"
 
   unless isAdmin
-    formHTML  += "<div class='field'>
-                    <label for='comment_password'>password (*)</label>
-                    <input id='comment_password' type='password' name='comment[password]'>
+    formHTML  += "<label for='comment_password' class='sr-only'>password (*)</label>
+                  <div class='col-md-3'>
+                    <input id='comment_password' type='password' name='comment[password]' class='form-control input-sm' placeholder='Password'>
                   </div>"
 
   formHTML + "<input id='last_updated_timestamp' type='hidden' value='" + lastUpdatedTimestamp + "' name='last_updated_timestamp'>
-              <div class='field'>
-                <textarea id='comment_content' name='comment[content]'>" + content + "</textarea>
-              </div>
-              <div class='actions'>
-                <input type='submit' value='Update' name='commit'>
+                <div class='col-md-12'>
+                  <textarea id='comment_content' name='comment[content]' class='form-control input-sm' rows='3'>" + content + "</textarea>
+                </div>
+                <div class='col-md-3'>
+                  <input type='submit' value='Update' name='commit' class='btn btn-primary btn-sm'>
+                </div>
               </div>
             </form>"
 
 privlock.deleteCommentForm = (writingId, commentId, isAdmin, lastUpdatedTimestamp) ->
-  formHTML = "<form class='delete_comment' method='post' data-remote='true'
+  formHTML = "<form class='delete_comment form-inline' method='post' data-remote='true'
                 action='/writings/" + writingId + "/comments/" + commentId + "' accept-charset='UTF-8'>
                 <div style='margin:0;padding:0;display:inline'>
                   <input type='hidden' value='✓' name='utf8'>
@@ -59,11 +61,13 @@ privlock.deleteCommentForm = (writingId, commentId, isAdmin, lastUpdatedTimestam
   if isAdmin
     formHTML  += "<div>Are you sure?</div>"
   else
-    formHTML  += "<label for='comment_password'>password</label>
-                  <input id='comment_password' type='password' name='comment[password]'>"
+    formHTML  += "<div class='form-group'>
+                    <label for='comment_password' class='sr-only'>password</label>
+                    <input id='comment_password' type='password' name='comment[password]' class='form-control input-sm' placeholder='password'>
+                  </div>"
 
   formHTML + "<input id='last_updated_timestamp' type='hidden' value='" + lastUpdatedTimestamp + "' name='last_updated_timestamp'>
-              <input type='submit' value='Delete' name='commit'>
+              <input type='submit' value='Delete' name='commit' class='btn btn-warning btn-sm'>
             </form>"
 
 

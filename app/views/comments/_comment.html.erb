@@ -1,14 +1,15 @@
 <%= div_for comment do %>
-  <div>
-    <div class="name">
-      <%= comment.display_name %>
-    </div>
+  <div class="infos">
+    <span class="name">
+      <strong><%= comment.display_name %></strong>
+    </span>
 
-    <div class="info">
-      <div class="updated_at"><%= get_formatted_time comment.updated_at %></div>
-    </div>
-
-    <%= render partial: 'comments/admin_menu', locals: { comment: comment } %>
+    <small>
+      <sapn class="info">
+        <sapn class="updated_at"><%= get_formatted_time comment.updated_at %></sapn>
+      </sapn>&nbsp;
+      <%= render partial: 'comments/admin_menu', locals: { comment: comment } %>
+    </small>
   </div>
 
   <div class="content"><%= comment.content %></div>

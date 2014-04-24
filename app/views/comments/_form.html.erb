@@ -1,28 +1,36 @@
-<%= form_for [writing, comment], remote: true do |f| %>
+<%= form_for [writing, comment], remote: true, html: {class: "form-horizontal new_comment"} do |f| %>
   <% unless current_user %>
-    <div class="field">
-      <%= f.label :name, 'name (*)' %>
-      <%= f.text_field :name %>
+    <div class="form-group">
+      <%= f.label :name, 'name', class: "sr-only" %>
+      <div class="col-md-4">
+        <%= f.text_field :name, class: "form-control", placeholder: "Name" %>
+      </div>
     </div>
 
-    <div class="field">
-      <%= f.label :password, 'password (*)' %>
-      <%= f.password_field :password %>
+    <div class="form-group">
+      <%= f.label :password, 'password', class: "sr-only" %>
+      <div class="col-md-4">
+        <%= f.password_field :password, class: "form-control", placeholder: "Password" %>
+      </div>
     </div>
 
-    <div class="field">
-      <%= f.label :email, 'email' %>
-      <%= f.text_field :email %>
+    <div class="form-group">
+      <%= f.label :email, 'email', class: "sr-only" %>
+      <div class="col-md-4">
+        <%= f.text_field :email, class: "form-control", placeholder: "Email (Optional)" %>
+      </div>
     </div>
   <% end %>
 
   <%= hidden_field_tag :last_updated_timestamp %>
 
-  <div class="field">
-    <%= f.text_area :content %>
+  <div class="form-group">
+    <div class="col-md-12">
+      <%= f.text_area :content, class: "form-control", placeholder: "Comment", rows: 5 %>
+    </div>
   </div>
 
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit "Save", class: "btn btn-primary" %>
   </div>
 <% end %>

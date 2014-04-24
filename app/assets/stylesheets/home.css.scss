@@ -8,278 +8,320 @@
  */
 
 body {
-    background-color: #000;
-}
-
-.notice { color: yellow; }
-.alert  { color: #F00; }
-
-.prefix {
-    .message {
-        .notice { color: yellow; }
-        .alert  { color: #F00; }
-    }
-    .account a { color: #444; }
+  background-color: #000;
 }
 
 .header,
-.main_menu,
-.contents .description,
-.contents .pagination,
-.contents > a,
-.sidebars .categories,
-.footer {
+.footer,
+.account {
+  color: #FFF;
+
+  a {
+    color: #FFF;
+  }
+
+  a.btn {
+    color: #333;
+  }
+}
+
+.header {
+  .categories {
+    margin-top: 20px;
+  }
+}
+
+
+
+.jumbotron.jumbotron-custom {
+  background-color: #000;
+  text-align: center;
+}
+
+
+.categories {
+  $grid: 0, 1, 2, 3, 4, 5, 6, 7, 8, 9;
+  @each $i in $grid {
+    .depth#{$i} {
+      font-size: #{1.3-($i/10*1.5)}em;
+    }
+  }
+
+  .category {
+    display: inline;
     color: #FFF;
 
     a {
-        color: #FFF;
+      color: #FFF;
     }
+  }
 }
 
-.contents .writings .writing .content {
-    a      { color: #888 }
-    a:link { text-decoration: underline; }
+.writing {
+  background-color: #FFF; 
+  padding-bottom: 20px;
 
-    h1 { border-bottom: 3px solid #000; }
-    h2 { border-bottom: 1px solid #888; }
-    h6 { font-weight: bold; }
-
-    h1, h2, h3, h4, h5, h6 {
-        margin: 16px 0px;
+  .page-header {
+    a {
+      color: #333;
     }
-
-    h1, h2 {
-        margin-top: 48px;
-    }
-
-    blockquote {
-        padding: 5px 5px 5px 40px;
-        margin: 0px;
-        border-left: 5px solid #888;
-
-        pre {
-            margin: 0px;
-        }
-    }
-
-    pre {
-        padding: 5px;
-        margin: 5px;
-
-        background-color: #EEE;
-
-        white-space: pre-wrap;
-
-        code {
-            padding: 0px;
-            margin: 0px;
-            border: 0px;
-        }
-    }
-
-    code {
-        font-family: 'DejaVu Sans Mono', 'Consolas', 'Courier New';
-        padding: 0px 3px;
-    }
+  }
 }
 
-.contents {
-    float: left;
+.comment_list {
+  padding: 0 20px;
 
-    .writings {
-        width: 800px;
+  .comment { 
+    padding-bottom: 20px;
+    margin-bottom: 20px;
 
-        div.writing {
-            padding: 10px;
-            background-color: #FFF;
-
-            h1 {
-                font-size: 1.7em;
-            }
-
-            .title {
-                margin: 3px 0px;
-            }
-
-
-            .info,
-            .info > div,
-            .name,
-            .writing_category,
-            .admin_menu {
-                display: inline;
-            }
-
-            .writing_category,
-            .info,
-            .admin_menu {
-                font-size: 0.8em;
-            }
-
-            .content {
-                margin: 15px;
-                text-align: justify;
-                line-height: 160%;
-            }
-
-            .comments_count {
-                text-decoration: underline;
-                cursor: pointer;
-            }
-        }
-
-        div.writing .comments {
-            display: none;
-
-            margin-top: 10px;
-            padding-top: 10px;
-            border-top: 1px dashed #000;
-            background-color: #FFF;
-
-            .comment {
-                margin-bottom: 10px;
-                padding: 10px;
-                border-bottom: 1px dotted #000;
-
-                .name,
-                .info,
-                .info > div,
-                .menu,
-                .menu > div,
-                .menu .delete_comment,
-                .menu .delete_comment > div {
-                    display: inline;
-                }
-
-                .name {
-                    font-style: italic;
-                }
-
-                .info,
-                .menu {
-                    font-size: 0.7em;
-                }
-
-                .menu .edit,
-                .menu .delete {
-                    cursor: pointer
-                }
-
-                .content {
-                    margin: 5px 0 0 0;    
-                }
-
-                .edit_comment {
-                    label {
-                        display: inline-block;
-                        width: 100px;
-                    }
-
-                    textarea {
-                        width: 725px;
-                        height: 100px;
-                    }
-                }
-
-                .delete_comment {
-                    input[type='password'],
-                    input[type='submit'] {
-                        font-size: 0.65em;
-                        margin: 0px;
-                        padding: 0px;
-                        border-width: 1px;
-                    }
-                }
-            }
-
-            .new_comment {
-                margin: 0px;
-                padding: 10px;
-                background-color: #EEE;
-
-                label {
-                    display: inline-block;
-                    width: 100px;
-                }
-
-                textarea {
-                    width: 725px;
-                    height: 100px;
-                }
-            }
-        }
-
-        .writing_spacer {
-            height: 50px;
-        }
-    }
-
-    .writings_list {
-        float: left;
-        width: 780px;
-        padding: 10px;
-        list-style: none;
-
-        background-color: #FFF;
-
-        li.writing {
-            padding: 5px 0px;
-
-            div {
-                display: inline;
-            }
-
-            .info,
-            .writing_category,
-            .admin_menu,
-            .comments_count {
-                font-size: 0.7em;
-            }
-        }
-
-        .writing_spacer {
-            border-top: 1px dotted #000;
-        }
-    }
-
-    .pagination {
-        margin-top: 50px;
-    }
+    border-bottom: 1px solid #EEE;
+  }
 }
 
-.sidebars {
-    float: left;
-
-    .categories {
-        margin-left: 10px;
-        padding-left: 10px;
-        border-left: 1px solid #000000;
-
-        $grid: 0, 1, 2, 3, 4, 5, 6, 7, 8, 9;
-
-        @each $i in $grid {
-          .depth#{$i} {
-            padding-left: #{$i*10}px;
-            padding-right: #{50-$i*10}px;
-          }
-        }
-
-        .name,
-        .count {
-            display: inline;
-        }
-
-        .count {
-            font-size: 0.8em;
-        }
-    }
+.new_comment {
+  background-color: #EEE;
+  padding: 20px;
 }
 
-.footer {
-    margin-top: 50px;
-
-    .copyright,
-    .author {
-        display: inline;
-    }
+.edit_comment {
+  div {
+    margin-top: 3px;
+  }
 }
+
+// .prefix {
+//     .account a { color: #444; }
+// }
+
+// .header,
+// .main_menu,
+// .contents .description,
+// .contents .pagination,
+// .contents > a,
+// .sidebars .categories,
+// .footer {
+//     color: #FFF;
+
+//     a {
+//         color: #FFF;
+//     }
+// }
+
+// .contents .writings .writing .content {
+//     a      { color: #888 }
+//     a:link { text-decoration: underline; }
+
+//     h1 { border-bottom: 3px solid #000; }
+//     h2 { border-bottom: 1px solid #888; }
+//     h6 { font-weight: bold; }
+
+//     h1, h2, h3, h4, h5, h6 {
+//         margin: 16px 0px;
+//     }
+
+//     h1, h2 {
+//         margin-top: 48px;
+//     }
+// }
+
+// .contents {
+//     float: left;
+
+//     .writings {
+//         width: 800px;
+
+//         div.writing {
+//             padding: 10px;
+//             background-color: #FFF;
+
+//             h1 {
+//                 font-size: 1.7em;
+//             }
+
+//             .title {
+//                 margin: 3px 0px;
+//             }
+
+
+//             .info,
+//             .info > div,
+//             .name,
+//             .writing_category,
+//             .admin_menu {
+//                 display: inline;
+//             }
+
+//             .writing_category,
+//             .info,
+//             .admin_menu {
+//                 font-size: 0.8em;
+//             }
+
+//             .content {
+//                 margin: 15px;
+//                 text-align: justify;
+//                 line-height: 160%;
+//             }
+
+//             .comments_count {
+//                 text-decoration: underline;
+//                 cursor: pointer;
+//             }
+//         }
+
+//         div.writing .comments {
+//             display: none;
+
+//             margin-top: 10px;
+//             padding-top: 10px;
+//             border-top: 1px dashed #000;
+//             background-color: #FFF;
+
+//             .comment {
+//                 margin-bottom: 10px;
+//                 padding: 10px;
+//                 border-bottom: 1px dotted #000;
+
+//                 .name,
+//                 .info,
+//                 .info > div,
+//                 .menu,
+//                 .menu > div,
+//                 .menu .delete_comment,
+//                 .menu .delete_comment > div {
+//                     display: inline;
+//                 }
+
+//                 .name {
+//                     font-style: italic;
+//                 }
+
+//                 .info,
+//                 .menu {
+//                     font-size: 0.7em;
+//                 }
+
+//                 .menu .edit,
+//                 .menu .delete {
+//                     cursor: pointer
+//                 }
+
+//                 .content {
+//                     margin: 5px 0 0 0;    
+//                 }
+
+//                 .edit_comment {
+//                     label {
+//                         display: inline-block;
+//                         width: 100px;
+//                     }
+
+//                     textarea {
+//                         width: 725px;
+//                         height: 100px;
+//                     }
+//                 }
+
+//                 .delete_comment {
+//                     input[type='password'],
+//                     input[type='submit'] {
+//                         font-size: 0.65em;
+//                         margin: 0px;
+//                         padding: 0px;
+//                         border-width: 1px;
+//                     }
+//                 }
+//             }
+
+//             .new_comment {
+//                 margin: 0px;
+//                 padding: 10px;
+//                 background-color: #EEE;
+
+//                 label {
+//                     display: inline-block;
+//                     width: 100px;
+//                 }
+
+//                 textarea {
+//                     width: 725px;
+//                     height: 100px;
+//                 }
+//             }
+//         }
+
+//         .writing_spacer {
+//             height: 50px;
+//         }
+//     }
+
+//     .writings_list {
+//         float: left;
+//         width: 780px;
+//         padding: 10px;
+//         list-style: none;
+
+//         background-color: #FFF;
+
+//         li.writing {
+//             padding: 5px 0px;
+
+//             div {
+//                 display: inline;
+//             }
+
+//             .info,
+//             .writing_category,
+//             .admin_menu,
+//             .comments_count {
+//                 font-size: 0.7em;
+//             }
+//         }
+
+//         .writing_spacer {
+//             border-top: 1px dotted #000;
+//         }
+//     }
+
+//     .pagination {
+//         margin-top: 50px;
+//     }
+// }
+
+// .sidebars {
+//     float: left;
+
+//     .categories {
+//         margin-left: 10px;
+//         padding-left: 10px;
+//         border-left: 1px solid #000000;
+
+//         $grid: 0, 1, 2, 3, 4, 5, 6, 7, 8, 9;
+
+//         @each $i in $grid {
+//           .depth#{$i} {
+//             padding-left: #{$i*10}px;
+//             padding-right: #{50-$i*10}px;
+//           }
+//         }
+
+//         .name,
+//         .count {
+//             display: inline;
+//         }
+
+//         .count {
+//             font-size: 0.8em;
+//         }
+//     }
+// }
+
+// .footer {
+//     margin-top: 50px;
+
+//     .copyright,
+//     .author {
+//         display: inline;
+//     }
+// }

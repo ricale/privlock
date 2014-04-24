@@ -1,6 +1,6 @@
 <% if current_user.try(:admin) %>
-  <div class="admin_menu">
-    <%= link_to '[E]', edit_writing_path(writing) %>
-    <%= link_to '[D]', writing_path(writing), method: :delete, data: { confirm: 'Are you sure?' } %>
-  </div>
+  <span class="admin_menu">
+    <%= icon_menu_button 'edit', edit_writing_path(writing) %>
+    <%= icon_menu_button 'remove', writing_path(writing), {method: :delete, data: { confirm: 'Are you sure?' }} %>
+  </span>
 <% end %>
