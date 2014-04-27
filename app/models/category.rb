@@ -35,7 +35,7 @@ class Category < ActiveRecord::Base
 
   scope :child_categories, ->(parent_id) { where(parent_id: parent_id).order(:order_in_parent) }
   scope :except_one,       ->(id)        { where.not(id: id) }
-  scope :high_categories,  ->(depth)     { where("depth <= ?", depth)}
+  scope :high_categories,  ->(depth)     { where("depth <= ?", depth).order(:order_in_parent) }
 
   def self.hierarchy_categories(root_id = :all, excepted_ids = [])
     if Category.count == 0
