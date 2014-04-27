@@ -7,14 +7,14 @@
 #= require hmd.ricaleinline
 
 privlock.displayAlert = (targetSelector, message, fadeOutSeconds) ->
-  alertSelector  = targetSelector + " .alert"
-  fadeOutSeconds = fadeOutSeconds or 2
+  alertSelector  = targetSelector + " .alert-custom"
+  fadeOutSeconds = fadeOutSeconds or 5
+  message = "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>" + message
 
   if $(alertSelector).exists()
-    $(alertSelector).text(message).show()
+    $(alertSelector).html(message).show()
   else
-    $(targetSelector).prepend "<div class='alert'>" + message + "</div>"
-  $(alertSelector).fadeOut fadeOutSeconds * 1000
+    $(targetSelector).prepend "<div class='alert-custom text-danger'>" + message + "</div>"
 
 privlock.highlightElement = (targetSelector, color, periodSeconds) ->
   color         = color or '#FFC'

@@ -22,21 +22,67 @@
   text-align: center;
 }
 
+.jumbotron.jumbotron-custom-white {
+  background-color: #FFF;
+  text-align: center;
+}
+
 .pagination.pagination-custom {
-  li a,
-  li span {
-    background-color: #000;
+  .page a,
+  .gap span,
+  .active span {
     border: 0px;
     color: #FFF;
   }
 
-  li.active span {
+  .page a {
+    background-color: #000;
+  }
+
+  .page a:hover {
     background-color: #333;
   }
 
-  li a:hover,
-  li span:hover {
+  .gap span {
+    color: #999;
+    background-color: #000;
+  }
+
+  .active span {
     background-color: #333;
+  }
+}
+
+.alert-custom {
+  padding: 3px 0;
+  margin-bottom: 10px;
+
+  button {
+    right: 0px;
+  }
+}
+
+.alert-custom.text-success {
+  border-bottom: 1px solid #{$brand-success};
+
+  button {
+    color: #{$brand-success};
+  }
+}
+
+.alert-custom.text-info {
+  border-bottom: 1px solid #{$brand-info};
+
+  button {
+    color: #{$brand-info};
+  }
+}
+
+.alert-custom.text-danger {
+  border-bottom: 1px solid #{$brand-danger};
+
+  button {
+    color: #{$brand-danger};
   }
 }
 

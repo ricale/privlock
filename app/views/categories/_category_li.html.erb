@@ -1,3 +1,16 @@
 <li id="<%= "category_#{category.id}" %>" class="<%= "category depth#{category.depth}" %>">
-  <span class="name"><%= link_to category.name, category_writings_path(category) %></span>
+  <% if category.depth != 0 && !category.children.blank? %>
+    <div class="btn-group">
+      <span class="name"><%= link_to category.name, category_writings_path(category) %></span>
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
+      <ul class="dropdown-menu dropdown-menu-center" role="menu">
+        <% category.children.each do |child| %>
+          <li><%= link_to child.name, category_writings_path(child) %></li>
+        <% end %>
+      </ul>
+    </div>
+
+  <% else %>
+    <span class="name"><%= link_to category.name, category_writings_path(category) %></span>
+  <% end %>
 </li>

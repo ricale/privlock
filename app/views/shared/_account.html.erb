@@ -1,9 +1,8 @@
 <div class="account">
-<% if user_signed_in? %>
-  <%= link_to 'Logout', destroy_user_session_path, method: :delete %>
-  <%= link_to 'Account', edit_user_registration_path %>
-<% else %>
-  <%= link_to 'Login', new_user_session_path %>
-  <%= link_to 'Register', new_user_registration_path %>
-<% end %>
+  <% if user_signed_in? %>
+    <%= icon_menu_link 'log-out', destroy_user_session_path, {method: :delete} %>
+    <%= icon_menu_link 'info-sign', edit_user_registration_path %>
+  <% else %>
+    <%= icon_menu_link 'log-in'.html_safe, new_user_session_path %>
+  <% end %>
 </div>

@@ -11,9 +11,14 @@ body {
   background-color: #000;
 }
 
-.header,
-.footer,
 .account {
+  a {
+    color: #333;
+  }
+}
+
+.header,
+.footer {
   color: #FFF;
 
   a {
@@ -25,51 +30,46 @@ body {
   }
 }
 
+.contents {
+  .title a {
+    color: #333;
+  }
+}
+
 .header {
   .categories {
     margin-top: 20px;
-  }
-}
+    padding: 0px;
 
-
-.categories {
-  padding: 0px;
-
-  $grid: 0, 1, 2, 3, 4, 5, 6, 7, 8, 9;
-  @each $i in $grid {
-    .depth#{$i} {
-      font-size: #{1.3-($i/10*1.5)}em;
-    }
-  }
-
-  .category {
-    display: inline;
-    color: #FFF;
-
-    a {
+    .category {
+      display: inline;
       color: #FFF;
+      font-size: 1.3em;
     }
-  }
 
-  .category_spacer{
-    display: inline-block;
-    width: 10px;
-  }
-}
-
-div.writing {
-  background-color: #FFF; 
-  padding: 1px 20px 20px 20px;
-
-  .page-header {
-    a {
-      color: #333;
+    .category_spacer{
+      display: inline-block;
+      width: 10px;
     }
   }
 }
 
-.writing_spacer {
-  height: 50px;
+
+.writings {
+
+  div.writing {
+    background-color: #FFF;
+    padding: 1px 20px 20px 20px;
+
+    .comments_count {
+      text-decoration: underline;
+      cursor: pointer;
+    }
+  }
+
+  .writing_spacer {
+    height: 50px;
+  }
 }
 
 .writings_list_container {
@@ -78,6 +78,10 @@ div.writing {
 
   .writings_list {
     margin: 0px;
+
+    .title {
+      padding-left: 5px;
+    }
   }
 }
 
@@ -85,7 +89,7 @@ div.writing {
   padding: 0 20px;
 
   .comment { 
-    padding-bottom: 20px;
+    padding: 5px 5px 20px 5px;
     margin-bottom: 20px;
 
     border-bottom: 1px solid #EEE;
