@@ -9,13 +9,11 @@
 <% content_for :container do %>
   <%= render 'header' %>
 
-  <div class='contents row'>
+  <div class='contents'>
     <%= yield %>
   </div>
 
   <%= render 'footer' %>
-
-
 <% end %>
 
 <%= render template: "layouts/application" %>

@@ -32,14 +32,9 @@ body {
 }
 
 
-
-.jumbotron.jumbotron-custom {
-  background-color: #000;
-  text-align: center;
-}
-
-
 .categories {
+  padding: 0px;
+
   $grid: 0, 1, 2, 3, 4, 5, 6, 7, 8, 9;
   @each $i in $grid {
     .depth#{$i} {
@@ -55,16 +50,34 @@ body {
       color: #FFF;
     }
   }
+
+  .category_spacer{
+    display: inline-block;
+    width: 10px;
+  }
 }
 
-.writing {
+div.writing {
   background-color: #FFF; 
-  padding-bottom: 20px;
+  padding: 1px 20px 20px 20px;
 
   .page-header {
     a {
       color: #333;
     }
+  }
+}
+
+.writing_spacer {
+  height: 50px;
+}
+
+.writings_list_container {
+  background-color: #FFF;
+  padding: 10px;
+
+  .writings_list {
+    margin: 0px;
   }
 }
 
@@ -88,6 +101,10 @@ body {
   div {
     margin-top: 3px;
   }
+}
+
+.footer {
+  margin-top: 10px;
 }
 
 // .prefix {

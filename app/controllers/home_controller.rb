@@ -25,7 +25,7 @@ class HomeController < ApplicationController
   private
 
   def set_categories
-    @categories = Category.hierarchy_categories(:all)
+    @categories = Category.high_categories(1)
   end
 
   def set_new_comment

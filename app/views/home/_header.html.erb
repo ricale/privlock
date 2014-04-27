@@ -1,18 +1,5 @@
 <div class='header jumbotron jumbotron-custom'>
   <%= render 'shared/title' %>
-  <div class="btn-group">
-    <button type="button" class="btn btn-link btn-sm dropdown-toggle" data-toggle="dropdown">
-      <span class='glyphicon glyphicon-th-list'></span> Categories <span class='caret'></span>
-    </button>
-    <ul class="dropdown-menu" role="menu">
-      <li><a href="#">Action</a></li>
-      <li><a href="#">Another action</a></li>
-      <li><a href="#">Something else here</a></li>
-      <li><a href="#">Separated link</a></li>
-    </ul>
-  </div>
-  <% unless current_user.nil? %>
-    <%= render 'admin_menu' %>
-  <% end %>
+  <%= render 'admin_menu' %>
   <%= render 'categories' %>
 </div>

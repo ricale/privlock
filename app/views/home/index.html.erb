@@ -2,4 +2,6 @@
   <%= render partial: @writings, spacer_template: 'writings/writing_spacer' %>
 </div>
 
-<%= paginate @writings %>
+<div class='pagination_container text-center col-md-12'>
+  <%= paginate @writings %>
+</div>

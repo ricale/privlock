@@ -1,21 +1,19 @@
-<%= div_for writing, class: "col-md-12" do %>
-  <div class="row title">
-    <div class="col-md-12">
-      <div class="page-header">
-        <h1><%= link_to writing.title, show_path(writing) %> <small><%= render partial: 'writings/admin_menu', locals: { writing: writing } %></small></h1>
+<%= div_for writing do %>
+  <div class="title">
+    <div class="page-header">
+      <h1><%= link_to writing.title, show_path(writing) %> <small><%= render partial: 'writings/admin_menu', locals: { writing: writing } %></small></h1>
 
 
-        <div class="infos">
-          <span class="writing_category">
-            <%= get_chained_categories(writing.category) %>
-          </span>
+      <div class="infos">
+        <span class="writing_category">
+          <%= get_chained_categories(writing.category) %>
+        </span>
 
-          <span class="info">
-            (<span class="created_at"><%= get_formatted_time writing.created_at %></span><small>/<span class="updated_at"><%= get_formatted_time writing.updated_at %></span></small>)
-          </span>
-        </div>
-
+        <span class="info">
+          (<span class="created_at"><%= get_formatted_time writing.created_at %></span><small>/<span class="updated_at"><%= get_formatted_time writing.updated_at %></span></small>)
+        </span>
       </div>
+
     </div>
   </div>
 
@@ -32,8 +30,8 @@
 
   <hr/>
 
-  <div class="row infos_bottom">
-    <div class="col-md-12 info action_menu">
+  <div class="infos_bottom">
+    <div class="info action_menu">
       <span class="comments_count"><%= pluralize(writing.comment.count, 'comment') %></span>&nbsp;
       <%= render partial: 'writings/admin_menu', locals: { writing: writing } %>
     </div>

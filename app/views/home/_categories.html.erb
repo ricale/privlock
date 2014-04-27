@@ -1,3 +1,6 @@
-<div class='categories'>
-  <%= render @categories %>
-</div>
+<ul class='categories'>
+  <%= render partial: "categories/category_li",
+             collection: @categories,
+             as: :category,
+             spacer_template: "categories/category_spacer" %>
+</ul>

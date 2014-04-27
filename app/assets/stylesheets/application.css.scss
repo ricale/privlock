@@ -17,6 +17,29 @@
     display: none;
 }
 
+.jumbotron.jumbotron-custom {
+  background-color: #000;
+  text-align: center;
+}
+
+.pagination.pagination-custom {
+  li a,
+  li span {
+    background-color: #000;
+    border: 0px;
+    color: #FFF;
+  }
+
+  li.active span {
+    background-color: #333;
+  }
+
+  li a:hover,
+  li span:hover {
+    background-color: #333;
+  }
+}
+
 /*a:link    { color: #000000; text-decoration: none; }
 a:visited { color: #000000; }
 a:hover   { color: #000000; text-decoration: underline; }
