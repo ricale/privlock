@@ -20,6 +20,10 @@ module Privlock
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
 
+    config.action_view.field_error_proc = Proc.new do |html_tag, instance|
+      "<span class='has-error'>#{html_tag}</span>".html_safe
+    end
+
     config.generators do |g|
       g.test_framework :rspec
       g.factory_girl dir: 'spec/factories'

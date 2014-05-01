@@ -36,15 +36,15 @@ privlock.editCommentForm = (writingId, commentId, isAdmin, lastUpdatedTimestamp,
 
   unless isAdmin
     formHTML  += "<label for='comment_password' class='sr-only'>password (*)</label>
-                  <div class='col-md-3'>
+                  <div class='col-md-3 col-xs-10'>
                     <input id='comment_password' type='password' name='comment[password]' class='form-control input-sm' placeholder='Password'>
                   </div>"
 
   formHTML + "<input id='last_updated_timestamp' type='hidden' value='" + lastUpdatedTimestamp + "' name='last_updated_timestamp'>
-                <div class='col-md-12'>
+                <div class='col-md-12 col-xs-12'>
                   <textarea id='comment_content' name='comment[content]' class='form-control input-sm' rows='3'>" + content + "</textarea>
                 </div>
-                <div class='col-md-3'>
+                <div class='col-md-3  col-xs-10'>
                   <input type='submit' value='Update' name='commit' class='btn btn-primary btn-sm'>
                 </div>
               </div>

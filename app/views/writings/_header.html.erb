@@ -1,3 +1,7 @@
 <div class="header jumbotron jumbotron-custom-white">
   <%= render 'shared/title' %>
+  <% if controller.action_name == "edit" %>
+    <%= icon_menu_button 'arrow-left', show_path(@writing) %>
+  <% end %>
+  <%= icon_menu_button 'list', index_path %>
 </div>

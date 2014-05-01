@@ -9,8 +9,10 @@
 <% content_for :container do %>
   <%= render 'header' %>
 
-  <div class='contents'>
-    <%= yield %>
+  <div class="row">
+    <div class='contents col-md-10 col-md-offset-1'>
+      <%= yield %>
+    </div>
   </div>
 
   <%= render 'footer' %>
