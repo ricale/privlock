@@ -1,24 +1,27 @@
 <div class="categories">
   <h3>Categories</h3>
 
-  <% @categories.each do |category| %>
-  <div class='row'>
-    <%= render category %>
+  <table class="table table-striped">
+    <% @categories.each do |category| %>
+      <tr>
+        <td class="col-md-2">
+          <%= render category %>
+        </td>
 
-    <div class="category_edit_box">
-      <%= render partial: 'form', locals: {
-        category:    category,
-        parents:     @parents[category.id],
-        submit_text: 'Update'
-      } %>
-
-      <%= render partial: 'edit_forms', locals: { category: category } unless category.root? %>
-    </div>
-
-  </div>
-  <% end %>
+        <td class="category_edit_box col-md-6">
+          <%= render partial: 'form', locals: {
+            category:    category,
+            parents:     @parents[category.id],
+            submit_text: 'Update'
+          } %>
+        </td>
+      </tr>
+    <% end %>
+  </table>
 
 </div>
+
+<hr/>
 
 <div class="new_category">
   <h4>New Category</h4>
@@ -28,5 +31,3 @@
     parents:     @new_parents,
   } %>
 </div>
-
-<%= link_to 'Back', index_path %>

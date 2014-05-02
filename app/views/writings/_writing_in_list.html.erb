@@ -3,13 +3,9 @@
     <span class="created_at"><%= get_formatted_date writing.created_at %></span><small>(<span class="updated_at"><%= get_formatted_date writing.updated_at %></span>)</small>
   </span>
 
-  <span class="writing_category">
-    <%= get_chained_categories(writing.category, @category, true) %>
-  </span>
-
   <%= render partial: 'writings/admin_menu', locals: { writing: writing } %>
 
-  <span class="title">
+  <span class="title lead">
     <%= link_to writing.title, show_path(writing) %>
   </span>
 

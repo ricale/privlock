@@ -7,41 +7,11 @@
  *= require_self
  */
 
-
-
-// .categories {
-//     $grid: 0, 1, 2, 3, 4, 5, 6, 7, 8, 9;
-//     $depth_width: 5;
-
-//     @each $i in $grid {
-//       .depth#{$i} {
-//         padding-left:  #{$i*$depth_width}px;
-//         padding-right: #{50-$i*$depth_width}px;
-//       }
-//     }
-
-//     .category {
-//         display: inline-block;
-//         width: 200px;
-
-//         > div {
-//             display: inline;
-//         }
-
-//         .count {
-//             font-size: 0.8em;
-//         }
-//     }
-
-//     .category_edit_box {
-//         display: inline;
-
-//         form {
-//             display: inline;
-//         }
-//     }
-// }
-
-// div.new_category {
-//     margin: 10px 0px;
-// }
+.form-category {
+  .form-group {
+    margin-right: 10px;
+    .select-parent {
+      width: 90px;
+    }
+  }
+}

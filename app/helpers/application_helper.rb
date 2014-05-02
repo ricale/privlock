@@ -10,7 +10,11 @@ module ApplicationHelper
     method = options[:method]
     data   = options[:data]
 
-    link_to "<span class='glyphicon glyphicon-#{icon_class_name}'></span>".html_safe, path, method: method, data: data, class: "btn #{btn_class}"
+    if method.nil?
+      link_to "<span class='glyphicon glyphicon-#{icon_class_name}'></span>".html_safe, path, data: data, class: "btn #{btn_class}"
+    else
+      link_to "<span class='glyphicon glyphicon-#{icon_class_name}'></span>".html_safe, path, method: method, data: data, class: "btn #{btn_class}"
+    end
   end
 
   def icon_menu_link(icon_class_name, path, options = nil)
