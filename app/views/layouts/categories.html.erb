@@ -8,11 +8,7 @@
 
 <% content_for :container do %>
 
-  <div class="row">
-    <div class='col-md-10 col-md-offset-1'>
-      <%= render 'header' %>
-    </div>
-  </div>
+  <%= render 'header' %>
 
   <% if content_for?(:menu) %>
   <div class='menu'>
@@ -20,10 +16,8 @@
   </div>
   <% end %>
 
-  <div class="row">
-    <div class='contents col-md-10 col-md-offset-1'>
-      <%= yield %>
-    </div>
+  <div class='contents'>
+    <%= yield %>
   </div>
 
 <% end %>

@@ -7,7 +7,9 @@
   </ul>
 </div>
 
-<%= paginate @writings %>
+<div class='pagination_container text-center'>
+  <%= paginate @writings %>
+</div>
 
 <% content_for :sidebars do %>
   <%= render 'categories' %>

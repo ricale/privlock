@@ -20,12 +20,20 @@
 </head>
 <body>
   <div class="container">
-    <%= render 'shared/account' %>
-    <%= render 'shared/message' %>
+    <div class="row">
+      <div class='col-md-10 col-md-offset-1'>
+        <%= render 'shared/account' %>
+        <%= render 'shared/message' %>
+      </div>
+    </div>
   </div>
 
   <div class="container">
-    <%= content_for?(:container) ? yield(:container) : yield %>
+    <div class="row">
+      <div class='col-md-10 col-md-offset-1'>
+        <%= content_for?(:container) ? yield(:container) : yield %>
+      </div>
+    </div>
   </div>
 
 </body>
