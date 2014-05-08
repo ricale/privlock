@@ -43,7 +43,7 @@ hmd = (function() {
     regExpBlockquote = /^[ ]{0,3}(>+) ([ ]*.*)$/,
     regExpH1Underlined = /^=+$/,
     regExpH2Underlined = /^-+$/,
-    regExpHR = /^[ ]{0,3}([-_*]+)[ ]*\1[ ]*\1[ ]*$/,
+    regExpHR = /^[ ]{0,3}([-_*][ ]*){3,}$/,
     regExpUL = /^([\s]*)[*+-][ ]+(.*)$/,
     regExpOL = /^([\s]*)[\d]+\.[ ]+(.*)$/,
     regExpBlank = /^[\s]*$/,
@@ -137,7 +137,7 @@ hmd = (function() {
             getRule(/``[\s]*(.+?)[\s]*``/g,                          NEED_REPLACER, function(p1) { return '<code>'+p1.replace(/</g,'&lt;')+'</code>' }),
             getRule(/`([^`]+)`/g,                                    NEED_REPLACER, function(p1) { return '<code>'+p1.replace(/</g,'&lt;')+'</code>' }),
             getRule(/!\[([^\]]+)\][\s]*\(([^\s\)]+)(?: "(.*)")?\)/g, NEED_REPLACER, function(p1,p2,p3) { return '<img src="$2" alt="$1" title="$3">' }),
-            getRule(/\[([^\]]+)\][\s]*\(([^\s\)]+)(?: "(.*)")?\)/g,  NEED_REPLACER, function(p1,p2,p3) { return '<a href="'+p2+'" title="'+p3+'">' }, function(p1) { return p1+'</a>' }),
+            getRule(/\[([^\]]+)\][\s]*\(([^\s\)]+)(?: "(.*)")?\)/g,  NEED_REPLACER, function(p1,p2,p3) { return '<a href="'+p2+'"'+(p3!=undefined ? ' title="'+p3+'"' : '')+'>' }, function(p1) { return p1+'</a>' }),
             getRule(/<(http[s]?:\/\/[^<]+)>/g,                       NEED_REPLACER, function(p1) { return '<a href="'+p1+'">'+p1+'</a>'}),
 
             getRule(/\*\*([^\*\s]{1,2}|\*[^\*\s]|[^\*\s]\*|(?:[^\s].+?[^\s]))\*\*/g, NORMAL, '<strong>$1</strong>'),
@@ -161,8 +161,6 @@ hmd = (function() {
                     for(i in ruleArray) {
                         rules[rules.length] = getRule(ruleArray[i][0], NORMAL, ruleArray[i][1]);
                     }
-
-                    console.log(rules);
                 },
 
                 addReference: function(id, url, title) {
@@ -759,9 +757,12 @@ hmd = (function() {
         },
 
         closeCodeblockIfNeeded = function() {
-            if(r.tag != CODEBLOCK && startCodeblock) {
-                line += "</code></pre>";
-                startCodeblock = false;
+            if(startCodeblock) {
+                if((r.tag != CODEBLOCK && r.tag != BLANK)
+                   || (r.tag == BLANK && (next == null || next.tag != CODEBLOCK))) {
+                    line += "</code></pre>";
+                    startCodeblock = false;
+                }
             }
         },
 

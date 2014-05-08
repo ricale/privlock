@@ -2,9 +2,10 @@
   <div class="form-group">
     <%= f.text_field :name, class: "form-control input-sm" %>
 
-    <%= icon_menu_button 'arrow-up', up_category_path(category), {method: :patch}, 'btn btn-sm btn-default' %>
-    <%= icon_menu_button 'arrow-down', down_category_path(category), {method: :patch}, 'btn btn-sm btn-default' %>
-
+    <% unless category.name.blank? %>
+      <%= icon_menu_button 'arrow-up', up_category_path(category), {method: :patch}, 'btn btn-sm btn-default' %>
+      <%= icon_menu_button 'arrow-down', down_category_path(category), {method: :patch}, 'btn btn-sm btn-default' %>
+    <% end %>
 
   </div>
   <% unless parents.empty? %>
@@ -18,6 +19,9 @@
   <% end %>
   <div class="form-group">
     <%= f.submit "Save", class: "btn btn-primary btn-sm" %>
-    <%= icon_menu_button 'remove', category_path(category), {method: :delete}, 'btn btn-sm btn-warning' %>
+
+    <% unless category.name.blank? %>
+      <%= icon_menu_button 'remove', category_path(category), {method: :delete}, 'btn btn-sm btn-warning' %>
+    <% end %>
   </div>
 <% end %>
