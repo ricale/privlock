@@ -34,14 +34,18 @@ group :development do
   # debugging
   # gem 'better_errors'
   # gem 'binding_of_caller'
+
+  gem 'capistrano', '~> 3.0', require: false
+  # gem 'capistrano-rails',   '~> 1.1', require: false
+  # gem 'capistrano-bundler', '~> 1.1', require: false
 end
 
 gem 'devise'
 gem 'bcrypt-ruby', '~> 3.0.0'
 
 gem 'kaminari'
+
 gem 'passenger'
-gem 'capistrano', '2.15.5'
 
 # Use unicorn as the app server
 # gem 'unicorn'
