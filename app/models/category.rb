@@ -51,13 +51,11 @@ class Category < ActiveRecord::Base
   scope :high_categories,   ->(depth)     { where("depth <= ?", depth).order(:order_in_parent) }
 
   def self.hierarchy_categories(root_id = :all, excepted_ids = [])
-    root_id = root_id.to_i
-
     if Category.count == 0
       [Category.create_root]
 
     else
-      if root_id == :all || root_id == nil || root_id == Category::ROOT_ID
+      if root_id == :all || root_id == nil || root_id.to_i == Category::ROOT_ID
         Category.all.order(:family, :depth, :order_in_parent)
       else
         Category.family_categories(root_id).order(:family, :depth, :order_in_parent)
