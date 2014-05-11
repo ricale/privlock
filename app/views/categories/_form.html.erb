@@ -1,14 +1,14 @@
 <%= form_for category, html: {class: "form form-inline form-category"} do |f| %>
   <div class="form-group">
-    <%= f.text_field :name, class: "form-control input-sm" %>
+    <%= f.text_field :name, placeholder: "Name", class: "form-control input-sm" %>
 
-    <% unless category.name.blank? %>
+    <% if !category.name.blank? && !category.root? %>
       <%= icon_menu_button 'arrow-up', up_category_path(category), {method: :patch}, 'btn btn-sm btn-default' %>
       <%= icon_menu_button 'arrow-down', down_category_path(category), {method: :patch}, 'btn btn-sm btn-default' %>
     <% end %>
 
   </div>
-  <% unless parents.empty? %>
+  <% if !category.root? %>
     <div class="form-group">
       <%= f.label :parent_id, class: "control-label" %>
       <%= f.select :parent_id,
@@ -20,7 +20,7 @@
   <div class="form-group">
     <%= f.submit "Save", class: "btn btn-primary btn-sm" %>
 
-    <% unless category.name.blank? %>
+    <% if !category.name.blank? && !category.root? %>
       <%= icon_menu_button 'remove', category_path(category), {method: :delete, data: {confirm: "Are you sure?"}}, 'btn btn-sm btn-warning' %>
     <% end %>
   </div>

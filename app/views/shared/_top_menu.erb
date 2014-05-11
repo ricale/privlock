@@ -1,13 +1,24 @@
 <div class="top_menu">
-  <% if user_signed_in? %>
-    <%= icon_menu_link 'log-out', destroy_user_session_path, {method: :delete} %>
-    <%= icon_menu_link 'info-sign', edit_user_registration_path %>
-  <% else %>
-    <%= icon_menu_link 'log-in'.html_safe, new_user_session_path %>
-  <% end %>
-
   <% unless params[:controller] == "home" %>
+    <% if params[:action] == "edit" %>
+      <%= icon_menu_link 'arrow-left', show_path(@writing) %>
+    <% end %>
     <%= icon_menu_link 'home'.html_safe, index_path %>
   <% end %>
 
+  <% if params[:controller] == "home" %>
+    <% if current_user.try(:admin) %>
+      <%= icon_menu_link "plus", new_writing_path %>
+      <%= icon_menu_link "cog", admin_general_path %>
+    <% end %>
+  <% end %>
+
+  <div class="pull-right">
+    <% if user_signed_in? %>
+      <%= icon_menu_link 'log-out', destroy_user_session_path, {method: :delete} %>
+      <%= icon_menu_link 'info-sign', edit_user_registration_path %>
+    <% else %>
+      <%= icon_menu_link 'log-in', new_user_session_path %>
+    <% end %>
+  </div>
 </div>

@@ -22,8 +22,9 @@ module ApplicationHelper
 
     method = options[:method] || "get"
     data   = options[:data]
+    caption = options[:caption] || ""
 
-    link_to "<span class='glyphicon glyphicon-#{icon_class_name}'></span>".html_safe, path, method: method, data: data
+    link_to "<span class='glyphicon glyphicon-#{icon_class_name}'></span> #{caption}".html_safe, path, method: method, data: data
   end
 
   def dead_link(*args)

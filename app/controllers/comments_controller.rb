@@ -2,6 +2,7 @@ class CommentsController < ApplicationController
   before_action :set_comment, only: [:update, :destroy]
   before_action :set_writing_id
 
+  # GET /writings/1/comments
   def index
     set_comment_count
     set_last_updated_timestamp
@@ -19,7 +20,7 @@ class CommentsController < ApplicationController
     end
   end
 
-  # POST /comments
+  # POST /writings/1/comments
   def create
     @comment = Comment.new(comment_params.merge(user_id: current_user.try(:id), writing_id: @writing_id))
 
@@ -41,7 +42,7 @@ class CommentsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /comments/1
+  # PATCH/PUT /writings/1/comments/1
   def update
     respond_to do |format|
 
@@ -68,7 +69,7 @@ class CommentsController < ApplicationController
     end
   end
 
-  # DELETE /comments/1
+  # DELETE /writings/1/comments/1
   def destroy
     respond_to do |format|
 

@@ -11,7 +11,7 @@
         <td class="category_edit_box col-md-6">
           <%= render partial: 'categories/form', locals: {
             category:    category,
-            parents:     @parents[category.id],
+            parents:     @parents,
             submit_text: 'Update'
           } %>
         </td>
@@ -28,6 +28,6 @@
 
   <%= render partial: 'categories/form', locals: {
     category:    @new_category,
-    parents:     @new_parents,
+    parents:     @parents,
   } %>
 </div>

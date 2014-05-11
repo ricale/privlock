@@ -6,12 +6,12 @@ class WritingsController < ApplicationController
 
 
 
-  # GET /new
+  # GET /writings/new
   def new
     @writing = Writing.new
   end
 
-  # GET /1/edit
+  # GET /writings/1/edit
   def edit
   end
 

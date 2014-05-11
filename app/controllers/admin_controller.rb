@@ -1,20 +1,19 @@
 class AdminController < ApplicationController
+
+  # GET /admin/general
   def general
     @setting = Setting.active_setting
 
     @tab = "general"
   end
 
+  # GET /admin/categories
   def categories
     @categories = Category.hierarchy_categories
 
-    @parents = {}
-    @categories.each do |c|
-      @parents[c.id] = Category.hierarchy_categories(:all, [c.id])
-    end
+    @parents = Category.family_categories(Category.root.id)
 
     @new_category = Category.new
-    @new_parents  = Category.hierarchy_categories
 
     @tab = "categories"
   end

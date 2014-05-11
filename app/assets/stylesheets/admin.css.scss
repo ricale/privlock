@@ -6,3 +6,19 @@
  *= require application
  *= require_self
  */
+
+
+@for $i from 1 through 3 {
+  .depth#{$i} {
+    padding-left: #{$i * 15}px
+  }
+}
+
+.form-category {
+  .form-group {
+    margin-right: 10px;
+    .select-parent {
+      width: 90px;
+    }
+  }
+}

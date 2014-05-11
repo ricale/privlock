@@ -2,15 +2,18 @@ class HomeController < ApplicationController
   before_action :set_categories
   before_action :set_new_comment, except: :category_writings
 
+  # GET /
   def index
     per_page = Setting.active_setting.number_of_writing
     @writings = Writing.order(created_at: :desc).page(params[:page]).per(per_page)
   end
 
+  # GET /1
   def show
     @writing = Writing.find(params[:id])
   end
 
+  # GET /categories/1
   def category_writings
     writings = Writing.in_category_tree(params[:category_id])
 

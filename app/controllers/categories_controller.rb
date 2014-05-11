@@ -10,10 +10,12 @@ class CategoriesController < ApplicationController
     @category = Category.new(category_params)
 
     respond_to do |format|
-      if @category.save
+      begin
+        @category.save!
+
         format.html { redirect_to admin_categories_path, notice: 'Category was successfully created.' }
-      else
-        format.html { redirect_to admin_categories_path, alert: 'Category was not created.' }
+      rescue => e
+        format.html { redirect_to admin_categories_path, alert: e.to_s }
       end
     end
   end
@@ -21,10 +23,12 @@ class CategoriesController < ApplicationController
   # PATCH/PUT /categories/1
   def update
     respond_to do |format|
-      if @category.update(category_params)
+      begin
+        @category.update!(category_params)
+
         format.html { redirect_to admin_categories_path, notice: 'Category was successfully updated.' }
-      else
-        format.html { redirect_to admin_categories_path, alert: 'Category was not updated.' }
+      rescue => e
+        format.html { redirect_to admin_categories_path, alert: e.to_s }
       end
     end
   end
@@ -32,22 +36,25 @@ class CategoriesController < ApplicationController
   # PATCH /categories/1/up
   def up
     respond_to do |format|
-      if @category.up
+      begin
+        @category.up
+
         format.html { redirect_to admin_categories_path, notice: 'Category was successfully updated.' }
-      else
-        format.html { redirect_to admin_categories_path, alert: 'Impossible' }
+      rescue => e
+        format.html { redirect_to admin_categories_path, alert: e.to_s }
       end
     end
   end
 
   # PATCH /categories/1/down
   def down
-    puts params.inspect
     respond_to do |format|
-      if @category.down
+      begin
+        @category.down
+
         format.html { redirect_to admin_categories_path, notice: 'Category was successfully updated.' }
-      else
-        format.html { redirect_to admin_categories_path, alert: 'Impossible' }
+      rescue => e
+        format.html { redirect_to admin_categories_path, alert: e.to_s }
       end
     end
   end
@@ -55,10 +62,12 @@ class CategoriesController < ApplicationController
   # DELETE /categories/1
   def destroy
     respond_to do |format|
-      if @category.destroy
+      begin
+        @category.destroy
+
         format.html { redirect_to admin_categories_path, notice: 'Category was successfully removed.' }
-      else
-        format.html { redirect_to admin_categories_path, alert: 'Impossible' }
+      rescue => e
+        format.html { redirect_to admin_categories_path, alert: e.to_s }
       end
     end
   end

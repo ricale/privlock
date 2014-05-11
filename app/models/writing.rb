@@ -29,7 +29,8 @@ class Writing < ActiveRecord::Base
   scope :in_categories, ->(category_ids) { where("category_id in (?)", category_ids) }
 
   scope :in_category_tree, ->(category_id) {
-    where("category_id in (?)", Category.hierarchy_categories(category_id).map { |c| c.id } << category_id)
+    category_ids = Category.hierarchy_categories(category_id).map(&:id)
+    where("category_id in (?)", category_ids)
   }
 
   def last_comment_updated_at
