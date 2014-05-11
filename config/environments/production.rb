@@ -59,8 +59,8 @@ Privlock::Application.configure do
 
   # Precompile additional assets.
   # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
-  config.assets.precompile += %w( home.css categories.css writings.css )
-  config.assets.precompile += %w( home.js  categories.js  writings.js  )
+  config.assets.precompile += %w( admin.css categories.css home.css writings.css )
+  config.assets.precompile += %w( admin.js  categories.js  home.js  writings.js  )
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
