@@ -11,7 +11,7 @@
         <td class="category_edit_box col-md-6">
           <%= render partial: 'categories/form', locals: {
             category:    category,
-            parents:     @parents,
+            parents:     @parents.except_one(category.id),
             submit_text: 'Update'
           } %>
         </td>
