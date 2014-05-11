@@ -6,7 +6,7 @@
   <%= render partial: 'writings/admin_menu', locals: { writing: writing } %>
 
   <span class="writing_category">
-    <%# get_chained_categories(writing.category, @category, true) %>
+    <%= get_chained_categories(writing.category, @category, true) %>
   </span>
 
   <span class="title lead">
