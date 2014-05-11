@@ -147,6 +147,10 @@ class Category < ActiveRecord::Base
     unless children.empty?
       raise "This category can not change parent. Maximum category depth is 2"
     end
+
+    if id == parent_id.to_i
+      raise "Impossible"
+    end
   end
 
   def initialize_family
