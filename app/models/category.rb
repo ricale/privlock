@@ -207,7 +207,7 @@ class Category < ActiveRecord::Base
   #
 
   def up_order_in_parent
-    move_order_in_parent(true) if order_in_parent != 0
+    move_order_in_parent(true) if order_in_parent != Category.child_categories(parent_id).minimum(:order_in_parent)
   end
 
   def down_order_in_parent
@@ -215,10 +215,15 @@ class Category < ActiveRecord::Base
   end
 
   def move_order_in_parent(up)
-    offset = up ? -1 : 1
-    sitten_category = Category.find_by(parent_id: parent_id, order_in_parent: order_in_parent + offset)
+    sitten_category = if up
+      Category.find_by("parent_id = ? AND order_in_parent < ?", parent_id, order_in_parent)
+    else
+      Category.find_by("parent_id = ? AND order_in_parent > ?", parent_id, order_in_parent)
+    end
+    sitten_category_order = sitten_category.order_in_parent
+
     sitten_category.update(order_in_parent: order_in_parent)
-    update(order_in_parent: order_in_parent + offset)
+    update(order_in_parent: sitten_category_order)
   end
 
   #

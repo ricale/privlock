@@ -1,0 +1,33 @@
+<div class="categories">
+  <h3>Categories</h3>
+
+  <table class="table table-striped">
+    <% @categories.each do |category| %>
+      <tr>
+        <td class="col-md-2">
+          <%= render category %>
+        </td>
+
+        <td class="category_edit_box col-md-6">
+          <%= render partial: 'categories/form', locals: {
+            category:    category,
+            parents:     @parents[category.id],
+            submit_text: 'Update'
+          } %>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+
+</div>
+
+<hr/>
+
+<div class="new_category">
+  <h4>New Category</h4>
+
+  <%= render partial: 'categories/form', locals: {
+    category:    @new_category,
+    parents:     @new_parents,
+  } %>
+</div>

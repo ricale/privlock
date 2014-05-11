@@ -1,5 +1,5 @@
 <div class='writings_list_container'>
-  <div class='description text-info'><%= "#{pluralize(@writing_count, 'writing')} in '#{@category_name}' category" %></div>
+  <div class='description text-info'><%= "#{pluralize(@writing_count, 'writing')} in '#{@category.name}' category" %></div>
   <ul class='writings_list'>
     <%= render partial: "writings/writing_in_list",
                collection: @writings,

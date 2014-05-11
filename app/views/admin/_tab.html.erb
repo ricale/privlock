@@ -1,0 +1,4 @@
+<ul class="nav nav-tabs">
+  <li <%= 'class="active dead_link"'.html_safe if @tab == 'general' %>><%= link_to "General", admin_general_path %></li>
+  <li <%= 'class="active dead_link"'.html_safe if @tab == "categories" %>><%= link_to "Categories", admin_categories_path %></li>
+</ul>

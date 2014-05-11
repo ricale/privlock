@@ -33,4 +33,10 @@ FactoryGirl.define do
     association :user
     content "sample content"
   end
+
+  factory :setting, class: Setting do
+    active true
+    title "sample"
+    number_of_writing 10
+  end
 end

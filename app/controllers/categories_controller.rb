@@ -1,22 +1,8 @@
 class CategoriesController < ApplicationController
   before_action :authenticate_user!
 
-  before_action :set_category, only: [:show, :update, :up, :down, :destroy]
-
-  # GET /categories
-  def index
-    @categories = Category.hierarchy_categories
-
-    @parents = {}
-    @categories.each do |c|
-      @parents[c.id] = Category.hierarchy_categories(:all, [c.id])
-    end
-
-    @new_category = Category.new
-    @new_parents  = Category.hierarchy_categories
-  end
-
-
+  before_action :admin_tab_name
+  before_action :set_category, except: [:create]
 
 
   # POST /categories
@@ -25,9 +11,9 @@ class CategoriesController < ApplicationController
 
     respond_to do |format|
       if @category.save
-        format.html { redirect_to categories_path, notice: 'Category was successfully created.' }
+        format.html { redirect_to admin_categories_path, notice: 'Category was successfully created.' }
       else
-        format.html { redirect_to categories_path, alert: 'Category was not created.' }
+        format.html { redirect_to admin_categories_path, alert: 'Category was not created.' }
       end
     end
   end
@@ -36,9 +22,9 @@ class CategoriesController < ApplicationController
   def update
     respond_to do |format|
       if @category.update(category_params)
-        format.html { redirect_to categories_path, notice: 'Category was successfully updated.' }
+        format.html { redirect_to admin_categories_path, notice: 'Category was successfully updated.' }
       else
-        format.html { redirect_to categories_path, alert: 'Category was not updated.' }
+        format.html { redirect_to admin_categories_path, alert: 'Category was not updated.' }
       end
     end
   end
@@ -47,20 +33,21 @@ class CategoriesController < ApplicationController
   def up
     respond_to do |format|
       if @category.up
-        format.html { redirect_to categories_path, notice: 'Category was successfully updated.' }
+        format.html { redirect_to admin_categories_path, notice: 'Category was successfully updated.' }
       else
-        format.html { redirect_to categories_path, alert: 'Impossible' }
+        format.html { redirect_to admin_categories_path, alert: 'Impossible' }
       end
     end
   end
 
   # PATCH /categories/1/down
   def down
+    puts params.inspect
     respond_to do |format|
       if @category.down
-        format.html { redirect_to categories_path, notice: 'Category was successfully updated.' }
+        format.html { redirect_to admin_categories_path, notice: 'Category was successfully updated.' }
       else
-        format.html { redirect_to categories_path, alert: 'Impossible' }
+        format.html { redirect_to admin_categories_path, alert: 'Impossible' }
       end
     end
   end
@@ -69,9 +56,9 @@ class CategoriesController < ApplicationController
   def destroy
     respond_to do |format|
       if @category.destroy
-        format.html { redirect_to categories_url, notice: 'Category was successfully removed.' }
+        format.html { redirect_to admin_categories_path, notice: 'Category was successfully removed.' }
       else
-        format.html { redirect_to categories_url, alert: 'Impossible' }
+        format.html { redirect_to admin_categories_path, alert: 'Impossible' }
       end
     end
   end
@@ -80,6 +67,10 @@ class CategoriesController < ApplicationController
 
 
   private
+
+  def admin_tab_name
+    @tab = "categories"
+  end
 
   def set_category
     @category = Category.find(params[:id])

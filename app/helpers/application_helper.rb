@@ -25,4 +25,15 @@ module ApplicationHelper
 
     link_to "<span class='glyphicon glyphicon-#{icon_class_name}'></span>".html_safe, path, method: method, data: data
   end
+
+  def dead_link(*args)
+    has_key = *args[2].has_key?(:class)
+    if has_key
+      *args[2][:class] = "#{args[2][:class]} dead_link"
+    else
+      *args[2][:class] = "dead_link"
+    end
+
+    link_to *args
+  end
 end

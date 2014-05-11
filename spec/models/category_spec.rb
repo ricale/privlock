@@ -139,6 +139,15 @@ describe Category do
         it { expect { child12.up }.to change { child12.order_in_parent                }.from(1).to(0) }
         it { expect { child12.up }.to change { Category.find(child11).order_in_parent }.from(0).to(1) }
 
+        it do
+          expect {
+            child12.delete
+            child13.up
+          }.to change {
+            child13.order_in_parent
+          }.from(2).to(0) 
+        end
+
       end
 
       describe "no up because already top" do

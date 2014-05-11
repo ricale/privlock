@@ -27,3 +27,9 @@ jQuery.fn.isDisplayNone = function() {
 if(typeof privlock == typeof undefined) {
     privlock = {}
 }
+
+$(function() {
+  $(document).on('click', '.dead_link', function(event) {
+    event.preventDefault();
+  });
+})

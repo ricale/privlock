@@ -21,7 +21,7 @@
     <%= f.submit "Save", class: "btn btn-primary btn-sm" %>
 
     <% unless category.name.blank? %>
-      <%= icon_menu_button 'remove', category_path(category), {method: :delete}, 'btn btn-sm btn-warning' %>
+      <%= icon_menu_button 'remove', category_path(category), {method: :delete, data: {confirm: "Are you sure?"}}, 'btn btn-sm btn-warning' %>
     <% end %>
   </div>
 <% end %>

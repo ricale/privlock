@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140104061530) do
+ActiveRecord::Schema.define(version: 20140510071526) do
 
   create_table "categories", force: true do |t|
     t.string   "name",                        null: false
@@ -29,6 +29,16 @@ ActiveRecord::Schema.define(version: 20140104061530) do
     t.string   "password_hash"
     t.integer  "user_id"
     t.text     "content",       null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "comments", ["writing_id"], name: "index_comments_on_writing_id", using: :btree
+
+  create_table "settings", force: true do |t|
+    t.boolean  "active"
+    t.string   "title",             null: false
+    t.integer  "number_of_writing", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

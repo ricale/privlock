@@ -3,7 +3,8 @@ class HomeController < ApplicationController
   before_action :set_new_comment, except: :category_writings
 
   def index
-    @writings = Writing.order(created_at: :desc).page(params[:page])
+    per_page = Setting.active_setting.number_of_writing
+    @writings = Writing.order(created_at: :desc).page(params[:page]).per(per_page)
   end
 
   def show
@@ -14,9 +15,9 @@ class HomeController < ApplicationController
     writings = Writing.in_category_tree(params[:category_id])
 
     @writings = writings.order(created_at: :desc).page(params[:page]).per(30)
-
     @writing_count = writings.count
-    @category_name = Category.find(params[:category_id]).name
+
+    @category = Category.find(params[:category_id])
   end
 
 

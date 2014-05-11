@@ -7,6 +7,10 @@ Privlock::Application.routes.draw do
   get '/page/:page'              => 'home#index'
   get '/categories/:category_id' => 'home#category_writings', as: :category_writings
 
+  get '/admin/general' => 'admin#general', as: :admin_general
+
+  get '/admin/categories' => 'admin#categories', as: :admin_categories
+
 
   resources :writings, except: [:index, :show]
 
@@ -15,7 +19,7 @@ Privlock::Application.routes.draw do
   end
 
 
-  resources :categories, except: [:new, :show, :edit], path: '/admin/categories' do
+  resources :categories, except: [:new, :show, :edit] do
     patch 'up',   on: :member
     patch 'down', on: :member
   end
@@ -26,6 +30,8 @@ Privlock::Application.routes.draw do
       get 'error', on: :collection
     end
   end
+
+  resources :settings, only: :update, path: "/admin/general"
 
 
   devise_for :users

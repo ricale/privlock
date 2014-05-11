@@ -1,8 +1,13 @@
-<div class="account">
+<div class="top_menu">
   <% if user_signed_in? %>
     <%= icon_menu_link 'log-out', destroy_user_session_path, {method: :delete} %>
     <%= icon_menu_link 'info-sign', edit_user_registration_path %>
   <% else %>
     <%= icon_menu_link 'log-in'.html_safe, new_user_session_path %>
   <% end %>
+
+  <% unless params[:controller] == "home" %>
+    <%= icon_menu_link 'home'.html_safe, index_path %>
+  <% end %>
+
 </div>
