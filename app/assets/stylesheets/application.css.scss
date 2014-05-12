@@ -85,3 +85,9 @@
     color: #{$brand-danger};
   }
 }
+
+.modal-custom {
+  .modal-body {
+    overflow-y: auto;
+  }
+}
