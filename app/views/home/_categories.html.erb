@@ -1,6 +1,19 @@
-<ul class='categories'>
-  <%= render partial: "categories/category_li",
-             collection: @categories,
-             as: :category,
-             spacer_template: "categories/category_spacer" %>
-</ul>
+<div class='categories'>
+  <ul class='parent_categories'>
+    <%= render partial: "categories/category_li",
+               collection: @categories,
+               as: :category,
+               spacer_template: "categories/category_spacer" %>
+  </ul>
+
+  <% @categories.each do |category| %>
+    <% if category.depth != 0 && !category.children.blank? %>
+      <ul id='category_<%= category.id %>_child_categories' class='child_categories not_displayed'>
+        <%= render partial: "categories/category_li",
+                   collection: category.children,
+                   as: :category,
+                   spacer_template: "categories/category_spacer" %>
+      </ul>
+    <% end %>
+  <% end %>
+</div>

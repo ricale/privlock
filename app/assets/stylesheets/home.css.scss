@@ -24,26 +24,38 @@ body {
   a {
     color: #FFF;
   }
-
-  a.btn {
-    color: #333;
-  }
 }
 
 .header {
   .categories {
-    margin-top: 20px;
-    padding: 0px;
+    .parent_categories,
+    .child_categories {
+      padding: 0px;
 
-    .category {
-      display: inline;
-      color: #FFF;
-      font-size: 1.3em;
+      .category_spacer{
+        display: inline-block;
+        width: 10px;
+      }
     }
 
-    .category_spacer{
-      display: inline-block;
-      width: 10px;
+    .parent_categories {
+      margin-top: 20px;
+
+      .category {
+        display: inline;
+        color: #FFF;
+        font-size: 1.3em;
+      }
+    }
+
+    .child_categories {
+      width: 100%;
+      float: left;
+
+      .category {
+        display: inline;
+        color: #FFF;
+      }
     }
   }
 }
