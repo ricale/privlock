@@ -82,12 +82,10 @@ privlock.onReadyDocument = ->
       if $childCategories.isDisplayNone()
         $childCategories.removeClass('not_displayed')
 
-  $(".categories").mouseleave (event) ->
-    setTimeout (->
-      $(".child_categories").not("not_displayed").fadeOut 1000, ->
-        $(this).removeAttr "style"
-        $(this).addClass "not_displayed"
-    ), 5000
+  $(".header").mouseleave (event) ->
+    $(".child_categories").not("not_displayed").fadeOut 1000, ->
+      $(this).removeAttr "style"
+      $(this).addClass "not_displayed"
 
   $(".comments_count").click (event) ->
     commentContainer = $(this).closest('.writing').find('.comments')
