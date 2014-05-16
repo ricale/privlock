@@ -28,6 +28,19 @@ if(typeof privlock == typeof undefined) {
     privlock = {}
 }
 
+privlock.displayOne = function(elementsClass, visibleElementId) {
+  var $elements       = $(elementsClass),
+      $visibleElement = $(visibleElementId);
+
+  if(!$visibleElement.exists() || $visibleElement.isDisplayNone()) {
+    $elements.not('not_displayed').addClass('not_displayed');
+    if($visibleElement.isDisplayNone()) {
+      $visibleElement.removeClass('not_displayed');
+    }
+  }
+
+}
+
 $(function() {
   $(document).on('click', '.dead_link', function(event) {
     event.preventDefault();

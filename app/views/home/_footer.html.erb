@@ -1,3 +1,7 @@
 <div class='footer text-center'>
-  <%= render 'shared/author' %> / <%= render 'shared/copyright' %>
+  <%= render 'shared/author' %>
+  <% if (!@setting.author_name.blank? || !@setting.author_email.blank?) && !@setting.ccl_id.nil? %>
+    /
+  <% end %>
+  <%= render 'shared/copyright' %>
 </div>

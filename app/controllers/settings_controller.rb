@@ -4,6 +4,7 @@ class SettingsController < ApplicationController
   # PATCH/PUT /settings/1
   def update
     @setting = Setting.find(params[:id])
+    @licenses = Ccl.all
 
     @tab = "general"
 
@@ -20,6 +21,6 @@ class SettingsController < ApplicationController
   private
 
   def setting_params
-    params.require(:setting).permit(:title, :number_of_writing)
+    params.require(:setting).permit(:title, :number_of_writing, :ccl_id, :author_name, :author_email)
   end
 end

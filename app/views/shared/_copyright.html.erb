@@ -1,1 +1,3 @@
-<span class="copyright"><%= link_to "CC BY-NC-SA 4.0", "http://creativecommons.org/licenses/by-nc-sa/4.0/deed.ko" %></span>
+<% unless @setting.ccl_id.nil? %>
+  <span class="copyright"><%= link_to @setting.ccl_name, @setting.ccl_url %></span>
+<% end %>

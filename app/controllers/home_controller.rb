@@ -1,10 +1,10 @@
 class HomeController < ApplicationController
-  before_action :set_categories
+  before_action :load_categories
   before_action :set_new_comment, except: :category_writings
 
   # GET /
   def index
-    per_page = Setting.active_setting.number_of_writing
+    per_page = @setting.number_of_writing
     @writings = Writing.order(created_at: :desc).page(params[:page]).per(per_page)
   end
 
@@ -28,7 +28,7 @@ class HomeController < ApplicationController
 
   private
 
-  def set_categories
+  def load_categories
     @categories = Category.high_categories(1)
   end
 

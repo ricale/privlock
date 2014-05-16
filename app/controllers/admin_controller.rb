@@ -2,7 +2,7 @@ class AdminController < ApplicationController
 
   # GET /admin/general
   def general
-    @setting = Setting.active_setting
+    @licenses = Ccl.all
 
     @tab = "general"
   end

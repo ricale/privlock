@@ -1,1 +1,12 @@
-<span class="author"><%= link_to "Written by ricale(ricale@ricalest.net)", "mailto:ricale@ricalest.net" %></span>
+<% unless @setting.author_name.blank? && @setting.author_email.blank? %>
+  <span class="author">
+    Written by
+    <% if @setting.author_name.blank? %>
+      <%= link_to @setting.author_email, "mailto:#{@setting.author_email}" %>
+    <% elsif @setting.author_email.blank? %>
+      <%= @setting.author_name %>
+    <% else %>
+      <%= @setting.author_name %>(<%= link_to @setting.author_email, "mailto:#{@setting.author_email}" %>)
+    <% end %>
+  </span>
+<% end %>

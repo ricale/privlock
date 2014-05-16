@@ -73,14 +73,7 @@ privlock.deleteCommentForm = (writingId, commentId, isAdmin, lastUpdatedTimestam
 
 privlock.onReadyDocument = ->
   $(".parent_categories .category").mouseenter (event) ->
-    categoryId = $(this).attr("id").slice(9)
-    childCategoriesContainerId = "category_"+categoryId+"_child_categories"
-    $childCategories = $("#"+childCategoriesContainerId)
-
-    if !$childCategories.exists() or $childCategories.isDisplayNone()
-      $('.child_categories').not('not_displayed').addClass('not_displayed')
-      if $childCategories.isDisplayNone()
-        $childCategories.removeClass('not_displayed')
+    privlock.displayOne('.child_categories', "#category_"+$(this).attr("id").slice(9)+"_child_categories")
 
   $(".header").mouseleave (event) ->
     $(".child_categories").not("not_displayed").fadeOut 1000, ->

@@ -1,0 +1,56 @@
+<%= form_for @setting, html: {class: "form form-horizontal"} do |f| %>
+  <%= render partial: "shared/form_message", locals: {resource: @setting, resource_name: "Setting"} %>  
+  <div class="form-group">
+    <%= f.label :title, "Blog title", class: "control-label col-md-3" %>
+    <div class="col-md-5">
+      <%= f.text_field :title, class: "form-control" %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :author_name, "Author Name", class: "control-label col-md-3" %>
+    <div class="col-md-5">
+      <%= f.text_field :author_name, class: "form-control" %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :author_email, "Author Email", class: "control-label col-md-3" %>
+    <div class="col-md-5">
+      <%= f.text_field :author_email, class: "form-control" %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :number_of_writing, "# of Writings on a page", class: "control-label col-md-3" %>
+    <div class="col-md-5">
+      <%= f.number_field :number_of_writing, class: "form-control" %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :ccl_id, "License", class: "control-label col-md-3" %>
+    <div class="col-md-5">
+      <%= f.select :ccl_id,
+                   options_from_collection_for_select(@licenses, 'id', 'name', @setting.ccl_id),
+                   {include_blank: "Choose License"},
+                   {class: "form-control", id: "ccl_select"} %>
+      <% @licenses.each do |license| %>
+        <div class="help-block help-block-license<%= " not_displayed" unless license.id == @setting.ccl_id %>" id="ccl_description_<%= license.id %>">
+          <div>
+            <%= license.description.html_safe %>
+          </div>
+          <div>
+            <%= link_to license.url, license.url, target: '_blank' %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="col-md-5 col-md-offset-3">
+      <%= f.submit "Save", class: "btn btn-primary" %>
+    </div>
+  </div>
+<% end %>
