@@ -1,0 +1,3 @@
+[submodule "app/assets/javascripts/hmd"]
+	path = app/assets/javascripts/hmd
+	url = https://github.com/ricale/hmd.git
