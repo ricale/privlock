@@ -6,7 +6,7 @@ class Setting < ActiveRecord::Base
 
   validates_numericality_of :number_of_writing, greater_than_or_equal_to: 1, less_than_or_equal_to: 20
 
-  validates :author_email, format: { with: /([a-z0-9.-_]+@[a-z0-9-_]+(.[a-z0-9-_]+)+|)/i, message: "is not email." }
+  validates :author_email, format: { with: /([a-z0-9.\-_]+@[a-z0-9\-_]+(.[a-z0-9\-_]+)+|)/i, message: "is not email." }
 
   before_validation :default_values
 
