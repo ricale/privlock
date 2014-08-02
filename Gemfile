@@ -47,6 +47,8 @@ gem 'kaminari'
 
 gem 'passenger'
 
+gem 'google-analytics-rails'
+
 # Use unicorn as the app server
 # gem 'unicorn'
 
