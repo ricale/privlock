@@ -72,10 +72,11 @@ privlock.deleteCommentForm = (writingId, commentId, isAdmin, lastUpdatedTimestam
 
 
 privlock.onReadyDocument = ->
+  <% if Rails.env.production? %>
   $(".contents").on 'click', '.writings_list .writing .title a', ->
     id = $(this).closest('.writing').attr('id').slice('writing_'.length)
-    if typeof ga != typeof undefined
-      ga('send', 'event', 'link', 'click', 'writing_link', id);
+    ga('send', 'event', 'link', 'click', 'writing_link', id);
+  <% end %>
 
   $(".parent_categories .category").mouseenter (event) ->
     privlock.displayOne('.child_categories', "#category_"+$(this).attr("id").slice(9)+"_child_categories")
