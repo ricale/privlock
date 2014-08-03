@@ -72,9 +72,9 @@ privlock.deleteCommentForm = (writingId, commentId, isAdmin, lastUpdatedTimestam
 
 
 privlock.onReadyDocument = ->
-  $(".contents").on 'click', '.writing_list .writing .title a', ->
+  $(".contents").on 'click', '.writings_list .writing .title a', ->
     id = $(this).closest('.writing').attr('id').slice('writing_'.length)
-    if ga != undefined
+    if typeof ga != typeof undefined
       ga('send', 'event', 'link', 'click', 'writing_link', id);
 
   $(".parent_categories .category").mouseenter (event) ->
