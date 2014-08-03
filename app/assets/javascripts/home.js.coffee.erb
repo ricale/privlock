@@ -76,7 +76,13 @@ privlock.onReadyDocument = ->
   $(".contents").on 'click', '.writings_list .writing .title a', ->
     console.log("'link', 'click', 'writing_link', id")
     id = $(this).closest('.writing').attr('id').slice('writing_'.length)
-    ga('send', 'event', 'link', 'click', 'writing_link', id);
+    ga 'send',
+      'hitType':       'event',
+      'eventCategory': 'button',
+      'eventAction':   'click',
+      'eventLabel':    'nav buttons',
+      'eventValue':    4
+
   <% end %>
 
   $(".parent_categories .category").mouseenter (event) ->
