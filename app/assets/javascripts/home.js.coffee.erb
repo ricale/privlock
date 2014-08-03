@@ -75,7 +75,7 @@ privlock.onReadyDocument = ->
   <% if Rails.env.production? %>
   $(".contents").on 'click', '.writings_list .writing .title a', ->
     id = $(this).closest('.writing').attr('id').slice('writing_'.length)
-    ga('send', 'event', 'link', 'click', 'writing_link', id);
+    _trackEvent('link', 'click', 'writing_link', id);
   <% end %>
 
   $(".parent_categories .category").mouseenter (event) ->
