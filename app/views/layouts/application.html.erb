@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title><%= @setting.title %></title>
+  <title><%= "#{@writing.title} - " unless @writing.nil? %><%= @setting.title %></title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <% if Rails.env.production? %>

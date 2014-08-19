@@ -85,13 +85,17 @@ privlock.onReadyDocument = ->
 
   <% end %>
 
+  hideChildCategoryTimeout = null
+
   $(".parent_categories .category").mouseenter (event) ->
+    if hideChildCategoryTimeout != null
+      clearTimeout(hideChildCategoryTimeout)
     privlock.displayOne('.child_categories', "#category_"+$(this).attr("id").slice(9)+"_child_categories")
 
   $(".header").mouseleave (event) ->
-    $(".child_categories").not("not_displayed").fadeOut 1000, ->
-      $(this).removeAttr "style"
-      $(this).addClass "not_displayed"
+    hideChildCategoryTimeout = setTimeout ->
+      $(".child_categories").not("not_displayed").addClass "not_displayed"
+    , 1000
 
   $(".comments_count").click (event) ->
     commentContainer = $(this).closest('.writing').find('.comments')
