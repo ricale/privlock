@@ -74,7 +74,6 @@ privlock.deleteCommentForm = (writingId, commentId, isAdmin, lastUpdatedTimestam
 privlock.onReadyDocument = ->
   <% if Rails.env.production? %>
   $(".contents").on 'click', '.writings_list .writing .title a', ->
-    console.log("'link', 'click', 'writing_link', id")
     id = $(this).closest('.writing').attr('id').slice('writing_'.length)
     ga 'send',
       'hitType':       'event',
