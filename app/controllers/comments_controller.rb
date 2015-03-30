@@ -7,16 +7,12 @@ class CommentsController < ApplicationController
     set_comment_count
     set_last_updated_timestamp
 
-    respond_to do |format|
+    if params[:last_updated_timestamp].nil? || params[:last_updated_timestamp].blank?
+      @comments = Comment.where(writing_id: @writing_id)
 
-      if params[:last_updated_timestamp].nil? || params[:last_updated_timestamp].blank?
-        @comments = Comment.where(writing_id: @writing_id)
-        format.js { }
-
-      else
-        set_updated_comments
-        format.js { render :update }
-      end
+    else
+      set_updated_comments
+      render :update
     end
   end
 
@@ -24,70 +20,58 @@ class CommentsController < ApplicationController
   def create
     @comment = Comment.new(comment_params.merge(user_id: current_user.try(:id), writing_id: @writing_id))
 
-    respond_to do |format|
+    if @comment.save
+      set_comment_count
+      set_last_updated_timestamp(@comment.updated_at)
+      set_updated_comments(@comment.updated_at)
+      send_new_comment_notification_mail(@comment) unless @comment.user == @comment.writing.user
 
-      if @comment.save
-        set_comment_count
-        set_last_updated_timestamp(@comment.updated_at)
-        set_updated_comments(@comment.updated_at)
-        send_new_comment_notification_mail(@comment) unless @comment.user == @comment.writing.user
+      @new_comments << @comment
+      render :update
 
-        @new_comments <<= @comment
-        format.js { render :update }
-
-      else
-        @alert = @comment.errors.full_messages.first
-        format.js { render :error }
-      end
+    else
+      @alert = @comment.errors.full_messages.first
+      render :error
     end
   end
 
   # PATCH/PUT /writings/1/comments/1
   def update
-    respond_to do |format|
+    if valid_user?(@comment.user) or valid_password?
 
-      if valid_user?(@comment.user) or valid_password?
+      if @comment.update(comment_params.except(:password))
+        set_comment_count
+        set_last_updated_timestamp(@comment.updated_at)
+        set_updated_comments(@comment.updated_at)
+        send_updated_comment_notification_mail(@comment) unless @comment.user == @comment.writing.user
 
-        if @comment.update(comment_params.except(:password))
-          set_comment_count
-          set_last_updated_timestamp(@comment.updated_at)
-          set_updated_comments(@comment.updated_at)
-          send_updated_comment_notification_mail(@comment) unless @comment.user == @comment.writing.user
-
-          @updated_comments <<= @comment
-          format.js { }
-
-        else
-          @alert = @comment.errors.full_messages.first
-          format.js { render :error }
-        end
+        @updated_comments << @comment
 
       else
-        @alert = "Need valid user or valid password"
-        format.js { render :error }
+        @alert = @comment.errors.full_messages.first
+        render :error
       end
+
+    else
+      @alert = "Need valid user or valid password"
+      render :error
     end
   end
 
   # DELETE /writings/1/comments/1
   def destroy
-    respond_to do |format|
+    if valid_user?(@comment.user) or valid_password?
+      @comment_id = @comment.id
+      @comment.destroy
 
-      if valid_user?(@comment.user) or valid_password?
-        @comment_id = @comment.id
-        @comment.destroy
+      set_comment_count
+      set_last_updated_timestamp
+      set_updated_comments
+      send_destroyed_comment_notification_mail(@comment) unless @comment.user == @comment.writing.user
 
-        set_comment_count
-        set_last_updated_timestamp
-        set_updated_comments
-        send_destroyed_comment_notification_mail(@comment) unless @comment.user == @comment.writing.user
-
-        format.js { }
-
-      else
-        @alert = "Need valid user or valid password"
-        format.js { render :error }
-      end
+    else
+      @alert = "Need valid user or valid password"
+      render :error
     end
   end
 

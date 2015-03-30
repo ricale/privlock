@@ -3,8 +3,7 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 #= require application
-#= require hmd/hmd
-#= require hmd/hmd.ricaleinline
+#= require hmd/dist/hmd-0.2.8.1
 
 privlock.onReadyDocument = ->
   $("#open-preview-modal-button").click (event) ->

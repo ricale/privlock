@@ -22,39 +22,31 @@ class WritingsController < ApplicationController
   def create
     @writing = Writing.new(writing_params.merge(user_id: current_user.try(:id)))
 
-    respond_to do |format|
-      if current_user.try(:admin)
-        if @writing.save
-          format.html { redirect_to show_path(@writing), notice: 'Writing was successfully created.' }
-        else
-          format.html {
-            set_categories
-            render action: 'new'
-          }
-        end
-
+    if current_user.try(:admin)
+      if @writing.save
+        redirect_to show_path(@writing), notice: 'Writing was successfully created.'
       else
-        format.html { redirect_to index_path, notice: 'you are not a admin.' }
+        set_categories
+        render action: 'new'
       end
+
+    else
+      redirect_to index_path, notice: 'you are not a admin.'
     end
   end
 
   # PATCH/PUT /writings/1
   def update
-    respond_to do |format|
-      if @writing.user == current_user
-        if @writing.update(writing_params)
-          format.html { redirect_to show_path(@writing), notice: 'Writing was successfully updated.' }
-        else
-          format.html {
-            set_categories
-            render action: 'edit'
-          }
-        end
-
+    if @writing.user == current_user
+      if @writing.update(writing_params)
+        redirect_to show_path(@writing), notice: 'Writing was successfully updated.'
       else
-        format.html { redirect_to show_path(@writing), notice: 'you are not a writer.' }
+        set_categories
+        render action: 'edit'
       end
+
+    else
+      redirect_to show_path(@writing), notice: 'you are not a writer.'
     end
   end
 
@@ -62,12 +54,10 @@ class WritingsController < ApplicationController
   def destroy
     if @writing.user == current_user
       @writing.destroy
-      respond_to do |format|
-        format.html { redirect_to root_url }
-      end
+      redirect_to root_url
 
     else
-        format.html { redirect_to show_path(@writing), notice: 'you are not a writer.' }
+      redirect_to show_path(@writing), notice: 'you are not a writer.'
     end
   end
 

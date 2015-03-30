@@ -1,3 +1,3 @@
-[submodule "app/assets/javascripts/hmd"]
-	path = app/assets/javascripts/hmd
+[submodule "vendor/assets/ricale/hmd"]
+	path = vendor/assets/ricale/hmd
 	url = https://github.com/ricale/hmd.git

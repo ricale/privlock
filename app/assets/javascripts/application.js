@@ -15,6 +15,7 @@
 //= require jquery_ujs
 //= require bootstrap
 //= require turbolinks
+//= require util
 
 jQuery.fn.exists = function() {
     return this.length > 0;

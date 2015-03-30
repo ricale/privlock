@@ -15,5 +15,5 @@
            as:         :comment %>
 
 <% unless @comment.nil? %>
-  privlock.highlightElement('#comment_<%= @comment.id %>')
+  util.highlightElement('#comment_<%= @comment.id %>')
 <% end %>

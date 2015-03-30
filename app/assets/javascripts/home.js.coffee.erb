@@ -3,27 +3,7 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 #= require application
-#= require hmd/hmd
-#= require hmd/hmd.ricaleinline
-
-privlock.displayAlert = (targetSelector, message, fadeOutSeconds) ->
-  alertSelector  = targetSelector + " .alert-custom"
-  fadeOutSeconds = fadeOutSeconds or 5
-  message = "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>" + message
-
-  if $(alertSelector).exists()
-    $(alertSelector).html(message).show()
-  else
-    $(targetSelector).prepend "<div class='alert-custom text-danger'>" + message + "</div>"
-
-privlock.highlightElement = (targetSelector, color, periodSeconds) ->
-  color         = color or '#FFC'
-  periodSeconds = periodSeconds or 3
-
-  $(targetSelector).css "backgroundColor", color
-  $(targetSelector).stop().animate
-    backgroundColor: "#FFF"
-  , periodSeconds * 1000
+#= require hmd/dist/hmd-0.2.8.1
 
 privlock.editCommentForm = (writingId, commentId, isAdmin, lastUpdatedTimestamp, content) ->
   formHTML = "<form class='edit_comment form-horizontal' method='post' data-remote='true'

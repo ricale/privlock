@@ -1,5 +1,5 @@
 <% if @comment.id.nil? %>
-privlock.displayAlert("#writing_<%= @writing_id %> form.new_comment", "<%= @alert.html_safe %>")
+util.displayAlert("#writing_<%= @writing_id %> form.new_comment", "<%= @alert.html_safe %>")
 <% else %>
-privlock.displayAlert("#comment_<%= @comment.id %>", "<%= @alert.html_safe %>")
+util.displayAlert("#comment_<%= @comment.id %>", "<%= @alert.html_safe %>")
 <% end %>

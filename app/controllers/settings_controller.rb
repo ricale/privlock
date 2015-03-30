@@ -8,12 +8,10 @@ class SettingsController < ApplicationController
 
     @tab = "general"
 
-    respond_to do |format|
-      if @setting.update(setting_params.merge(active: true))
-        format.html { redirect_to admin_general_path, notice: 'setting was successfully updated.' }
-      else
-        format.html { render 'admin/general', layout: 'layouts/admin' }
-      end
+    if @setting.update(setting_params.merge(active: true))
+      redirect_to admin_general_path, notice: 'setting was successfully updated.'
+    else
+      render 'admin/general', layout: 'layouts/admin'
     end
   end
 
